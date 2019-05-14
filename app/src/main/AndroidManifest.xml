@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".view.RecipieScreen" />
         <activity android:name=".view.ShoppingCartList" />
-        <activity android:name=".view.IngredientScreen"></activity>
+        <activity android:name=".view.IngredientScreen" />
     </application>
 
 </manifest>
