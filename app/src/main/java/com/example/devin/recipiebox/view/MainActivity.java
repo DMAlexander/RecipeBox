@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 
     private ListView mListView;
+    private Button btnNavigate;
 /*
     private List<RecipieDatabase> databaseList = new ArrayList<>();
     private DatabaseHelper db;
@@ -41,10 +42,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
+        btnNavigate = (Button) findViewById(R.id.btnNavigate);
 
         populateListView();
    //     configureNextButton();
     //    configureShoppingCartButton();
+
+        btnNavigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RecipieScreen.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void populateListView() {
@@ -78,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
                     Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
                     editScreenIntent.putExtra("id",itemID);
+                    editScreenIntent.putExtra("name",name);
+                    startActivity(editScreenIntent);
                 }
                 else {
                     toastMessage("No ID associated with that name");
@@ -85,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
