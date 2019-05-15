@@ -53,6 +53,8 @@ public class IngredientScreen extends AppCompatActivity {
                 String item = editable_item.getText().toString();
                 if (!item.equals("")) {
                     mDatabaseHelper.updateName(item, selectedID, selectedName);
+                    Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
+                    startActivity(intent);
                 } else {
                     toastMessage("Enter a name");
                 }
@@ -65,6 +67,10 @@ public class IngredientScreen extends AppCompatActivity {
                 mDatabaseHelper.deleteName(selectedID, selectedName);
                 editable_item.setText("");
                 toastMessage("removed from database");
+
+                Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
+                startActivity(intent);
+
             }
         });
     }
