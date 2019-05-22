@@ -58,28 +58,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void populateListView() {
+    private void populateListView() { //Original populateListView
         Log.d(TAG, "populateListView: Displaying data in the ListView");
-
         //get data and append to a list
         Cursor data = mDatabaseHelper.getData();
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
-            //get value from database in column 1
-            //then add it to arraylist
+            //get value from database in column then add it to arraylist
             listData.add(data.getString(1));
         }
         //Create list adapter and set adapter
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
-
         //Set onItemClickListener to the ListView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = adapterView.getItemAtPosition(i).toString();
                 Log.d(TAG, "onItemClick: You clicked on " + name);
-
                 Cursor data = mDatabaseHelper.getItemID(name); //get id associated with name
                 int itemID = -1;
                 while (data.moveToNext()){
@@ -98,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();

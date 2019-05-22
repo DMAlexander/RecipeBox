@@ -1,16 +1,25 @@
 package com.example.devin.recipiebox.view;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+
+import java.util.ArrayList;
 
 //EditDataActivity's future home...
 public class IngredientScreen extends AppCompatActivity {
@@ -52,7 +61,7 @@ public class IngredientScreen extends AppCompatActivity {
             public void onClick(View view) {
                 String item = editable_item.getText().toString();
                 if (!item.equals("")) {
-                    mDatabaseHelper.updateName(item, selectedID, selectedName);
+                    mDatabaseHelper.updateRecipieName(item, selectedID, selectedName);
                     Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -64,29 +73,17 @@ public class IngredientScreen extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabaseHelper.deleteName(selectedID, selectedName);
+                mDatabaseHelper.deleteRecipieName(selectedID, selectedName);
                 editable_item.setText("");
                 toastMessage("removed from database");
-
                 Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
                 startActivity(intent);
-
             }
         });
     }
 
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
-        /*
-        TextView text1 = (TextView) findViewById(R.id.ingredientName);
-        TextView text2 = (TextView) findViewById(R.id.indivPrice);
-        TextView text3 = (TextView) findViewById(R.id.bulkPrice);
-        EditText edit1 = (EditText) findViewById(R.id.editText);
-        EditText edit2 = (EditText) findViewById(R.id.editText2);
-        EditText edit3 = (EditText) findViewById(R.id.editText3);
-
-        configureSaveButton();
-        */
     }
 /*
     private void configureSaveButton() {
