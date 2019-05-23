@@ -40,28 +40,4 @@ public class IngredientDatabase {
     public void setId(int id) {
         this.id = id;
     }
-
-    public String getIngredientName() {
-        return ingredientName;
-    }
-
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
-    }
-
-    public String getIndivPrice() {
-        return indivPrice;
-    }
-
-    public void setIndivPrice(String indivPrice) {
-        this.indivPrice = indivPrice;
-    }
-
-    public String getBulkPrice() {
-        return bulkPrice;
-    }
-
-    public void setBulkPrice(String bulkPrice) {
-        this.bulkPrice = bulkPrice;
-    }
 }

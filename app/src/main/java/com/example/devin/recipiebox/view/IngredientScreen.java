@@ -28,6 +28,7 @@ public class IngredientScreen extends AppCompatActivity {
 
     private Button btnSave,btnDelete;
     private EditText editable_item;
+    private ListView mListView;
 
     DatabaseHelper mDatabaseHelper;
 
@@ -42,7 +43,9 @@ public class IngredientScreen extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btnSave);
         btnDelete = (Button) findViewById(R.id.btnDelete);
         editable_item = (EditText) findViewById(R.id.editable_item);
+        mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
+        populateIngredientListView();
 
         //get intent extra from the ListDataActivity
         Intent receivedIntent = getIntent();
@@ -81,19 +84,54 @@ public class IngredientScreen extends AppCompatActivity {
             }
         });
     }
+    //Everything in this view should be ingredient related....
+    private void populateIngredientListView() {
+        Log.d(TAG, "populate ingredient listview: Displaying data in the ingredient listview");
+        //get data and append to a list
+        Cursor data = mDatabaseHelper.getIngredientData();
+        ArrayList<String> listData = new ArrayList<>();
+        while(data.moveToNext()){
+            //get value from database in column then add it to arraylist...
+            listData.add(data.getString(1));
+        }
+        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        mListView.setAdapter(adapter);
+        //set onItemClickListener to the listview
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemCLick: you clicked on " + name);
+                Cursor data = mDatabaseHelper.getIngredientItemID(name); //get id associated with name;
+                int itemID = -1;
+                while (data.moveToNext()){
+                    itemID = data.getInt(0);
+                }
+                if(itemID > -1) {
+                    Log.d(TAG, "onItemClick: The ID is " + itemID);
+                    Intent ingredientScreenintent = new Intent(IngredientScreen.this, IngredientInfo.class);
+                    ingredientScreenintent.putExtra("id",itemID);
+                    ingredientScreenintent.putExtra("name",name);
+                    startActivity(ingredientScreenintent);
+                } else {
+                    toastMessage("No ID associated with that name");
+                }
+            }
+        });
+
+    }
+
+    public void AddData(String newEntry) {
+        boolean insertData = mDatabaseHelper.addIngredientData(newEntry);
+
+        if (insertData) {
+            toastMessage("Data Successfully Inserted!");
+        } else {
+            toastMessage("Something went wrong");
+        }
+    }
 
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
-/*
-    private void configureSaveButton() {
-        Button saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener(){
-
-            public void onClick(View view) {
-                startActivity(new Intent(IngredientScreen.this, RecipieScreen.class));
-            }
-
-        });
-    } */
 }

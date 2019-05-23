@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
         android:textAlignment="center"
@@ -19,29 +19,23 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:weightSum="100"
-        android:layout_below="@+id/editable_item"
-    >
+        android:layout_below="@+id/editable_item">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="DELETE"
-        android:id="@+id/btnDelete"/>
+        android:id="@+id/btnDelete" />
 
-   <Button
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:text="SAVE"
-       android:layout_toRightOf="@+id/btnDelete"
-       android:id="@+id/btnSave"
-       />
-
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="wrap_content"
-            android:layout_height="334dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="SAVE"
+        android:layout_toRightOf="@+id/btnDelete"
+        android:id="@+id/btnSave"
+        />
     </LinearLayout>
 
 </RelativeLayout>

@@ -25,17 +25,6 @@ public class RecipieDatabase {
     private int ingredientQuantity;
     private String recipiePrice;
 
-    public RecipieDatabase() {
-
-    }
-
-    public RecipieDatabase(int id, String recipieName, String ingredientName, int ingredientQuantity, String recipiePrice) {
-        this.id = id;
-        this.recipieName = recipieName;
-        this.ingredientName = ingredientName;
-        this.ingredientQuantity = ingredientQuantity;
-        this.recipiePrice = recipiePrice;
-    }
 
     public int getId() {
         return id;
@@ -45,35 +34,4 @@ public class RecipieDatabase {
         this.id = id;
     }
 
-    public String getRecipieName() {
-        return recipieName;
-    }
-
-    public void setRecipieName(String recipieName) {
-        this.recipieName = recipieName;
-    }
-
-    public String getIngredientName() {
-        return ingredientName;
-    }
-
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
-    }
-
-    public int getIngredientQuantity() {
-        return ingredientQuantity;
-    }
-
-    public void setIngredientQuantity(int ingredientQuantity) {
-        this.ingredientQuantity = ingredientQuantity;
-    }
-
-    public String getRecipiePrice() {
-        return recipiePrice;
-    }
-
-    public void setRecipiePrice(String recipiePrice) {
-        this.recipiePrice = recipiePrice;
-    }
 }

@@ -30,11 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView mListView;
     private Button btnNavigate;
-/*
-    private List<RecipieDatabase> databaseList = new ArrayList<>();
-    private DatabaseHelper db;
-    private TextView noRecipieView;
-*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateListView() { //Original populateListView
         Log.d(TAG, "populateListView: Displaying data in the ListView");
         //get data and append to a list
-        Cursor data = mDatabaseHelper.getData();
+        Cursor data = mDatabaseHelper.getRecipieData(); // get all recipies
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
             //get value from database in column then add it to arraylist
@@ -76,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String name = adapterView.getItemAtPosition(i).toString();
                 Log.d(TAG, "onItemClick: You clicked on " + name);
-                Cursor data = mDatabaseHelper.getItemID(name); //get id associated with name
+                Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
                 int itemID = -1;
                 while (data.moveToNext()){
                     itemID = data.getInt(0);
