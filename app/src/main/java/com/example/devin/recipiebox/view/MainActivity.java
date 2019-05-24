@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,9 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
 
-    private ListView mListView;
+    private ListView mListView, ch1;
     private Button btnNavigate;
 
+    ArrayList<String> selectedItems = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         populateListView();
    //     configureNextButton();
@@ -63,13 +66,20 @@ public class MainActivity extends AppCompatActivity {
             //get value from database in column then add it to arraylist
             listData.add(data.getString(1));
         }
-        //Create list adapter and set adapter
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        //Create list adapter and set adapter //possibly change android.R.layout to rowlayout...
+        ListAdapter adapter = new ArrayAdapter<>(this, R.layout.rowlayout, listData);
         mListView.setAdapter(adapter);
+   //     ListAdapter adapter1 = new ArrayAdapter<>(this, android.R.layout.)
         //Set onItemClickListener to the ListView
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem=((TextView)view).getText().toString();
+                if(selectedItems.contains(selectedItem)) {
+                    selectedItems.remove(selectedItem);
+                } else {
+                    selectedItems.add(selectedItem);
+                }
                 String name = adapterView.getItemAtPosition(i).toString();
                 Log.d(TAG, "onItemClick: You clicked on " + name);
                 Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
@@ -94,7 +104,15 @@ public class MainActivity extends AppCompatActivity {
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
-
+/*
+    public void showSelectedItems(View view) {
+        String items="";
+        for(String item:selectedItems){
+            items+="-"+item;
+        }
+        Toast.makeText(this,"you have selected \n"+items,Toast.LENGTH_LONG).show();
+    }
+*/
 /*
     private void createRecipie(String recipie) {
         long id = db.insertRecipie(recipie);
