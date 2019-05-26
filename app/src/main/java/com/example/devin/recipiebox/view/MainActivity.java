@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
 
     ArrayList<String> selectedItems = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         btnClearShoppingCart = (Button) findViewById(R.id.btnClearShoppingCart);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-  //      mListView.setLongClickable(true);
+        //      mListView.setLongClickable(true);
         populateListView();
-   //     configureNextButton();
-    //    configureShoppingCartButton();
+        //     configureNextButton();
+        //    configureShoppingCartButton();
 
         btnNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,15 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 mDatabaseHelper.deleteShoppingCartRecipieData(); //delete all shopping cart recipies, clearing cart
             }
         });
-/*
-        btnNavigate.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RecipieScreen.class);
-                startActivity(intent);
-                return true;
-            } (This one works!)
-        }); */
     }
 
     private void populateListView() { //Original populateListView
@@ -89,15 +81,16 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor data = mDatabaseHelper.getRecipieData(); // get all recipies
         ArrayList<String> listData = new ArrayList<>();
-        while(data.moveToNext()){
+        while (data.moveToNext()) {
             //get value from database in column then add it to arraylist
             listData.add(data.getString(1));
         }
         //Create list adapter and set adapter //possibly change android.R.layout to rowlayout...
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.rowlayout, listData);
         mListView.setAdapter(adapter);
-   //     ListAdapter adapter1 = new ArrayAdapter<>(this, android.R.layout.)
+        //     ListAdapter adapter1 = new ArrayAdapter<>(this, android.R.layout.)
         //Set onItemClickListener to the ListView
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -105,149 +98,63 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onItemClick: You clicked on " + name);
                 Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
                 int itemID = -1;
-                while (data.moveToNext()){
+                while (data.moveToNext()) {
                     itemID = data.getInt(0);
                 }
-                if(itemID > -1){
+                if (itemID > -1) {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
-                    String selectedItem=((TextView)view).getText().toString();
-                    if(selectedItems.contains(selectedItem)) {
+                    String selectedItem = ((TextView) view).getText().toString();
+                    if (selectedItems.contains(selectedItem)) {
                         Log.d(TAG, "The selected Item ID is " + itemID + " And name is : " + name);
                         selectedItems.remove(selectedItem);
                         mDatabaseHelper.deleteShoppingCartRecipie(itemID, name);
-       //                 deleteShoppingCartDelete(itemID, name);
+                        //                 deleteShoppingCartDelete(itemID, name);
                     } else {
                         Log.d(TAG, "The selected Item ID is: " + itemID + " And name is : " + name);
                         selectedItems.add(selectedItem);
                         addShoppingCartData(name);
                     }
-/*
-                    Intent shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
-                    shoppingCartIntent.putExtra("id",itemID);
-                    shoppingCartIntent.putExtra("name",name);
-                    startActivity(shoppingCartIntent); */
-                    /* Commented out intent logic since its broken right now...
-                    Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
-                    editScreenIntent.putExtra("id",itemID);
-                    editScreenIntent.putExtra("name",name);
-                    startActivity(editScreenIntent); */
                 }
-                else {
-                    toastMessage("No ID associated with that name");
-                }
+                toastMessage("Short click selected!");
             }
         });
-/*
+
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem=((TextView)view).getText().toString();
-                if(selectedItems.contains(selectedItem)) {
-                    selectedItems.remove(selectedItem);
-                } else {
-                    selectedItems.add(selectedItem);
+                String name = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemClick: You clicked on " + name);
+                Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
                 }
-                return true;
-            }
-        }); */
-        /*
-        mListView.setOnLongClickListener(new AdapterView.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem=((TextView)view).getText().toString();
-      //          String name = adapterView.getItemAtPosition(i).toString();
-                if(selectedItems.contains(selectedItem)) {
-                    selectedItems.remove(selectedItem);
+                if (itemID > -1 ) {
+                    Log.d(TAG, "onItemClick: The ID is " + itemID);
+                    Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
+                    editScreenIntent.putExtra("id", itemID);
+                    editScreenIntent.putExtra("name", name);
+                    startActivity(editScreenIntent);
                 } else {
-                    selectedItems.add(selectedItem);
+                    toastMessage("No ID associated with that name");
                 }
+                toastMessage("Long click selected!");
                 return true;
-            }
-        }); */
-    }
-/*
-    public void shoppingCartPopulate {
-        Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
-        editScreenIntent.putExtra("id",itemID);
-        editScreenIntent.putExtra("name",name);
-        startActivity(editScreenIntent);
-    } */
-
-    public void addShoppingCartData(String newEntry) {
-        boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
-
-        if (insertData) {
-            toastMessage("Data will be added to shoppingCartList!");
-        } else {
-            toastMessage("Something went wrong!");
-        }
-    }
-
-    /*
-    public void deleteShoppingCartDelete(int num, String newEntry) {
-        boolean deleteData = mDatabaseHelper.deleteShoppingCartRecipie(num, newEntry);
-
-        if(deleteData) {
-            toastMessage("Data will be deleted from shoppingCartList!");
-        } else {
-            toastMessage("Something went wrong!");
-        }
-    } */
-
-
-    private void toastMessage(String message) {
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
-    }
-/*
-    public void showSelectedItems(View view) {
-        String items="";
-        for(String item:selectedItems){
-            items+="-"+item;
-        }
-        Toast.makeText(this,"you have selected \n"+items,Toast.LENGTH_LONG).show();
-    }
-*/
-/*
-    private void createRecipie(String recipie) {
-        long id = db.insertRecipie(recipie);
-
-        RecipieDatabase n = db.getRecipie(id);
-
-        if (n!=null) {
-            databaseList.add(0, n);
-
-            toggleEmptyRecipies();
-        }
-    } */
-/*
-    private void configureNextButton() {
-        Button nextButton = (Button) findViewById(R.id.devinsButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,
-                        RecipieScreen.class));
             }
         });
     }
 
-    private void configureShoppingCartButton() {
-        Button shoppingCartButton = (Button) findViewById(R.id.shoppingCartButton);
-        shoppingCartButton.setOnClickListener(new View.OnClickListener() {
+        public void addShoppingCartData (String newEntry){
+            boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
 
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,
-                        ShoppingCartList.class));
+            if (insertData) {
+                toastMessage("Data will be added to shoppingCartList!");
+            } else {
+                toastMessage("Something went wrong!");
             }
-        });
-    }
+        }
 
-    private void toggleEmptyRecipies() {
-        if (db.getRecipieCount() > 0) {
-            noRecipieView.setVisibility(View.GONE);
-        } else {
-            noRecipieView.setVisibility(View.VISIBLE);
+        private void toastMessage (String message){
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
     }
-*/
-}
