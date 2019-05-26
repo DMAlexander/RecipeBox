@@ -15,4 +15,18 @@
         android:layout_marginTop="10dp"
         android:text="Navigate"
         android:id="@+id/btnNavigate"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text = "Shopping Cart"
+        android:id="@+id/btnShoppingCart"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Clear Shopping Cart"
+        android:id="@+id/btnClearShoppingCart"
+        />
 </LinearLayout>

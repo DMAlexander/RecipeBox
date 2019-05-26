@@ -21,6 +21,7 @@ import com.example.devin.recipiebox.database.model.RecipieDatabase;
 import com.example.devin.recipiebox.database.model.IngredientDatabase;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 //Screen that displays list of recipies --> ListDataActivity
 public class MainActivity extends AppCompatActivity {
@@ -30,19 +31,20 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 
     private ListView mListView, ch1;
-    private Button btnNavigate;
+    private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
 
     ArrayList<String> selectedItems = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- //       setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
+        btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
+        btnClearShoppingCart = (Button) findViewById(R.id.btnClearShoppingCart);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+  //      mListView.setLongClickable(true);
         populateListView();
    //     configureNextButton();
     //    configureShoppingCartButton();
@@ -55,11 +57,36 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
+                startActivity(shoppingCartIntent);
+            }
+
+        });
+
+        btnClearShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDatabaseHelper.deleteShoppingCartRecipieData(); //delete all shopping cart recipies, clearing cart
+            }
+        });
+/*
+        btnNavigate.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RecipieScreen.class);
+                startActivity(intent);
+                return true;
+            } (This one works!)
+        }); */
     }
 
     private void populateListView() { //Original populateListView
         Log.d(TAG, "populateListView: Displaying data in the ListView");
         //get data and append to a list
+
         Cursor data = mDatabaseHelper.getRecipieData(); // get all recipies
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
@@ -74,12 +101,6 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedItem=((TextView)view).getText().toString();
-                if(selectedItems.contains(selectedItem)) {
-                    selectedItems.remove(selectedItem);
-                } else {
-                    selectedItems.add(selectedItem);
-                }
                 String name = adapterView.getItemAtPosition(i).toString();
                 Log.d(TAG, "onItemClick: You clicked on " + name);
                 Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
@@ -89,17 +110,90 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(itemID > -1){
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
+                    String selectedItem=((TextView)view).getText().toString();
+                    if(selectedItems.contains(selectedItem)) {
+                        Log.d(TAG, "The selected Item ID is " + itemID + " And name is : " + name);
+                        selectedItems.remove(selectedItem);
+                        mDatabaseHelper.deleteShoppingCartRecipie(itemID, name);
+       //                 deleteShoppingCartDelete(itemID, name);
+                    } else {
+                        Log.d(TAG, "The selected Item ID is: " + itemID + " And name is : " + name);
+                        selectedItems.add(selectedItem);
+                        addShoppingCartData(name);
+                    }
+/*
+                    Intent shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
+                    shoppingCartIntent.putExtra("id",itemID);
+                    shoppingCartIntent.putExtra("name",name);
+                    startActivity(shoppingCartIntent); */
+                    /* Commented out intent logic since its broken right now...
                     Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
                     editScreenIntent.putExtra("id",itemID);
                     editScreenIntent.putExtra("name",name);
-                    startActivity(editScreenIntent);
+                    startActivity(editScreenIntent); */
                 }
                 else {
                     toastMessage("No ID associated with that name");
                 }
             }
         });
+/*
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem=((TextView)view).getText().toString();
+                if(selectedItems.contains(selectedItem)) {
+                    selectedItems.remove(selectedItem);
+                } else {
+                    selectedItems.add(selectedItem);
+                }
+                return true;
+            }
+        }); */
+        /*
+        mListView.setOnLongClickListener(new AdapterView.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String selectedItem=((TextView)view).getText().toString();
+      //          String name = adapterView.getItemAtPosition(i).toString();
+                if(selectedItems.contains(selectedItem)) {
+                    selectedItems.remove(selectedItem);
+                } else {
+                    selectedItems.add(selectedItem);
+                }
+                return true;
+            }
+        }); */
     }
+/*
+    public void shoppingCartPopulate {
+        Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
+        editScreenIntent.putExtra("id",itemID);
+        editScreenIntent.putExtra("name",name);
+        startActivity(editScreenIntent);
+    } */
+
+    public void addShoppingCartData(String newEntry) {
+        boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
+
+        if (insertData) {
+            toastMessage("Data will be added to shoppingCartList!");
+        } else {
+            toastMessage("Something went wrong!");
+        }
+    }
+
+    /*
+    public void deleteShoppingCartDelete(int num, String newEntry) {
+        boolean deleteData = mDatabaseHelper.deleteShoppingCartRecipie(num, newEntry);
+
+        if(deleteData) {
+            toastMessage("Data will be deleted from shoppingCartList!");
+        } else {
+            toastMessage("Something went wrong!");
+        }
+    } */
+
 
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();

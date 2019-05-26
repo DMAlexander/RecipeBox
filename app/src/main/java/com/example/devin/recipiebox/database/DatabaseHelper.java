@@ -23,11 +23,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "recipie_table";
     private static final String TABLE_NAME2 = "ingredient_table";
     private static final String TABLE_NAME3 = "recipie_and_ingredient_table";
+    private static final String TABLE_NAME4 = "shoppingcart_table";
     private static final String COL1 = "ID";
     private static final String COL2 = "name";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
     }
 
     //Create Tables...
@@ -43,11 +44,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL2 +" TEXT)";
 
+    private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
+            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL2 +" TEXT)";
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createTable);
         db.execSQL(createTable2);
         db.execSQL(createTable3);
+        db.execSQL(createTable4);
     }
 
     @Override
@@ -55,6 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME2);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME3);
+        db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME4);
         onCreate(db);
     }
 
@@ -91,6 +99,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean addShoppingCartData(String item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL2, item);
+        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
+        long result = db.insert(TABLE_NAME4, null, contentValues);
+        if(result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public Cursor getRecipieData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
@@ -101,6 +122,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getIngredientData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME2;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public Cursor getShoppingCartData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME4;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -168,6 +196,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "deleteName: Deleting " + name + " from database.");
         db.execSQL(query);
     }
+
+    public void deleteShoppingCartRecipie(int id, String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME4 + " WHERE "
+                + COL1 + " = '" + id + "'" +
+                " AND " + COL2 + " = '" + name + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: Deleting " + name + " from shopping cart database.");
+        db.execSQL(query);
+    }
+
+    public void deleteShoppingCartRecipieData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME4;
+        Log.d(TAG, "deleted all values of shopping cart list....");
+        db.execSQL(query);
+    }
+
     //Counts number of recipies in the list
     public int getRecipieCount() {
         String countQuery = "SELECT * FROM " + TABLE_NAME;
