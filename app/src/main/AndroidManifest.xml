@@ -19,7 +19,8 @@
         <activity android:name=".view.RecipieScreen" />
         <activity android:name=".view.ShoppingCartList" />
         <activity android:name=".view.IngredientScreen" />
-        <activity android:name=".view.IngredientInfo"></activity>
+        <activity android:name=".view.IngredientInfo" />
+        <activity android:name=".view.EditShoppingCart"></activity>
     </application>
 
 </manifest>

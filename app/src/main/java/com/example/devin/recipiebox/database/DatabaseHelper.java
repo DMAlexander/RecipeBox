@@ -28,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL2 = "name";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 4);
     }
 
     //Create Tables...
@@ -156,6 +156,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getShoppingCartItemID(String name) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL1 + " FROM " + TABLE_NAME4 +
+                " WHERE " + COL2 + " = '" + name + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     public void updateRecipieName(String newName, int id, String oldName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -175,6 +183,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " AND " + COL2 + " = '" + oldName + "'";
         Log.d(TAG, "updateName: query: " + query);
         Log.d(TAG, "updateName: Setting name to " + newName);
+    }
+
+    public void updateShoppingCartName(String newName, int id, String oldName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_NAME4 + " SET " + COL2 +
+                " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
+                " AND " + COL2 + " =  '" + oldName + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: setting name to " + newName);
     }
 
     public void deleteRecipieName(int id, String name){

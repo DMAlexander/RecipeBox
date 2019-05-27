@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
@@ -59,5 +61,34 @@ public class ShoppingCartList extends AppCompatActivity {
         }
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG,"onItemClick: You clicked on " + name);
+                Cursor data = mDatabaseHelper.getShoppingCartItemID(name);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                }
+                if (itemID > -1) {
+                    Log.d(TAG, "onItemClick: The ID is " + itemID);
+                    Intent shoppingCartIntent = new Intent(ShoppingCartList.this, EditShoppingCart.class);
+                    shoppingCartIntent.putExtra("id", itemID);
+                    shoppingCartIntent.putExtra("name", name);
+                    startActivity(shoppingCartIntent);
+                } else {
+                    toastMessage("No ShoppingCart ID associated with that name");
+                }
+                toastMessage("Has been clicked!");
+            }
+        });
     }
+
+    private void toastMessage (String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+
 }
