@@ -26,8 +26,8 @@ public class IngredientScreen extends AppCompatActivity {
 
     private static final String TAG = "EditDataActivity";
 
-    private Button btnSave,btnDelete;
-    private EditText editable_item;
+    private Button btnSave,btnDelete,btnIngredientAdd;
+    private EditText editable_recipie_item, editable_ingredient_item;
     private ListView mListView;
 
     DatabaseHelper mDatabaseHelper;
@@ -42,7 +42,9 @@ public class IngredientScreen extends AppCompatActivity {
         setContentView(R.layout.activity_ingredient_screen);
         btnSave = (Button) findViewById(R.id.btnSave);
         btnDelete = (Button) findViewById(R.id.btnDelete);
-        editable_item = (EditText) findViewById(R.id.editable_item);
+        btnIngredientAdd = (Button) findViewById(R.id.btnIngredientAdd);
+        editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
+        editable_ingredient_item = (EditText) findViewById(R.id.editable_ingredient_item);
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         populateIngredientListView();
@@ -54,15 +56,15 @@ public class IngredientScreen extends AppCompatActivity {
         selectedID = receivedIntent.getIntExtra("id", -1);
 
         //get name we passed as an extra
-        selectedName = receivedIntent.getStringExtra("name");
+        selectedName = receivedIntent.getStringExtra("RecipieName");
 
         //set text to show current selected name
-        editable_item.setText(selectedName);
+        editable_recipie_item.setText(selectedName);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String item = editable_item.getText().toString();
+                String item = editable_recipie_item.getText().toString();
                 if (!item.equals("")) {
                     mDatabaseHelper.updateRecipieName(item, selectedID, selectedName);
                     Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
@@ -77,21 +79,48 @@ public class IngredientScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mDatabaseHelper.deleteRecipieName(selectedID, selectedName);
-                editable_item.setText("");
+                editable_recipie_item.setText("");
                 toastMessage("removed from database");
                 Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+
+        btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newEntry = editable_ingredient_item.getText().toString();
+                if (editable_ingredient_item.length() != 0) {
+                    mDatabaseHelper.addIngredientDataBasedOnRecipie(selectedID, selectedName, newEntry);
+                    toastMessage("Data successfully inserted!");
+                } else {
+                    toastMessage("Put something in the text field!");
+                }
+            }
+        });
     }
     //Everything in this view should be ingredient related....
     private void populateIngredientListView() {
+        Intent receivedIntent = getIntent();
+        //get the itemID we passed as extra
+        selectedID = receivedIntent.getIntExtra("id", -1);
+        //get name we passed as an extra
+        selectedName = receivedIntent.getStringExtra("RecipieName");
+
         Log.d(TAG, "populate ingredient listview: Displaying data in the ingredient listview");
+ //       Log.d(TAG, "This data is based on recipieID: " + selectedID + " And recipieName: " + selectedName);
+        Log.d(TAG, "This data is based on recipieID: " + selectedID + " and recipieName: " + selectedName);
         //get data and append to a list
-        Cursor data = mDatabaseHelper.getIngredientData();
+        Cursor data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedID, selectedName);
+//        Cursor data = mDatabaseHelper.getIngredientData();
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
             //get value from database in column then add it to arraylist...
+  //          int index;
+   //         index = data.getColumnIndexOrThrow("IngredientName");
+   //         String IngredientName = data.getString(index);
+   //         listData.add(IngredientName);
+     //       listData.add(data.getColumnIndex());
             listData.add(data.getString(1));
         }
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
@@ -100,9 +129,9 @@ public class IngredientScreen extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = adapterView.getItemAtPosition(i).toString();
-                Log.d(TAG, "onItemCLick: you clicked on " + name);
-                Cursor data = mDatabaseHelper.getIngredientItemID(name); //get id associated with name;
+                String IngredientName = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemCLick: you clicked on " + IngredientName);
+                Cursor data = mDatabaseHelper.getIngredientItemID(IngredientName); //get id associated with IngredientName;
                 int itemID = -1;
                 while (data.moveToNext()){
                     itemID = data.getInt(0);
@@ -111,10 +140,10 @@ public class IngredientScreen extends AppCompatActivity {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
                     Intent ingredientScreenintent = new Intent(IngredientScreen.this, IngredientInfo.class);
                     ingredientScreenintent.putExtra("id",itemID);
-                    ingredientScreenintent.putExtra("name",name);
+                    ingredientScreenintent.putExtra("IngredientName",IngredientName);
                     startActivity(ingredientScreenintent);
                 } else {
-                    toastMessage("No ID associated with that name");
+                    toastMessage("No ID associated with that IngredientName");
                 }
             }
         });

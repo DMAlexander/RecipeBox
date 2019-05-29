@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = adapterView.getItemAtPosition(i).toString();
-                Log.d(TAG, "onItemClick: You clicked on " + name);
-                Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
+                String RecipieName = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
+                Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName); //get id associated with RecipieName
                 int itemID = -1;
                 while (data.moveToNext()) {
                     itemID = data.getInt(0);
@@ -105,14 +105,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
                     String selectedItem = ((TextView) view).getText().toString();
                     if (selectedItems.contains(selectedItem)) {
-                        Log.d(TAG, "The selected Item ID is " + itemID + " And name is : " + name);
+                        Log.d(TAG, "The selected Item ID is " + itemID + " And RecipieName is : " + RecipieName);
                         selectedItems.remove(selectedItem);
-                        mDatabaseHelper.deleteShoppingCartRecipie(itemID, name);
-                        //                 deleteShoppingCartDelete(itemID, name);
+                        mDatabaseHelper.deleteShoppingCartRecipie(itemID, RecipieName);
+                        //                 deleteShoppingCartDelete(itemID, RecipieName);
                     } else {
-                        Log.d(TAG, "The selected Item ID is: " + itemID + " And name is : " + name);
+                        Log.d(TAG, "The selected Item ID is: " + itemID + " And RecipieName is : " + RecipieName);
                         selectedItems.add(selectedItem);
-                        addShoppingCartData(name);
+                        addShoppingCartData(RecipieName);
                     }
                 }
                 toastMessage("Short click selected!");
@@ -122,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String name = adapterView.getItemAtPosition(i).toString();
-                Log.d(TAG, "onItemClick: You clicked on " + name);
-                Cursor data = mDatabaseHelper.getRecipieItemID(name); //get id associated with name
+                String RecipieName = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
+                Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName); //get id associated with RecipieName
                 int itemID = -1;
                 while (data.moveToNext()) {
                     itemID = data.getInt(0);
@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
                     Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
                     editScreenIntent.putExtra("id", itemID);
-                    editScreenIntent.putExtra("name", name);
+                    editScreenIntent.putExtra("RecipieName", RecipieName);
                     startActivity(editScreenIntent);
                 } else {
-                    toastMessage("No ID associated with that name");
+                    toastMessage("No ID associated with that RecipieName");
                 }
                 toastMessage("Long click selected!");
                 return true;
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-        public void addShoppingCartData (String newEntry){
+        public void addShoppingCartData(String newEntry){
             boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
 
             if (insertData) {

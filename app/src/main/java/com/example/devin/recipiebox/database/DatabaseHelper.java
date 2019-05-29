@@ -25,16 +25,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME3 = "recipie_and_ingredient_table";
     private static final String TABLE_NAME4 = "shoppingcart_table";
     private static final String COL1 = "ID";
-    private static final String COL2 = "name";
+    private static final String COL2 = "RecipieName";
+    private static final String COL3 = "IngredientName";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 4);
+        super(context, DATABASE_NAME, null, 6);
     }
 
     //Create Tables...
     private static final String createTable = "CREATE TABLE " + TABLE_NAME + " "
-            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL2 +" TEXT)";
+            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " + COL2 +" TEXT, " + COL3 +" TEXT)";
 
     private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -99,6 +99,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void addIngredientDataBasedOnRecipie(int id, String RecipieName, String IngredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "INSERT INTO " + TABLE_NAME + "(" + COL3 + ")" +
+                " VALUES(" + IngredientName + ")"
+                + " WHERE " + COL1 + " = '" + id + "' AND " + COL2 + " = " + RecipieName;
+        Log.d(TAG, "Inserted " + IngredientName + " into " + TABLE_NAME + " based on " + RecipieName);
+    }
+
     public boolean addShoppingCartData(String item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -133,25 +142,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public Cursor getRecipieAndIngrientData() {
+    public Cursor getRecipieAndIngredientData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME3;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
 
-    public Cursor getRecipieItemID(String name) {
+    /*
+    public Cursor getIngredientsBasedOnRecipieData(int RecipieId, String RecipieName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COL3 + " FROM " + TABLE_NAME
+        + " WHERE " + COL1 + " = '" + RecipieId + "' " + " AND " +  COL2 + " = '" + RecipieName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+    */
+
+    public Cursor getIngredientsBasedOnRecipieData(int RecipieId, String RecipieName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COL1 + " = '" + RecipieId + "' AND " + COL2 + " = '" + RecipieName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+/*
+    public Cursor getIngredientsBasedOnRecipieData(String RecipieName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COL2 + " = '" + RecipieName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+*/
+    public Cursor getRecipieItemID(String RecipieName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COL1 + " FROM " + TABLE_NAME +
-                " WHERE " + COL2 + " = '" + name + "'";
+                " WHERE " + COL2 + " = '" + RecipieName + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }
 
-    public Cursor getIngredientItemID(String name) {
+    public Cursor getIngredientItemID(String IngredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COL1 + " FROM " + TABLE_NAME2 +
-                " WHERE " + COL2 + " = '" + name + "'";
+                " WHERE " + COL2 + " = '" + IngredientName + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -164,25 +199,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public void updateRecipieName(String newName, int id, String oldName) {
+    public void updateRecipieName(String newRecipieName, int id, String oldRecipieName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "UPDATE " + TABLE_NAME + " SET " + COL2 +
-                " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + oldName + "'";
+                " = '" + newRecipieName + "' WHERE " + COL1 + " = '" + id + "'" +
+                " AND " + COL2 + " = '" + oldRecipieName + "'";
         Log.d(TAG, "updateName: query: " + query);
-        Log.d(TAG, "updateName: Setting name to " + newName);
+        Log.d(TAG, "updateName: Setting name to " + newRecipieName);
         db.execSQL(query);
     }
 
-    public void updateIngredientName(String newName, int id, String oldName) {
+    public void updateIngredientName(String newIngredientName, int id, String oldIngredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "UPDATE " + TABLE_NAME2 + " SET " + COL2 +
-                " = '" + newName + "' WHERE " + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + oldName + "'";
+                " = '" + newIngredientName + "' WHERE " + COL1 + " = '" + id + "'" +
+                " AND " + COL2 + " = '" + oldIngredientName + "'";
         Log.d(TAG, "updateName: query: " + query);
-        Log.d(TAG, "updateName: Setting name to " + newName);
+        Log.d(TAG, "updateName: Setting name to " + newIngredientName);
     }
 
     public void updateShoppingCartName(String newName, int id, String oldName) {
@@ -195,33 +230,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: setting name to " + newName);
     }
 
-    public void deleteRecipieName(int id, String name){
+    public void deleteRecipieName(int id, String RecipieName){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME + " WHERE "
                 + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + name + "'";
+                " AND " + COL2 + " = '" + RecipieName + "'";
         Log.d(TAG, "deleteName: query: " + query);
-        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
+        Log.d(TAG, "deleteName: Deleting " + RecipieName + " from database.");
         db.execSQL(query);
     }
 
-    public void deleteIngredientName(int id, String name) {
+    public void deleteIngredientName(int id, String IngredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME2 + " WHERE "
                 + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + name + "'";
+                " AND " + COL2 + " = '" + IngredientName + "'";
         Log.d(TAG, "deleteName: query: " + query);
-        Log.d(TAG, "deleteName: Deleting " + name + " from database.");
+        Log.d(TAG, "deleteName: Deleting " + IngredientName + " from database.");
         db.execSQL(query);
     }
 
-    public void deleteShoppingCartRecipie(int id, String name) {
+    public void deleteShoppingCartRecipie(int id, String RecipieName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME4 + " WHERE "
                 + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + name + "'";
+                " AND " + COL2 + " = '" + RecipieName + "'";
         Log.d(TAG, "deleteName: query: " + query);
-        Log.d(TAG, "deleteName: Deleting " + name + " from shopping cart database.");
+        Log.d(TAG, "deleteName: Deleting " + RecipieName + " from shopping cart database.");
         db.execSQL(query);
     }
 
@@ -243,10 +278,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
     //Select individual recipie from the list
-    public int getIndivRecipieCount(int id, String name) {
+    public int getIndivRecipieCount(int id, String RecipieName) {
         String countQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
                 + COL1 + " = '" + id + "'" +
-                " AND " + COL2 + " = '" + name + "'";
+                " AND " + COL2 + " = '" + RecipieName + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
