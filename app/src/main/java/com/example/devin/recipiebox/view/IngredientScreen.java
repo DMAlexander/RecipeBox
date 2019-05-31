@@ -91,8 +91,10 @@ public class IngredientScreen extends AppCompatActivity {
             public void onClick(View view) {
                 String newEntry = editable_ingredient_item.getText().toString();
                 if (editable_ingredient_item.length() != 0) {
-                    mDatabaseHelper.addIngredientDataBasedOnRecipie(selectedID, selectedName, newEntry);
+                    mDatabaseHelper.addIngredientData(newEntry);
                     toastMessage("Data successfully inserted!");
+                    finish();
+                    startActivity(getIntent());
                 } else {
                     toastMessage("Put something in the text field!");
                 }
@@ -111,16 +113,11 @@ public class IngredientScreen extends AppCompatActivity {
  //       Log.d(TAG, "This data is based on recipieID: " + selectedID + " And recipieName: " + selectedName);
         Log.d(TAG, "This data is based on recipieID: " + selectedID + " and recipieName: " + selectedName);
         //get data and append to a list
-        Cursor data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedID, selectedName);
+        Cursor data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedID);
 //        Cursor data = mDatabaseHelper.getIngredientData();
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
             //get value from database in column then add it to arraylist...
-  //          int index;
-   //         index = data.getColumnIndexOrThrow("IngredientName");
-   //         String IngredientName = data.getString(index);
-   //         listData.add(IngredientName);
-     //       listData.add(data.getColumnIndex());
             listData.add(data.getString(1));
         }
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
