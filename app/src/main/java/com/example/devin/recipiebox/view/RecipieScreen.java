@@ -44,7 +44,7 @@ public class RecipieScreen extends AppCompatActivity {
                 }
             }
         });
-
+/*
         btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +57,7 @@ public class RecipieScreen extends AppCompatActivity {
                 }
             }
         });
-
+*/
         btnViewRecipieData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +84,7 @@ public class RecipieScreen extends AppCompatActivity {
             toastMessage("Something went wrong");
         }
     }
-
+/*
     public void AddIngredientData(String newEntry) {
         boolean insertData = mDatabaseHelper.addIngredientData(newEntry);
 
@@ -93,7 +93,7 @@ public class RecipieScreen extends AppCompatActivity {
         } else {
             toastMessage("Somthing went wrong!");
         }
-    }
+    } */
 
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 if (itemID > -1 ) {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
                     Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
-                    editScreenIntent.putExtra("id", itemID);
+                    editScreenIntent.putExtra("RecipieId", itemID);
                     editScreenIntent.putExtra("RecipieName", RecipieName);
                     startActivity(editScreenIntent);
                 } else {
