@@ -1,4 +1,4 @@
-package com.example.devin.recipiebox.view;
+package com.example.devin.recipiebox.view.ShoppingCart;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

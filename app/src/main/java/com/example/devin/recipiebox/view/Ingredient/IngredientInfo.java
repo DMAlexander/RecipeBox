@@ -1,4 +1,4 @@
-package com.example.devin.recipiebox.view;
+package com.example.devin.recipiebox.view.Ingredient;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 //Class that allows for deleting and saving information-related data...
 public class IngredientInfo extends AppCompatActivity {

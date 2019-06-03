@@ -1,4 +1,4 @@
-package com.example.devin.recipiebox.view;
+package com.example.devin.recipiebox.view.Ingredient;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,12 +12,12 @@ import android.widget.EditText;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
 

@@ -9,18 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.Recipie.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.RecipieScreen" />
-        <activity android:name=".view.ShoppingCartList" />
-        <activity android:name=".view.IngredientScreen" />
-        <activity android:name=".view.IngredientInfo" />
-        <activity android:name=".view.EditShoppingCart"></activity>
+        <activity android:name=".view.Recipie.RecipieScreen" />
+        <activity android:name=".view.ShoppingCart.ShoppingCartList" />
+        <activity android:name=".view.Ingredient.IngredientScreen" />
+        <activity android:name=".view.Ingredient.IngredientInfo" />
+        <activity android:name=".view.ShoppingCart.EditShoppingCart"></activity>
     </application>
 
 </manifest>

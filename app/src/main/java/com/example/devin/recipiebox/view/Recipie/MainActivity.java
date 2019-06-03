@@ -1,4 +1,4 @@
-package com.example.devin.recipiebox.view;
+package com.example.devin.recipiebox.view.Recipie;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,12 +17,11 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
-import com.example.devin.recipiebox.database.model.RecipieDatabase;
-import com.example.devin.recipiebox.database.model.IngredientDatabase;
+import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.List;
+
 //Screen that displays list of recipies --> ListDataActivity
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView mListView, ch1;
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
+    private EditText editable_recipie_counter_item;
 
     ArrayList<String> selectedItems = new ArrayList<>();
 
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         btnClearShoppingCart = (Button) findViewById(R.id.btnClearShoppingCart);
+        editable_recipie_counter_item = (EditText) findViewById(R.id.editable_recipie_counter_item);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         //      mListView.setLongClickable(true);
         populateListView();
@@ -73,6 +74,19 @@ public class MainActivity extends AppCompatActivity {
                 mDatabaseHelper.deleteShoppingCartRecipieData(); //delete all shopping cart recipies, clearing cart
             }
         });
+/*
+        editable_recipie_counter_item.setText("");
+        btnCounter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String num = editable_recipie_counter_item.getText().toString();
+                if(!num.equals("")) {
+
+                }
+            }
+        });
+*/
+
     }
 
     private void populateListView() { //Original populateListView
@@ -95,6 +109,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String RecipieName = adapterView.getItemAtPosition(i).toString();
+                String numValue = editable_recipie_counter_item.getText().toString();
+                Log.d(TAG, "String numValue is: " + numValue);
+                int num = 1;
+                if(!"".equals(numValue)) {
+                    num = Integer.parseInt(numValue);
+                    Log.d(TAG, "String numValue is: " + numValue + " AND num is: " + num);
+                }
                 Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
                 Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName); //get id associated with RecipieName
                 int itemID = -1;
@@ -107,12 +128,25 @@ public class MainActivity extends AppCompatActivity {
                     if (selectedItems.contains(selectedItem)) {
                         Log.d(TAG, "The selected Item ID is " + itemID + " And RecipieName is : " + RecipieName);
                         selectedItems.remove(selectedItem);
-                        mDatabaseHelper.deleteShoppingCartRecipie(itemID, RecipieName);
+            //          mDatabaseHelper.deleteShoppingCartRecipie(itemID, RecipieName);
                         //                 deleteShoppingCartDelete(itemID, RecipieName);
                     } else {
                         Log.d(TAG, "The selected Item ID is: " + itemID + " And RecipieName is : " + RecipieName);
                         selectedItems.add(selectedItem);
-                        addShoppingCartData(RecipieName);
+
+    //                  Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
+                        Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
+                        ArrayList<String> listData = new ArrayList<>(); //populate a list w/ingredients...
+                        while(data2.moveToNext()) {
+                            String ingredient = data2.getString(1);
+                            listData.add(ingredient);
+                        }
+
+                        for (int j=0; j<listData.size();j++){
+                            System.out.println(listData.get(j));
+                            String ingredientName = listData.get(j);
+                            addShoppingCartData(ingredientName);
+                        }
                     }
                 }
                 toastMessage("Short click selected!");
@@ -144,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
         public void addShoppingCartData(String newEntry){
             boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
 
@@ -153,6 +188,18 @@ public class MainActivity extends AppCompatActivity {
                 toastMessage("Something went wrong!");
             }
         }
+
+/*
+    public void addShoppingCartData(int newEntry){
+        boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
+
+        if (insertData) {
+            toastMessage("Data will be added to shoppingCartList!");
+        } else {
+            toastMessage("Something went wrong!");
+        }
+    }
+*/
 
         private void toastMessage (String message){
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

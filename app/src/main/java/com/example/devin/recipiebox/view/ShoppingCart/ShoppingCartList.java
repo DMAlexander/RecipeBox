@@ -1,4 +1,4 @@
-package com.example.devin.recipiebox.view;
+package com.example.devin.recipiebox.view.ShoppingCart;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
 

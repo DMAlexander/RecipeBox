@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 16);
+        super(context, DATABASE_NAME, null, 18);
     }
 
     //Create Tables...
@@ -62,10 +62,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String createTable3 = "CREATE TABLE " + TABLE_NAME3 + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_RECIPIE_NAME +" TEXT)";
-
+/*
     private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_RECIPIE_NAME +" TEXT)";
+  */
+    private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
+            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_INGREDIENT_NAME +" TEXT)";
 
 
     @Override
@@ -118,29 +122,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-
-    /*
-    public void addIngredientDataBasedOnRecipie(int id, String RecipieName, String IngredientName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        String query = "INSERT INTO " + TABLE_NAME + "(" + COL3 + ")" +
-                " VALUES(" + IngredientName + ")"
-                + " WHERE " + COLUMN_RECIPIE_ID + " = '" + id + "' AND " + COLUMN_RECIPIE_NAME + " = " + RecipieName;
-        Log.d(TAG, "Inserted " + IngredientName + " into " + TABLE_NAME + " based on " + RecipieName);
-    } */
-
+/*
     public boolean addShoppingCartData(String item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_RECIPIE_NAME, item);
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
         long result = db.insert(TABLE_NAME4, null, contentValues);
-        if(result == -1) {
+        if (result == -1) {
             return false;
         } else {
             return true;
         }
     }
+    */
+
+    public boolean addShoppingCartData(String item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_INGREDIENT_NAME, item);
+        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
+        long result = db.insert(TABLE_NAME4, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
     public Cursor getRecipieData(){
         SQLiteDatabase db = this.getWritableDatabase();
