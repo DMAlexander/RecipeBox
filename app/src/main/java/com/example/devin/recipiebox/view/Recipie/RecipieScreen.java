@@ -1,6 +1,8 @@
 package com.example.devin.recipiebox.view.Recipie;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -75,6 +77,7 @@ public class RecipieScreen extends AppCompatActivity {
             }
         });
     }
+
 
     public void AddRecipieData(String newEntry) {
         boolean insertData = mDatabaseHelper.addRecipieData(newEntry);

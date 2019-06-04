@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">RecipieBox</string>
+    <string-array name="measurements_array">
+        <item>1/8</item>
+        <item>1/4</item>
+        <item>1/2</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="measurement_type_array">
+        <item>teaspoon</item>
+        <item>tablespoon</item>
+        <item>cup</item>
+        <item>pint</item>
+        <item>quart</item>
+        <item>gallon</item>
+    </string-array>
 </resources>

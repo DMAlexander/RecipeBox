@@ -2,6 +2,8 @@ package com.example.devin.recipiebox.view.Ingredient;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,8 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -23,19 +27,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 //EditDataActivity's future home...
-public class IngredientScreen extends AppCompatActivity {
+public class IngredientScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "EditDataActivity";
 
-    private Button btnSave,btnDelete,btnIngredientAdd;
+    private Button btnSave,btnDelete,btnIngredientAdd, addImage;
     private EditText editable_recipie_item, editable_ingredient_item;
     private ListView mListView;
+    private ImageView imageView;
 
     DatabaseHelper mDatabaseHelper;
 
     private String selectedRecipieName;
     private int selectedRecipieID;
     private int selectedIngredientID;
+    private static final int PICK_IMAGE = 100;
+    private Spinner spinner, spinner2;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +53,16 @@ public class IngredientScreen extends AppCompatActivity {
         btnSave = (Button) findViewById(R.id.btnSave);
         btnDelete = (Button) findViewById(R.id.btnDelete);
         btnIngredientAdd = (Button) findViewById(R.id.btnIngredientAdd);
+        addImage = (Button) findViewById(R.id.addImage);
+        imageView = (ImageView) findViewById(R.id.imageView);
         editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
         editable_ingredient_item = (EditText) findViewById(R.id.editable_ingredient_item);
         mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+//        spinner.setOnItemClickListener(this);
+
         populateIngredientListView();
 
         //get intent extra from the ListDataActivity
@@ -105,7 +119,30 @@ public class IngredientScreen extends AppCompatActivity {
                 }
             }
         });
+
+        //Create an ArrayAdapter using the string array and a default spinner layout
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.measurements_array, android.R.layout.simple_spinner_item);
+        //Specify the layout to use when the list of choices appears...
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.measurement_type_array, android.R.layout.simple_spinner_item);
+        //Specify the layout to use when the list of choices appears
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter2);
+
     }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        //an item was selected...
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        //another interface callback...
+    }
+
     //Everything in this view should be ingredient related....
     private void populateIngredientListView() {
         Intent receivedIntent = getIntent();
