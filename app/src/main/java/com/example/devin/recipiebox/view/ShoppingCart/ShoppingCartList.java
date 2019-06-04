@@ -18,6 +18,9 @@ import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ShoppingCartList extends AppCompatActivity {
 
@@ -53,13 +56,41 @@ public class ShoppingCartList extends AppCompatActivity {
         });
     }
 
+    /*
+    Some sorting Psuedocode...
+    for
+
+     */
+    /*
+    private void sortingAlgorithm () {
+/*
+        for (int i=0; i<n; i++) {
+            for(int j=i+1; j<n; j++) {
+                if(names[i].compareTo(names[j])>0) {
+                    temp = names[i];
+                    names[i] = names[j];
+                    names[j] = temp;
+                }
+            }
+        } */
+    /*
+        List<String> contactList = new ArrayList<>();
+
+    Collections.sort(contactList);
+    } */
+
     private void populateListView() { //Original populateListView
         Log.d(TAG, "populateListView: Displaying data in the listview");
         Cursor data = mDatabaseHelper.getShoppingCartData();
         ArrayList<String> listData = new ArrayList<>();
+//        ArrayList<String> listData = Arrays.asList(names.s)
+ //       ArrayList<String> sorted = Arrays.asList(listData.stream().sorted((s1,s2) -> s1.compareToIgnoreCase(s2)).toArray(String[]::new));
+
         while(data.moveToNext()) {
             listData.add(data.getString(1));
         }
+        Collections.sort(listData);
+
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
 

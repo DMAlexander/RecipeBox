@@ -21,6 +21,7 @@ import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 //Screen that displays list of recipies --> ListDataActivity
 public class MainActivity extends AppCompatActivity {
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             //get value from database in column then add it to arraylist
             listData.add(data.getString(1));
         }
+        Collections.sort(listData);
         //Create list adapter and set adapter //possibly change android.R.layout to rowlayout...
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.rowlayout, listData);
         mListView.setAdapter(adapter);

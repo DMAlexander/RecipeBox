@@ -20,6 +20,7 @@ import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 //EditDataActivity's future home...
 public class IngredientScreen extends AppCompatActivity {
@@ -124,6 +125,7 @@ public class IngredientScreen extends AppCompatActivity {
             //get value from database in column then add it to arraylist...
             listData.add(data.getString(1));
         }
+        Collections.sort(listData);
         ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
         //set onItemClickListener to the listview
