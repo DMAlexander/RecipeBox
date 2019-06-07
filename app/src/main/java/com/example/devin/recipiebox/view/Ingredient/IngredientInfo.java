@@ -34,7 +34,6 @@ public class IngredientInfo extends AppCompatActivity {
     private int selectedRecipieID;
     private ListView mListView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,10 +103,13 @@ public class IngredientInfo extends AppCompatActivity {
         ArrayList<String> listData = new ArrayList<>();
         while (data.moveToNext()) {
             listData.add(data.getString(1));
+   //         listData.add(data.getString(1));
+   //         listData.add(data.getString(1));
+   //         listData.add(data.getString(2));
         }
         Collections.sort(listData);
-
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.ingredientrowlayout, R.id.textView1,listData);
+//        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
         mListView.setAdapter(adapter);
     }
 

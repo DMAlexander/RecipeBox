@@ -67,16 +67,12 @@ public class IngredientScreen extends AppCompatActivity {
  //       spinner2.setOnItemSelectedListener(this);
 
         populateIngredientListView();
-
         //get intent extra from the ListDataActivity
         Intent receivedIntent = getIntent();
-
         //get the itemID we passed as extra (From main screen)
         selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-
         //get name we passed as an extra (From main screen)
   //      selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
-
     //    //get the itemId we passed as an extra (From Ingredient Info screen)
         selectedIngredientID = receivedIntent.getIntExtra("IngredientId", -1);
 
@@ -118,6 +114,7 @@ public class IngredientScreen extends AppCompatActivity {
                 String newEntry = editable_ingredient_item.getText().toString();
                 if (editable_ingredient_item.length() != 0) {
                     mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, selectedRecipieID);
+                    toastMessage("Values added: " + newEntry + " , " + num + ", " + newEntry3 + ", " + selectedRecipieID);
 
                     toastMessage("Data successfully inserted!");
                     finish();
@@ -173,9 +170,6 @@ public class IngredientScreen extends AppCompatActivity {
         });
 
     }
-
-
-
 
 
     //Everything in this view should be ingredient related....
