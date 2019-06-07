@@ -1,17 +1,24 @@
 package com.example.devin.recipiebox.view.Ingredient;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 //Class that allows for deleting and saving information-related data...
 public class IngredientInfo extends AppCompatActivity {
@@ -25,6 +32,7 @@ public class IngredientInfo extends AppCompatActivity {
     private String selectedIngredientName;
     private int selectedIngredientID;
     private int selectedRecipieID;
+    private ListView mListView;
 
 
     @Override
@@ -35,6 +43,8 @@ public class IngredientInfo extends AppCompatActivity {
         btnDelete = (Button) findViewById(R.id.btnDelete);
         editable_item = (EditText) findViewById(R.id.editable_item);
         mDatabaseHelper = new DatabaseHelper(this);
+        mListView = (ListView) findViewById(R.id.listView);
+        populateListView();
 
         //get intent extra from IngredientScreenActivity
         Intent recievedIntent = getIntent();
@@ -83,6 +93,22 @@ public class IngredientInfo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void populateListView() {
+        Log.d(TAG, "populateListView: Displaying data in the listView");
+        Intent receivedIntent = getIntent();
+        selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
+
+        Cursor data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
+        ArrayList<String> listData = new ArrayList<>();
+        while (data.moveToNext()) {
+            listData.add(data.getString(1));
+        }
+        Collections.sort(listData);
+
+        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
+        mListView.setAdapter(adapter);
     }
 
     private void toastMessage(String message) {

@@ -35,6 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    private static final String COLUMN_INGREDIENT_ID = "COLUMN_RECIPIE_ID"; //COL3
     private static final String COLUMN_INGREDIENT_NAME = "IngredientName"; //COL4
     private static final String COLUMN_INGREDIENT_RECIPIE_ID = "ID"; //COL5 /passed in from recipie table
+    private static final String COLUMN_INGREDIENT_QUANTITY = "Quantity";
+    private static final String COLUMN_INGREDIENT_MEASUREMENT_TYPE = "MeasurementType";
 
     /*
     private static final String COL1 = "ID";
@@ -45,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 18);
+        super(context, DATABASE_NAME, null, 20);
     }
 
     //Create Tables...
@@ -54,9 +56,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_RECIPIE_NAME +" TEXT)";
 
+    /*
     private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
             + "(IngredientID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_INGREDIENT_NAME +" TEXT, " +
+            COLUMN_INGREDIENT_RECIPIE_ID + " INTEGER)";
+    */
+
+    private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
+            + "(IngredientID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_INGREDIENT_NAME +" TEXT, " +
+            COLUMN_INGREDIENT_QUANTITY + " INTEGER, " +
+            COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT, " +
             COLUMN_INGREDIENT_RECIPIE_ID + " INTEGER)";
 
     private static final String createTable3 = "CREATE TABLE " + TABLE_NAME3 + " "
@@ -70,6 +81,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_INGREDIENT_NAME +" TEXT)";
+
+
 
 
     @Override
@@ -106,10 +119,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addIngredientData(String item, int id) {
+    public boolean addIngredientData(String item, int quantity, String measurementType, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
+        contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
+        contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
         contentValues.put(COLUMN_INGREDIENT_RECIPIE_ID, id);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME2);

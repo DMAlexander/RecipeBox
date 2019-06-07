@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 //EditDataActivity's future home...
-public class IngredientScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class IngredientScreen extends AppCompatActivity {
 
     private static final String TAG = "EditDataActivity";
 
@@ -61,7 +62,9 @@ public class IngredientScreen extends AppCompatActivity implements AdapterView.O
         mDatabaseHelper = new DatabaseHelper(this);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner2 = (Spinner) findViewById(R.id.spinner2);
-//        spinner.setOnItemClickListener(this);
+
+     //   spinner.setOnItemSelectedListener(this);
+ //       spinner2.setOnItemSelectedListener(this);
 
         populateIngredientListView();
 
@@ -108,9 +111,14 @@ public class IngredientScreen extends AppCompatActivity implements AdapterView.O
         btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String newEntry2 = spinner.getSelectedItem().toString();
+                int num = 1;
+                num = Integer.parseInt(newEntry2);
+                String newEntry3 = spinner2.getSelectedItem().toString();
                 String newEntry = editable_ingredient_item.getText().toString();
                 if (editable_ingredient_item.length() != 0) {
-                    mDatabaseHelper.addIngredientData(newEntry, selectedRecipieID);
+                    mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, selectedRecipieID);
+
                     toastMessage("Data successfully inserted!");
                     finish();
                     startActivity(getIntent());
@@ -128,20 +136,47 @@ public class IngredientScreen extends AppCompatActivity implements AdapterView.O
         //Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String measurementQuantity = adapterView.getItemAtPosition(i).toString();
+                int num = 1;
+                Log.d(TAG,"onItemClick: you clicked on: " + measurementQuantity);
+ //               if(!"".equals(measurementQuantity)) {
+ //                   num = Integer.parseInt(measurementQuantity);
+ //                   Log.d(TAG, "String measurementQuantity: is" + measurementQuantity);
+ //               }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.measurement_type_array, android.R.layout.simple_spinner_item);
         //Specify the layout to use when the list of choices appears
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(adapter2);
 
+        spinner2.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String measurementType = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG,"onItemClick: you clicked on: " + measurementType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        //an item was selected...
-    }
 
-    public void onNothingSelected(AdapterView<?> parent) {
-        //another interface callback...
-    }
+
+
 
     //Everything in this view should be ingredient related....
     private void populateIngredientListView() {
