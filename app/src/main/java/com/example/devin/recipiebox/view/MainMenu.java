@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
@@ -21,6 +22,10 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         btnRecipie = (Button) findViewById(R.id.btnRecipie);
+
+        ImageView myImageView = (ImageView) findViewById(R.id.my_image_view);
+        myImageView.setImageResource(R.drawable.androiddeletepicture);
+
 
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override

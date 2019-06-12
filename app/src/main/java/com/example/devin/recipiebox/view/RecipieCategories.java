@@ -10,6 +10,6 @@ public class RecipieCategories extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipie_categories);
+        setContentView(R.layout.activity_recipe_categories);
     }
 }

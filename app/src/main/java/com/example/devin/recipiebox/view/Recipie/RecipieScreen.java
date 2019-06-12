@@ -1,8 +1,6 @@
 package com.example.devin.recipiebox.view.Recipie;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +24,7 @@ public class RecipieScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipie_screen);
+        setContentView(R.layout.activity_recipe_screen);
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         editIngredientText = (EditText) findViewById(R.id.editIngredientText);
         btnRecipieAdd = (Button) findViewById(R.id.btnRecipieAdd);

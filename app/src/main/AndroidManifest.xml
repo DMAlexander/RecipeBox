@@ -33,7 +33,8 @@
         <activity android:name=".view.ShoppingCart.EditShoppingCart" />
         <activity android:name=".view.Recipie.MainActivity" />
         <!-- <activity android:name=".view.MainMenu"></activity> -->
-        <activity android:name=".view.RecipieCategories"></activity>
+        <activity android:name=".view.RecipieCategories" />
+        <activity android:name=".view.Recipie.RecipeItem"></activity>
     </application>
 
 </manifest>

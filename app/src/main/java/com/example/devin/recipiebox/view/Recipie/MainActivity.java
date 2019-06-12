@@ -1,15 +1,21 @@
 package com.example.devin.recipiebox.view.Recipie;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,11 +23,13 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.database.model.RecipieDatabase;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 //Screen that displays list of recipies --> ListDataActivity
 public class MainActivity extends AppCompatActivity {
@@ -30,51 +38,73 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
 
-    private ListView mListView, ch1;
+   private ListView mListView, ch1;
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
     private EditText editable_recipie_counter_item;
+//    private ImageView;
+
+    private RecyclerView mRecyclerView;
+    private RecipeAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private Button buttonInsert, buttonRemove;
+    private EditText editTextInsert, editTextRemove;
 
     ArrayList<String> selectedItems = new ArrayList<>();
+    private ArrayList<RecipeItem> mRecipeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListView = (ListView) findViewById(R.id.listView);
+//        mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
-        btnNavigate = (Button) findViewById(R.id.btnNavigate);
-        btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
-        btnClearShoppingCart = (Button) findViewById(R.id.btnClearShoppingCart);
-        editable_recipie_counter_item = (EditText) findViewById(R.id.editable_recipie_counter_item);
-        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+ //       btnNavigate = (Button) findViewById(R.id.btnNavigate);
+ //       btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
+ //       btnClearShoppingCart = (Button) findViewById(R.id.btnClearShoppingCart);
+ //       editable_recipie_counter_item = (EditText) findViewById(R.id.editable_recipie_counter_item);
+
+        createExampleList(); //just to throw some data in there...
+        buildRecyclerView(); //buildRecyclerView();
+        setButtons();
+
+//        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
         //      mListView.setLongClickable(true);
-        populateListView();
+    //    populateListView();
+
         //     configureNextButton();
         //    configureShoppingCartButton();
 
+
+
+    /*
         btnNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RecipieScreen.class);
                 startActivity(intent);
             }
-        });
-
+        }); */
+/*
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
-                startActivity(shoppingCartIntent);
+                Intnt shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
+                startActivity(eshoppingCartIntent);
             }
 
         });
+*/
 
+/*
         btnClearShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDatabaseHelper.deleteShoppingCartRecipieData(); //delete all shopping cart recipies, clearing cart
             }
         });
+        */
 /*
         editable_recipie_counter_item.setText("");
         btnCounter.setOnClickListener(new View.OnClickListener() {
@@ -87,9 +117,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 */
-
     }
 
+    public void insertItem(int position) {
+        mRecipeList.add(position, new RecipeItem(R.drawable.ic_delete, "New Item At Position" + position, "This is line 2"));
+        mAdapter.notifyItemInserted(position);
+    }
+
+    public void removeItem(int position) {
+        mRecipeList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
+
+    public void changeItem(int position, String text) {
+        mRecipeList.get(position).changeText1(text);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    public void createExampleList() {
+        mRecipeList = new ArrayList<>();
+        mRecipeList.add(new RecipeItem(R.drawable.ic_android, "Line 1", "Line 2"));
+        mRecipeList.add(new RecipeItem(R.drawable.ic_delete, "Line 3", "Line 4"));
+        mRecipeList.add(new RecipeItem(R.drawable.ic_android, "Line 5", "Line 6"));
+    }
+
+
+
+/*
     private void populateListView() { //Original populateListView
         Log.d(TAG, "populateListView: Displaying data in the ListView");
         //get data and append to a list
@@ -103,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.sort(listData);
         //Create list adapter and set adapter //possibly change android.R.layout to rowlayout...
         ListAdapter adapter = new ArrayAdapter<>(this, R.layout.rowlayout, listData);
+
         mListView.setAdapter(adapter);
         //     ListAdapter adapter1 = new ArrayAdapter<>(this, android.R.layout.)
         //Set onItemClickListener to the ListView
@@ -179,8 +234,105 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+*/
+    private void buildRecyclerView() {
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new RecipeAdapter(mRecipeList);
 
+        Log.d(TAG, "populateRecyclerView: Displaying data in the RecyclerView");
 
+        Cursor data = mDatabaseHelper.getRecipieData();
+        ArrayList<String> listData = new ArrayList<>();
+        while (data.moveToNext()) {
+            listData.add(data.getString(1));
+        }
+        Collections.sort(listData);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String RecipieName = mRecipeList.get(position).toString();
+                Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
+                Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                }
+                if (itemID > -1) {
+                    Log.d(TAG, "onItemClick: The ID is " + itemID);
+                    Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
+                    editScreenIntent.putExtra("RecipieId", itemID);
+                    editScreenIntent.putExtra("RecipieName", RecipieName);
+                    startActivity(editScreenIntent);
+                } else {
+                    toastMessage("No ID associated with that recipieName");
+                }
+
+                //        mRecipeList.get(position).changeText1(text);
+
+         //       changeItem(position, "Clicked!");
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                makeDialog(position);
+      //          removeItem(position);
+            }
+        });
+    }
+
+    public void makeDialog(final int position) {
+        AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Delete Recipie");
+        builder.setMessage("Are you sure you want to delete the recipie?");
+
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                removeItem(position);
+                Toast.makeText(MainActivity.this, "Thanks!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(MainActivity.this, "I will try hard and make better videos!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.create().show();
+    }
+
+    public void setButtons() {
+        buttonInsert = findViewById(R.id.button_insert);
+        buttonRemove = findViewById(R.id.button_remove);
+        editTextInsert = findViewById(R.id.edittext_insert);
+        editTextRemove = findViewById(R.id.edittext_remove);
+
+        buttonInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = Integer.parseInt(editTextInsert.getText().toString());
+                insertItem(position);
+            }
+        });
+
+        buttonRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = Integer.parseInt(editTextRemove.getText().toString());
+                removeItem(position);
+            }
+        });
+
+    }
+
+/*
         public void addShoppingCartData(String newEntry){
             boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
 
@@ -190,19 +342,7 @@ public class MainActivity extends AppCompatActivity {
                 toastMessage("Something went wrong!");
             }
         }
-
-/*
-    public void addShoppingCartData(int newEntry){
-        boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
-
-        if (insertData) {
-            toastMessage("Data will be added to shoppingCartList!");
-        } else {
-            toastMessage("Something went wrong!");
-        }
-    }
 */
-
         private void toastMessage (String message){
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
