@@ -31,16 +31,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mImageView;
         public TextView mTextView1;
-        public TextView mTextView2;
         public ImageView mDeleteImage;
 
         public RecipeViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView);
             mTextView1 = itemView.findViewById(R.id.textView);
-            mTextView2 = itemView.findViewById(R.id.textView2);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -84,13 +80,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
         RecipeItem currentItem = mRecipeList.get(position);
 
-        holder.mImageView.setImageResource(currentItem.getImageResource());
         holder.mTextView1.setText(currentItem.getText1());
-        holder.mTextView2.setText(currentItem.getText2());
     }
 
     @Override
     public int getItemCount() {
         return mRecipeList.size();
     }
+
+    //Custom method to get item (was done by default with listView...)
+    /*
+    public ArrayList<RecipeItem> getItem(int position) {
+        return mRecipeList.get(position);
+    }
+    */
 }

@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private RecipeAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private Button buttonInsert, buttonRemove;
-    private EditText editTextInsert, editTextRemove;
+    private Button buttonInsert;
+    private EditText editTextInsert;
 
     ArrayList<String> selectedItems = new ArrayList<>();
     private ArrayList<RecipeItem> mRecipeList;
@@ -118,27 +118,55 @@ public class MainActivity extends AppCompatActivity {
         });
 */
     }
-
+/*
     public void insertItem(int position) {
-        mRecipeList.add(position, new RecipeItem(R.drawable.ic_delete, "New Item At Position" + position, "This is line 2"));
+//        mRecipeList.add(position, new RecipeItem(R.drawable.ic_delete, "New Item At Position" + position, "This is line 2"));
+        mRecipeList.add(new RecipeItem(RecipieName)); //NOTE: The mDatabaseHelper Add method will likely go here...
         mAdapter.notifyItemInserted(position);
+    }
+    */
+
+    public void insertItem(String recipieName) {
+  //      mRecipeList.add(new RecipieItem(RecipieName));
+        boolean insertData = mDatabaseHelper.addRecipieData(recipieName);
+
+        if (insertData) {
+            toastMessage("Data successfully inserted!");
+        } else {
+            toastMessage("Something went wrong!");
+        }
     }
 
     public void removeItem(int position) {
-        mRecipeList.remove(position);
-        mAdapter.notifyItemRemoved(position);
+//        mRecipeList.remove(position);
+//        mAdapter.notifyItemRemoved(position);
+ //       mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
+        toastMessage("Removed from database");
     }
-
+/*
     public void changeItem(int position, String text) {
         mRecipeList.get(position).changeText1(text);
         mAdapter.notifyItemChanged(position);
     }
-
+*/
     public void createExampleList() {
         mRecipeList = new ArrayList<>();
+        /*
         mRecipeList.add(new RecipeItem(R.drawable.ic_android, "Line 1", "Line 2"));
         mRecipeList.add(new RecipeItem(R.drawable.ic_delete, "Line 3", "Line 4"));
         mRecipeList.add(new RecipeItem(R.drawable.ic_android, "Line 5", "Line 6"));
+        */
+   //     mRecipeList.add(new RecipeItem(RecipieName));
+        Cursor data = mDatabaseHelper.getRecipieData();
+  //      ArrayList<String> listData = new ArrayList<>();
+        while (data.moveToNext()) {
+//            listData.add(data.getString(1));
+            mRecipeList.add(new RecipeItem(data.getString(1)));
+        }
+  //      Collections.sort(listData);
+        //Create list adapter and set adapter
+     //   ListAdapter adapter = new ArrayAdapter<>()(this, R.layout.rowlayout, listData);
+
     }
 
 
@@ -243,12 +271,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "populateRecyclerView: Displaying data in the RecyclerView");
 
-        Cursor data = mDatabaseHelper.getRecipieData();
-        ArrayList<String> listData = new ArrayList<>();
-        while (data.moveToNext()) {
-            listData.add(data.getString(1));
-        }
-        Collections.sort(listData);
+ //       Cursor data = mDatabaseHelper.getRecipieData();
+ //       ArrayList<String> listData = new ArrayList<>();
+  //      while (data.moveToNext()) {
+  //          listData.add(data.getString(1));
+   //     }
+    //    Collections.sort(listData);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -256,7 +284,11 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+    //            String RecipieName = adapterView.getItemAtPosition(i).toString();
+//                String RecipieName = mRecyclerView.get
+    //            View v = mRecyclerView.findViewById(position);
                 String RecipieName = mRecipeList.get(position).toString();
+    //            String RecipieName =
                 Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
                 Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName);
                 int itemID = -1;
@@ -310,28 +342,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void setButtons() {
         buttonInsert = findViewById(R.id.button_insert);
-        buttonRemove = findViewById(R.id.button_remove);
         editTextInsert = findViewById(R.id.edittext_insert);
-        editTextRemove = findViewById(R.id.edittext_remove);
 
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int position = Integer.parseInt(editTextInsert.getText().toString());
-                insertItem(position);
+                //  int position = Integer.parseInt(editTextInsert.getText().toString());
+                //   insertItem(position);
+                String recipieName = editTextInsert.getText().toString();
+                if (editTextInsert.length() != 0) {
+                    insertItem(recipieName);
+                    editTextInsert.setText("");
+                } else {
+                    toastMessage("Please put something in the textbox!");
+                }
             }
         });
-
-        buttonRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = Integer.parseInt(editTextRemove.getText().toString());
-                removeItem(position);
-            }
-        });
-
     }
-
 /*
         public void addShoppingCartData(String newEntry){
             boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);

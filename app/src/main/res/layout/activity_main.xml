@@ -36,7 +36,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="25dp"
-        android:inputType="number"
+        android:inputType="text"
         />
 
     <Button
@@ -46,7 +46,7 @@
         android:layout_alignBottom="@id/edittext_insert"
         android:layout_toEndOf="@id/edittext_insert"
         android:text="insert" />
-
+<!--
     <EditText
         android:id="@+id/edittext_remove"
         android:layout_width="40dp"
@@ -64,7 +64,7 @@
         android:layout_toEndOf="@+id/edittext_remove"
         android:text="Remove"
         />
-
+-->
     <!--
     <Button
         android:id="@+id/btnShoppingCart"
