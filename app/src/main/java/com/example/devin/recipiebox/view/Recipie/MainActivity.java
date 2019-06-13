@@ -1,8 +1,10 @@
 package com.example.devin.recipiebox.view.Recipie;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -35,20 +37,16 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "ListDataActivity";
-
-    DatabaseHelper mDatabaseHelper;
+    private DatabaseHelper mDatabaseHelper;
+  //  private SQLiteDatabase mDatabaseHelper;
+    private RecipeAdapter mAdapter;
+    private Button buttonInsert;
+    private EditText editTextInsert;
 
    private ListView mListView, ch1;
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
     private EditText editable_recipie_counter_item;
 //    private ImageView;
-
-    private RecyclerView mRecyclerView;
-    private RecipeAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    private Button buttonInsert;
-    private EditText editTextInsert;
 
     ArrayList<String> selectedItems = new ArrayList<>();
     private ArrayList<RecipeItem> mRecipeList;
@@ -57,15 +55,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        mListView = (ListView) findViewById(R.id.listView);
+
+   //     DatabaseHelper dbHelper = new DatabaseHelper(this);
+   //     mDatabaseHelper = dbHelper.getWritableDatabase();
         mDatabaseHelper = new DatabaseHelper(this);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new RecipeAdapter(this, getAllItems());
+        recyclerView.setAdapter(mAdapter);
+
+//        mListView = (ListView) findViewById(R.id.listView);
+//        mDatabaseHelper = new DatabaseHelper(this);
  //       btnNavigate = (Button) findViewById(R.id.btnNavigate);
  //       btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
  //       btnClearShoppingCart = (Button) findViewById(R.id.btnClearShoppingCart);
  //       editable_recipie_counter_item = (EditText) findViewById(R.id.editable_recipie_counter_item);
 
-        createExampleList(); //just to throw some data in there...
-        buildRecyclerView(); //buildRecyclerView();
+ //       createExampleList(); //just to throw some data in there...
+  //      buildRecyclerView(); //buildRecyclerView();
         setButtons();
 
 //        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -143,12 +151,13 @@ public class MainActivity extends AppCompatActivity {
  //       mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
         toastMessage("Removed from database");
     }
-/*
+
     public void changeItem(int position, String text) {
         mRecipeList.get(position).changeText1(text);
         mAdapter.notifyItemChanged(position);
     }
-*/
+
+/*
     public void createExampleList() {
         mRecipeList = new ArrayList<>();
         /*
@@ -156,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         mRecipeList.add(new RecipeItem(R.drawable.ic_delete, "Line 3", "Line 4"));
         mRecipeList.add(new RecipeItem(R.drawable.ic_android, "Line 5", "Line 6"));
         */
+/*
    //     mRecipeList.add(new RecipeItem(RecipieName));
         Cursor data = mDatabaseHelper.getRecipieData();
   //      ArrayList<String> listData = new ArrayList<>();
@@ -166,8 +176,8 @@ public class MainActivity extends AppCompatActivity {
   //      Collections.sort(listData);
         //Create list adapter and set adapter
      //   ListAdapter adapter = new ArrayAdapter<>()(this, R.layout.rowlayout, listData);
-
-    }
+*/
+//    }
 
 
 
@@ -263,11 +273,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 */
+
     private void buildRecyclerView() {
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new RecipeAdapter(mRecipeList);
 
         Log.d(TAG, "populateRecyclerView: Displaying data in the RecyclerView");
 
@@ -278,36 +285,39 @@ public class MainActivity extends AppCompatActivity {
    //     }
     //    Collections.sort(listData);
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+    //    mRecyclerView.setLayoutManager(mLayoutManager);
+   //     mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                /*
+                String RecipieName =
+    //            String RecipieName = position.get
     //            String RecipieName = adapterView.getItemAtPosition(i).toString();
 //                String RecipieName = mRecyclerView.get
     //            View v = mRecyclerView.findViewById(position);
-                String RecipieName = mRecipeList.get(position).toString();
+    //            String RecipieName = mRecipeList.get(position).toString();
     //            String RecipieName =
-                Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
-                Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName);
+   //             Log.d(TAG, "onItemClick: You clicked on " + RecipieName);
+   //             Cursor data = mDatabaseHelper.getRecipieItemID(RecipieName);
                 int itemID = -1;
-                while (data.moveToNext()) {
-                    itemID = data.getInt(0);
-                }
+    //            while (data.moveToNext()) {
+  //                  itemID = data.getInt(0);
+  //              }
                 if (itemID > -1) {
                     Log.d(TAG, "onItemClick: The ID is " + itemID);
                     Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
                     editScreenIntent.putExtra("RecipieId", itemID);
-                    editScreenIntent.putExtra("RecipieName", RecipieName);
+      //              editScreenIntent.putExtra("RecipieName", RecipieName);
                     startActivity(editScreenIntent);
                 } else {
                     toastMessage("No ID associated with that recipieName");
                 }
 
                 //        mRecipeList.get(position).changeText1(text);
-
-         //       changeItem(position, "Clicked!");
+            */
+                changeItem(position, "Clicked!");
             }
 
             @Override
@@ -359,6 +369,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private Cursor getAllItems() {
+        return mDatabaseHelper.getRecipieData();
+    }
+
+    private void addItem() {
+
+        String recipieName = editTextInsert.getText().toString();
+        mDatabaseHelper.addRecipieData(recipieName);
+        mAdapter.swapCursor(getAllItems());
+
+        editTextInsert.getText().clear();
+
+    }
+
 /*
         public void addShoppingCartData(String newEntry){
             boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
