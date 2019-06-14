@@ -1,18 +1,23 @@
 package com.example.devin.recipiebox.view.Recipie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 
 import org.w3c.dom.Text;
 
@@ -23,6 +28,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private OnItemClickListener mListener;
     private Context mContext;
     private Cursor mCursor;
+
+    private static final String TAG = "RecipieAdapter";
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -39,10 +46,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         mCursor = cursor;
     }
 
-
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView1;
         public ImageView mDeleteImage;
+        public RelativeLayout relativeLayout;
 
         public RecipeViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -55,14 +62,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     if (listener != null) {
                         int position = getAdapterPosition();
                         System.out.println("position: " + position + "getItemViewType: " + getItemViewType());
-                        System.out.println("Itemview: " + itemView);
-             //           int position = getItemViewType();
-             //           int position = getItemId();
-             //           int position = itemView;
-//                        int position = getAdapterPosition();
+                        //           int position = getItemViewType();
+                        //           int position = getItemId();
+                        //           int position = itemView;
 
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                            //            }
+                            //          int position = getLayoutPosition();
+                            //            mCursor.moveToPosition(position);
+                            //            mContext.startActivity(new Intent(mContext, IngredientScreen.class));
+                            //The above is me attemtping to navigate to the next view using an intent...
+                            //If this works, I should also try to pass some data...
                         }
                     }
                 }
@@ -90,18 +101,38 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
  //       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recipe_item, parent, false);
  //       RecipeViewHolder rvh = new RecipeViewHolder(v, mListener);
  //       return rvh;
+
     }
 
     @Override
-    public void onBindViewHolder(RecipeViewHolder holder, int position) {
+    public void onBindViewHolder(RecipeViewHolder holder, final int position) {
         if (!mCursor.moveToPosition(position)) {
             return;
         }
 
-        String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
+        final String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
     //    RecipeItem currentItem = mRecipeList.get(position);
  //       holder.mTextView1.setText(currentItem.getText1());
-        holder.mTextView1.setText(recipieName);
+   //     holder.mTextView1.setText(recipieName);
+ //       holder.mTextView1.setText(mCursor.getPosition());
+        holder.mTextView1.setText(String.valueOf(mCursor.getPosition()));
+//        holder.mTextView1.setText(mCursor.getColumnIndex("ID"));
+
+        holder.mTextView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
+
+                Toast.makeText(mContext, position, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(mContext, IngredientScreen.class);
+                intent.putExtra("recipieName", mCursor.getPosition());
+                mContext.startActivity(intent);
+
+            }
+        });
+
+
     }
 
     @Override
@@ -109,6 +140,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return mCursor.getCount();
     }
 
+    /*
     public void swapCursor(Cursor newCursor) {
         if (mCursor != null) {
             mCursor.close();
@@ -119,19 +151,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         if (newCursor != null) {
             notifyDataSetChanged();
         }
-    }
-
-    /*
-    @Override
-    public int getItemCount() {
-        return mRecipeList.size();
-    }
-    /*
-
-    //Custom method to get item (was done by default with listView...)
-    /*
-    public ArrayList<RecipeItem> getItem(int position) {
-        return mRecipeList.get(position);
     }
     */
 }

@@ -29,6 +29,8 @@ import com.example.devin.recipiebox.database.model.RecipieDatabase;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
  //       editable_recipie_counter_item = (EditText) findViewById(R.id.editable_recipie_counter_item);
 
  //       createExampleList(); //just to throw some data in there...
-  //      buildRecyclerView(); //buildRecyclerView();
+        buildRecyclerView(); //buildRecyclerView();
         setButtons();
 
 //        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -317,7 +319,10 @@ public class MainActivity extends AppCompatActivity {
 
                 //        mRecipeList.get(position).changeText1(text);
             */
-                changeItem(position, "Clicked!");
+          //      changeItem(position, "Clicked!");
+//                RecipeAdapter.RecipeViewHolder
+           //     String recipieName = ((TextView) itemView
+
             }
 
             @Override
@@ -378,9 +383,10 @@ public class MainActivity extends AppCompatActivity {
 
         String recipieName = editTextInsert.getText().toString();
         mDatabaseHelper.addRecipieData(recipieName);
-        mAdapter.swapCursor(getAllItems());
+   //     mAdapter.swapCursor(getAllItems());
 
         editTextInsert.getText().clear();
+
 
     }
 
