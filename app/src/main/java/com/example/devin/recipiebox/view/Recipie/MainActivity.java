@@ -142,15 +142,33 @@ public class MainActivity extends AppCompatActivity {
 
         if (insertData) {
             toastMessage("Data successfully inserted!");
+            mAdapter.notifyDataSetChanged();
+            finish();
+            startActivity(getIntent());
         } else {
             toastMessage("Something went wrong!");
         }
     }
 
-    public void removeItem(int position) {
+    public void removeItem(int position, String recipieName) {
 //        mRecipeList.remove(position);
+
+        Cursor data =mDatabaseHelper.getRecipieItemID(recipieName);
+        int itemID = -1;
+        while(data.moveToNext()) {
+            itemID = data.getInt(0);
+        }
+        Log.d(TAG, "recipieId: " + itemID + " and recipie name is: " + recipieName);
+//        mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
+          mDatabaseHelper.deleteRecipieName(itemID, recipieName);
 //        mAdapter.notifyItemRemoved(position);
- //       mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
+//       mAdapter.notifyDataSetChanged();
+//        mRecipeList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+        finish();
+        overridePendingTransition(0, 0); //Get rid of blink after activity recreation
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);//Get rid of blink after activity recreation
         toastMessage("Removed from database");
     }
 
@@ -326,14 +344,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDeleteClick(int position) {
-                makeDialog(position);
-      //          removeItem(position);
+            public void onDeleteClick(int position, String recipeName) {
+                makeDialog(position, recipeName);
             }
         });
     }
 
-    public void makeDialog(final int position) {
+    public void makeDialog(final int position, final String recipeName) {
         AlertDialog.Builder builder =new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Delete Recipie");
         builder.setMessage("Are you sure you want to delete the recipie?");
@@ -341,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                removeItem(position);
+                removeItem(position, recipeName);
                 Toast.makeText(MainActivity.this, "Thanks!",Toast.LENGTH_SHORT).show();
             }
         });

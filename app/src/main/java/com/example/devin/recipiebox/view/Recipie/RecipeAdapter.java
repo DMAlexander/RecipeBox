@@ -34,7 +34,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public interface OnItemClickListener {
         void onItemClick(int position);
 
-        void onDeleteClick(int position);
+        void onDeleteClick(int position, String recipeName);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -83,9 +83,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 @Override
                 public void onClick(View v) { //This tells us the mDeleteImage can be deleted...
                     if (listener != null) {
-                        int position = getAdapterPosition();
+                        final int position = getAdapterPosition();
+                        String recipeName = mTextView1.getText().toString();
+                        Log.d(TAG, "recipie Name is: " + recipeName);
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position);
+                            listener.onDeleteClick(position, recipeName);
                         }
                     }
                 }
@@ -113,25 +115,26 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         final String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
     //    RecipeItem currentItem = mRecipeList.get(position);
  //       holder.mTextView1.setText(currentItem.getText1());
-   //     holder.mTextView1.setText(recipieName);
+        holder.mTextView1.setText(recipieName);
  //       holder.mTextView1.setText(mCursor.getPosition());
-        holder.mTextView1.setText(String.valueOf(mCursor.getPosition()));
+//        holder.mTextView1.setText(String.valueOf(mCursor.getPosition()));
 //        holder.mTextView1.setText(mCursor.getColumnIndex("ID"));
+        Log.d(TAG, "Recipie Name value is: " + recipieName);
 
         holder.mTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
 
-                Toast.makeText(mContext, position, Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(mContext, position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, IngredientScreen.class);
-                intent.putExtra("recipieName", mCursor.getPosition());
+    //            intent.putExtra("RecipieName", mCursor.getPosition());
+                intent.putExtra("RecipieName", recipieName);
                 mContext.startActivity(intent);
 
             }
-        });
 
+        });
 
     }
 

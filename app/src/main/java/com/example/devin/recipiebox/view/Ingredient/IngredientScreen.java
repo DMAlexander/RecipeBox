@@ -75,7 +75,7 @@ public class IngredientScreen extends AppCompatActivity {
   //      selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
     //    //get the itemId we passed as an extra (From Ingredient Info screen)
         selectedIngredientID = receivedIntent.getIntExtra("IngredientId", -1);
-
+        selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
         //set text to show current selected name
         editable_recipie_item.setText(selectedRecipieName);
 
@@ -107,15 +107,21 @@ public class IngredientScreen extends AppCompatActivity {
         btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                }
                 String newEntry2 = spinner.getSelectedItem().toString();
                 int num = 1;
                 num = Integer.parseInt(newEntry2);
                 String newEntry3 = spinner2.getSelectedItem().toString();
                 String newEntry = editable_ingredient_item.getText().toString();
                 if (editable_ingredient_item.length() != 0) {
-                    mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, selectedRecipieID);
-                    toastMessage("Values added: " + newEntry + " , " + num + ", " + newEntry3 + ", " + selectedRecipieID);
-
+//                    mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, selectedRecipieID);
+                    mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, itemID);
+//                    toastMessage("Values added: " + newEntry + " , " + num + ", " + newEntry3 + ", " + selectedRecipieID);
+                    toastMessage("Values added: " + newEntry + " , " + num + ", " + newEntry3 + ", " + itemID);
                     toastMessage("Data successfully inserted!");
                     finish();
                     startActivity(getIntent());
@@ -180,11 +186,21 @@ public class IngredientScreen extends AppCompatActivity {
         //get name we passed as an extra
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
 
+        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+        int itemID = -1;
+        while(data.moveToNext()) {
+            itemID = data.getInt(0);
+        }
+        if (itemID > 1) {
+            Log.d(TAG, "The RecipieID is: " + itemID);
+        }
+
         Log.d(TAG, "populate ingredient listview: Displaying data in the ingredient listview");
  //       Log.d(TAG, "This data is based on recipieID: " + selectedRecipieID + " And recipieName: " + selectedRecipieName);
-        Log.d(TAG, "This data is based on recipieID: " + selectedRecipieID + " and recipieName: " + selectedRecipieName);
+        Log.d(TAG, "This data is based on recipieID: " + selectedRecipieID + " and recipieName: " + itemID);
         //get data and append to a list
-        Cursor data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
+  //      data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
+        data = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
 //        Cursor data = mDatabaseHelper.getIngredientData();
         ArrayList<String> listData = new ArrayList<>();
         while(data.moveToNext()){
