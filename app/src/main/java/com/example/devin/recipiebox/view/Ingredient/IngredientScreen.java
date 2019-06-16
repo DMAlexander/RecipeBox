@@ -1,11 +1,15 @@
 package com.example.devin.recipiebox.view.Ingredient;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,12 +36,14 @@ public class IngredientScreen extends AppCompatActivity {
 
     private static final String TAG = "EditDataActivity";
 
-    private Button btnSave,btnDelete,btnIngredientAdd, addImage;
+//    private Button btnSave,btnDelete,btnIngredientAdd, addImage;
+    private Button btnIngredientAdd;
     private EditText editable_recipie_item, editable_ingredient_item;
-    private ListView mListView;
-    private ImageView imageView;
+//    private ListView mListView;
+ //   private ImageView imageView;
 
     DatabaseHelper mDatabaseHelper;
+    private IngredientEditAdapter mAdapter;
 
     private String selectedRecipieName;
     private int selectedRecipieID;
@@ -51,22 +57,23 @@ public class IngredientScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //      setContentView(R.layout.activity_ingredient_screen);
         setContentView(R.layout.activity_ingredient_screen);
-        btnSave = (Button) findViewById(R.id.btnSave);
-        btnDelete = (Button) findViewById(R.id.btnDelete);
+ //       btnSave = (Button) findViewById(R.id.btnSave);
+ //       btnDelete = (Button) findViewById(R.id.btnDelete);
         btnIngredientAdd = (Button) findViewById(R.id.btnIngredientAdd);
-        addImage = (Button) findViewById(R.id.addImage);
-        imageView = (ImageView) findViewById(R.id.imageView);
+ //       addImage = (Button) findViewById(R.id.addImage);
+ //       imageView = (ImageView) findViewById(R.id.imageView);
         editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
         editable_ingredient_item = (EditText) findViewById(R.id.editable_ingredient_item);
-        mListView = (ListView) findViewById(R.id.listView);
+ //       mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner2 = (Spinner) findViewById(R.id.spinner2);
+        setButtons();
 
      //   spinner.setOnItemSelectedListener(this);
  //       spinner2.setOnItemSelectedListener(this);
 
-        populateIngredientListView();
+//        populateIngredientListView();
         //get intent extra from the ListDataActivity
         Intent receivedIntent = getIntent();
         //get the itemID we passed as extra (From main screen)
@@ -79,6 +86,25 @@ public class IngredientScreen extends AppCompatActivity {
         //set text to show current selected name
         editable_recipie_item.setText(selectedRecipieName);
 
+        //Recycler View Declaration...
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new IngredientEditAdapter(this, getAllItems());
+        recyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new IngredientEditAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position, String ingredientName) {
+                makeDialog(position, ingredientName);
+            }
+        });
+
+/*
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,8 +128,8 @@ public class IngredientScreen extends AppCompatActivity {
                 Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
                 startActivity(intent);
             }
-        });
-
+        }); */
+/*
         btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +156,7 @@ public class IngredientScreen extends AppCompatActivity {
                 }
             }
         });
+        */
 
         //Create an ArrayAdapter using the string array and a default spinner layout
 
@@ -179,6 +206,7 @@ public class IngredientScreen extends AppCompatActivity {
 
 
     //Everything in this view should be ingredient related....
+    /*
     private void populateIngredientListView() {
         Intent receivedIntent = getIntent();
         //get the itemID we passed as extra
@@ -235,6 +263,7 @@ public class IngredientScreen extends AppCompatActivity {
         });
 
     }
+    */
 /*
     public void AddData(String newEntry) {
         boolean insertData = mDatabaseHelper.addIngredientData(newEntry);
@@ -245,6 +274,108 @@ public class IngredientScreen extends AppCompatActivity {
             toastMessage("Something went wrong");
         }
     } */
+
+    public void insertItem(String ingredientName) {
+
+        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+        int itemID = -1;
+        while (data.moveToNext()) {
+            itemID = data.getInt(0);
+        }
+        String newEntry2 = spinner.getSelectedItem().toString();
+        int num = 1;
+        num = Integer.parseInt(newEntry2);
+        String newEntry3 = spinner2.getSelectedItem().toString();
+        String newEntry = editable_ingredient_item.getText().toString();
+        if (editable_ingredient_item != null) {
+            boolean insertData = mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, itemID); //we need all 3 parameters here...
+            if (insertData) {
+                toastMessage("Data successfully inserted!");
+                mAdapter.notifyDataSetChanged();
+                finish();
+                startActivity(getIntent());
+            } else {
+                toastMessage("Something went wrong!");
+            }
+        } else {
+            toastMessage("Put something in the text field!");
+        }
+    }
+
+    public void removeItem(int position, String ingredientName) {
+
+        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+        int recipieID = -1;
+        while (data.moveToNext()) {
+            recipieID = data.getInt(0);
+        }
+        data = mDatabaseHelper.getIngredientItemID(ingredientName, recipieID);
+        int itemID = -1;
+        while (data.moveToNext()) {
+            itemID = data.getInt(0);
+        }
+        Log.d(TAG, "ingredientId: " + itemID + " and ingredient name is: " + ingredientName);
+        mDatabaseHelper.deleteIngredientName(itemID, ingredientName);
+
+        mAdapter.notifyItemRemoved(position);
+        mAdapter.notifyDataSetChanged();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+        toastMessage("Removed from database");
+    }
+
+    public void makeDialog(final int position, final String ingredientName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(IngredientScreen.this);
+        builder.setTitle("Delete Ingredient");
+        builder.setMessage("Are you sure you want to delete the ingredient?");
+
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                removeItem(position, ingredientName);
+                Toast.makeText(IngredientScreen.this, "Thanks!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(IngredientScreen.this, "Sorry",Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.create().show();
+    }
+
+    public void setButtons() {
+        btnIngredientAdd = findViewById(R.id.btnIngredientAdd);
+        btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ingredientName = editable_ingredient_item.getText().toString();
+                if (editable_ingredient_item.length() != 0) {
+                    insertItem(ingredientName);
+                    editable_ingredient_item.setText("");
+                } else {
+                    toastMessage("Please put something in the textbox!");
+                }
+            }
+        });
+
+    }
+
+    private Cursor getAllItems() {
+        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+        int itemID = -1;
+        while (data.moveToNext()) {
+            itemID = data.getInt(0);
+        }
+        if(itemID > 1) {
+            Log.d(TAG, "The RecipieID is: " + itemID);
+        }
+        return mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
+    }
 
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
