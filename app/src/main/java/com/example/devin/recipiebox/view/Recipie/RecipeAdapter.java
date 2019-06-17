@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
 
 import org.w3c.dom.Text;
 
@@ -126,9 +127,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
 
-//                Toast.makeText(mContext, position, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, IngredientScreen.class);
-    //            intent.putExtra("RecipieName", mCursor.getPosition());
+     //           Intent intent = new Intent(mContext, IngredientScreen.class);
+                Intent intent = new Intent(mContext, IngredientInfo.class); //we're re-routing to IngredientInfo instead...
                 intent.putExtra("RecipieName", recipieName);
                 mContext.startActivity(intent);
 

@@ -29,12 +29,13 @@
         <activity android:name=".view.Recipie.RecipieScreen" />
         <activity android:name=".view.ShoppingCart.ShoppingCartList" />
         <activity android:name=".view.Ingredient.IngredientScreen" />
-        <activity android:name=".view.Ingredient.IngredientInfo" />
+        <activity android:name=".view.PublishedIngredient.IngredientInfo" />
         <activity android:name=".view.ShoppingCart.EditShoppingCart" />
         <activity android:name=".view.Recipie.MainActivity" />
         <!-- <activity android:name=".view.MainMenu"></activity> -->
         <activity android:name=".view.RecipieCategories" />
-        <activity android:name=".view.Recipie.RecipeItem"></activity>
+        <activity android:name=".view.Recipie.RecipeItem" />
+        <activity android:name=".view.PublishedIngredient.IngredientInfoItem"></activity>
     </application>
 
 </manifest>

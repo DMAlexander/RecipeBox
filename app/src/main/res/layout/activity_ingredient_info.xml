@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+<!--
     <EditText
         android:textAlignment="center"
         android:layout_width="match_parent"
@@ -14,6 +14,31 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="78dp"
         android:id="@+id/editable_item" />
+-->
+
+    <TextView
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:text="Recipie Name"
+        android:textSize="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="78dp"
+        android:id="@+id/editable_item" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:background="@android:color/darker_gray"
+        android:padding="4dp"
+        android:layout_marginTop="120dp"
+        android:scrollbars="vertical" />
+    <!--
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +61,7 @@
         android:layout_toRightOf="@+id/btnDelete"
         android:id="@+id/btnSave"
         />
+
     </LinearLayout>
 
     <ListView
@@ -45,5 +71,5 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="208dp" />
-
+-->
 </RelativeLayout>
