@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private RecipeAdapter mAdapter;
     private Button buttonInsert;
     private EditText editTextInsert;
+    private Button newRecipie;
 
    private ListView mListView, ch1;
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecipeAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
-
+        newRecipie = (Button) findViewById(R.id.newRecipie);
 //        mListView = (ListView) findViewById(R.id.listView);
 //        mDatabaseHelper = new DatabaseHelper(this);
  //       btnNavigate = (Button) findViewById(R.id.btnNavigate);
@@ -127,6 +128,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 */
+    newRecipie.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
+            startActivity(editScreenIntent);
+        }
+    });
     }
 /*
     public void insertItem(int position) {
@@ -135,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.notifyItemInserted(position);
     }
     */
+
 
     public void insertItem(String recipieName) {
   //      mRecipeList.add(new RecipieItem(RecipieName));

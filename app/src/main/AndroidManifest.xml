@@ -35,7 +35,9 @@
         <!-- <activity android:name=".view.MainMenu"></activity> -->
         <activity android:name=".view.RecipieCategories" />
         <activity android:name=".view.Recipie.RecipeItem" />
-        <activity android:name=".view.PublishedIngredient.IngredientInfoItem"></activity>
+        <activity android:name=".view.PublishedIngredient.IngredientInfoItem" />
+        <activity android:name=".view.RecipieFolders.RecipieFolder" />
+        <activity android:name=".view.RecipieFolders.RecipieFolderItem"></activity>
     </application>
 
 </manifest>
