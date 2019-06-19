@@ -6,18 +6,19 @@ import android.os.Bundle;
 import com.example.devin.recipiebox.R;
 
 public class RecipieFolderItem {
-    private String mText1;
-    private String mText2;
-    private String mText3;
+    private String mText;
+    private int mDrawable;
+    private String mColor;
 
-    public RecipieFolderItem(String text1, String text2, String text3) {
-        mText1 = text1;
-        mText2 = text2;
-        mText3 = text3;
+    public RecipieFolderItem(String text, int drawable, String color) {
+        mText = text;
+        mDrawable = drawable;
+        mColor = color;
+
     }
-
+/*
     public String getmText1() {
-        return mText1;
+        return mText;
     }
 
     public String getmText2() {
@@ -26,7 +27,7 @@ public class RecipieFolderItem {
 
     public String getmText3() {
         return mText3;
-    }
+    } */
 }
 
 

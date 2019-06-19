@@ -10,11 +10,12 @@ import android.widget.ImageView;
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.Recipie.RecipieScreen;
+import com.example.devin.recipiebox.view.RecipieFolders.RecipieFolder;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 public class MainMenu extends AppCompatActivity {
 
-    private Button btnShoppingCart, btnRecipie;
+    private Button btnShoppingCart, btnRecipie, btnRecipieFolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         btnRecipie = (Button) findViewById(R.id.btnRecipie);
+        btnRecipieFolder = (Button) findViewById(R.id.btnRecipieFolder);
 
         ImageView myImageView = (ImageView) findViewById(R.id.my_image_view);
         myImageView.setImageResource(R.drawable.androiddeletepicture);
@@ -39,6 +41,14 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenu.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnRecipieFolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, RecipieFolder.class);
                 startActivity(intent);
             }
         });
