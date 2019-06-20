@@ -1,6 +1,7 @@
 package com.example.devin.recipiebox.view.RecipieFolders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.devin.recipiebox.R;
+import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
 
@@ -66,6 +68,21 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         if (!mCursor.moveToPosition(position)) {
             return;
         }
+
+        final int recipieFolderID = mCursor.getInt(mCursor.getColumnIndex("FolderID"));
+        final String recipieFolderValue = mCursor.getString(mCursor.getColumnIndex("RecipieFolderName"));
+        holder.mTextView1.setText(recipieFolderValue);
+
+        holder.mTextView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
+                Log.d(TAG, "onClick: recipieFolderID is: " + recipieFolderID);
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("FolderID", recipieFolderID);
+                mContext.startActivity(intent);
+            }
+        });
 
 //        final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
 //        holder.mTextView1.setText(spinner1Value);

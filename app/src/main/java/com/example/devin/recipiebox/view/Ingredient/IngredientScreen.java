@@ -37,7 +37,7 @@ public class IngredientScreen extends AppCompatActivity {
     private static final String TAG = "EditDataActivity";
 
 //    private Button btnSave,btnDelete,btnIngredientAdd, addImage;
-    private Button btnIngredientAdd;
+    private Button btnIngredientAdd, btnIngredientInfo;
     private EditText editable_recipie_item, editable_ingredient_item;
 //    private ListView mListView;
  //   private ImageView imageView;
@@ -362,6 +362,8 @@ public class IngredientScreen extends AppCompatActivity {
                 }
             }
         });
+
+        btnIngredientInfo = findViewById(R.id.btnIngredientInfo);
 
     }
 

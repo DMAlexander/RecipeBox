@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonInsert;
     private EditText editTextInsert;
     private Button newRecipie;
+    private int selectedRecipieFolderID;
 
    private ListView mListView, ch1;
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
@@ -63,11 +64,15 @@ public class MainActivity extends AppCompatActivity {
    //     mDatabaseHelper = dbHelper.getWritableDatabase();
         mDatabaseHelper = new DatabaseHelper(this);
 
+        Intent recievedIntent = getIntent();
+        selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
+        Log.d(TAG, "recipie folder Id value is: " + selectedRecipieFolderID);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RecipeAdapter(this, getAllItems());
+        mAdapter = new RecipeAdapter(this, getAllItems(selectedRecipieFolderID));
         recyclerView.setAdapter(mAdapter);
         newRecipie = (Button) findViewById(R.id.newRecipie);
+
 //        mListView = (ListView) findViewById(R.id.listView);
 //        mDatabaseHelper = new DatabaseHelper(this);
  //       btnNavigate = (Button) findViewById(R.id.btnNavigate);
@@ -145,9 +150,10 @@ public class MainActivity extends AppCompatActivity {
     */
 
 
-    public void insertItem(String recipieName) {
+    public void insertItem(String recipieName, int selectedRecipieFolderID) {
   //      mRecipeList.add(new RecipieItem(RecipieName));
-        boolean insertData = mDatabaseHelper.addRecipieData(recipieName);
+
+        boolean insertData = mDatabaseHelper.addRecipieData(recipieName, selectedRecipieFolderID);
 
         if (insertData) {
             toastMessage("Data successfully inserted!");
@@ -385,6 +391,9 @@ public class MainActivity extends AppCompatActivity {
         buttonInsert = findViewById(R.id.button_insert);
         editTextInsert = findViewById(R.id.edittext_insert);
 
+//        Intent recievedIntent = getIntent();
+//        selectedRecipieFolderID = recievedIntent.getIntExtra("folderID", -1);
+
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -392,7 +401,7 @@ public class MainActivity extends AppCompatActivity {
                 //   insertItem(position);
                 String recipieName = editTextInsert.getText().toString();
                 if (editTextInsert.length() != 0) {
-                    insertItem(recipieName);
+                    insertItem(recipieName, selectedRecipieFolderID);
                     editTextInsert.setText("");
                 } else {
                     toastMessage("Please put something in the textbox!");
@@ -401,14 +410,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private Cursor getAllItems() {
-        return mDatabaseHelper.getRecipieData();
+    private Cursor getAllItems(int selectedRecipieFolderID) {
+//        return mDatabaseHelper.getRecipieData();
+
+  //      Intent recievedIntent = getIntent();
+  //      selectedRecipieFolderID = recievedIntent.getIntExtra("folderID", -1);
+
+        return mDatabaseHelper.getRecipiesByFolder(selectedRecipieFolderID);
     }
 
     private void addItem() {
 
         String recipieName = editTextInsert.getText().toString();
-        mDatabaseHelper.addRecipieData(recipieName);
+ //       mDatabaseHelper.addRecipieData(recipieName);
    //     mAdapter.swapCursor(getAllItems());
 
         editTextInsert.getText().clear();

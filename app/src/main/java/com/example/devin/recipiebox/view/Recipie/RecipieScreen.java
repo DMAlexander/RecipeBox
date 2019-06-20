@@ -3,6 +3,7 @@ package com.example.devin.recipiebox.view.Recipie;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,7 @@ public class RecipieScreen extends AppCompatActivity {
         btnViewIngredientData = (Button) findViewById(R.id.btnIngredientView);
         mDatabaseHelper = new DatabaseHelper(this);
 
+/*
         btnRecipieAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,7 +46,7 @@ public class RecipieScreen extends AppCompatActivity {
                     toastMessage("Put something in the text field!");
                 }
             }
-        });
+        }); */
 /*
         btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +78,7 @@ public class RecipieScreen extends AppCompatActivity {
         });
     }
 
-
+/*
     public void AddRecipieData(String newEntry) {
         boolean insertData = mDatabaseHelper.addRecipieData(newEntry);
 
@@ -85,7 +87,7 @@ public class RecipieScreen extends AppCompatActivity {
         } else {
             toastMessage("Something went wrong");
         }
-    }
+    } */
 /*
     public void AddIngredientData(String newEntry) {
         boolean insertData = mDatabaseHelper.addIngredientData(newEntry);

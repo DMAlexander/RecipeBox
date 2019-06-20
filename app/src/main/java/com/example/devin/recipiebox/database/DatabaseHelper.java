@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME2 = "ingredient_table";
     private static final String TABLE_NAME3 = "recipie_and_ingredient_table";
     private static final String TABLE_NAME4 = "shoppingcart_table";
+    private static final String TABLE_NAME5 = "recipe_folder_table";
 
 
     private static final String COLUMN_RECIPIE_ID = "ID";
@@ -37,6 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_INGREDIENT_RECIPIE_ID = "ID"; //COL5 /passed in from recipie table
     private static final String COLUMN_INGREDIENT_QUANTITY = "Quantity";
     private static final String COLUMN_INGREDIENT_MEASUREMENT_TYPE = "MeasurementType";
+    private static final String COLUMN_RECIPIE_FOLDER_NAME = "RecipieFolderName";
+    private static final String COLUMN_RECIPIE_FOLDER_ID = "FolderID";
 
     /*
     private static final String COL1 = "ID";
@@ -47,14 +50,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 21);
+        super(context, DATABASE_NAME, null, 25);
     }
 
     //Create Tables...
 
     private static final String createTable = "CREATE TABLE " + TABLE_NAME + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COLUMN_RECIPIE_NAME +" TEXT)";
+            + COLUMN_RECIPIE_NAME +" TEXT, "
+            + COLUMN_RECIPIE_FOLDER_ID + " INTEGER)";
 
     /*
     private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
@@ -82,8 +86,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_INGREDIENT_NAME +" TEXT)";
 
-
-
+    private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
+            + "(FolderID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_RECIPIE_FOLDER_NAME +" TEXT)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -91,6 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTable2);
         db.execSQL(createTable3);
         db.execSQL(createTable4);
+        db.execSQL(createTable5);
     }
 
     @Override
@@ -99,14 +105,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME2);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME3);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME4);
+        db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME5);
         onCreate(db);
     }
 
 
-    public boolean addRecipieData(String item) {
+    public boolean addRecipieData(String item, int FolderID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_RECIPIE_NAME, item);
+        contentValues.put(COLUMN_RECIPIE_FOLDER_ID, FolderID);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
 
@@ -137,6 +145,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
+
+    public boolean addRecipieFolderData(String item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_RECIPIE_FOLDER_NAME, item);
+
+        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME5);
+        long result = db.insert(TABLE_NAME5, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 /*
     public boolean addShoppingCartData(String item) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -187,6 +210,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getRecipieFolderData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME5;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     public Cursor getRecipieAndIngredientData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME3;
@@ -198,6 +228,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME2 +
                 " WHERE " + COLUMN_INGREDIENT_RECIPIE_ID + " = '" + RecipieId + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public Cursor getRecipiesByFolder(int FolderID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_RECIPIE_FOLDER_ID + " = '" + FolderID + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -219,6 +257,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(query, null);
         return data;
     }
+
     /*
     public Cursor getIngredientRecipieItemID(String IngredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
