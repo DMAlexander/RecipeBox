@@ -136,6 +136,10 @@ public class MainActivity extends AppCompatActivity {
     newRecipie.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
+   //         Cursor data =mDatabaseHelper.getRecipieItemID(recipieName);
+            Cursor data =mDatabaseHelper.getRecipieData();
+
             Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
             startActivity(editScreenIntent);
         }

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
@@ -364,6 +365,27 @@ public class IngredientScreen extends AppCompatActivity {
         });
 
         btnIngredientInfo = findViewById(R.id.btnIngredientInfo);
+        btnIngredientInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                }
+                if(itemID > 1) {
+                    Log.d(TAG, "The RecipieID is: " + itemID);
+                }
+       //         return mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
+
+                Intent intent = new Intent(IngredientScreen.this, IngredientInfo.class);
+                intent.putExtra("RecipieId", itemID);
+                intent.putExtra("RecipieName", selectedRecipieName);
+                Log.d(TAG, "The RecipieId is: " + itemID);
+                startActivity(intent);
+            }
+        });
 
     }
 

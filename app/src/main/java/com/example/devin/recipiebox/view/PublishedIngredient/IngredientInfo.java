@@ -68,7 +68,7 @@ public class IngredientInfo extends AppCompatActivity {
         //get the recipieID which is attached to the table...
         selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1);
         //set text to show current selected name
-        editable_item.setText(selectedRecipieName);
+        editable_item.setText(selectedRecipieName + " " + selectedRecipieID);
 
         //Recycler View Declaration...
         RecyclerView recyclerView = findViewById(R.id.recyclerView);

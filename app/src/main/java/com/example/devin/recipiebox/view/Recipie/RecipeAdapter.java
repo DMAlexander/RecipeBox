@@ -128,7 +128,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
 
      //           Intent intent = new Intent(mContext, IngredientScreen.class);
-                Intent intent = new Intent(mContext, IngredientInfo.class); //we're re-routing to IngredientInfo instead...
+                Intent intent = new Intent(mContext, IngredientScreen.class);
+//                Intent intent = new Intent(mContext, IngredientInfo.class); //we're re-routing to IngredientInfo instead...
                 intent.putExtra("RecipieName", recipieName);
                 mContext.startActivity(intent);
 
