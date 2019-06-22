@@ -35,6 +35,7 @@ public class IngredientInfo extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 //    private Button btnSave,btnDelete;
 //    private EditText editable_item;
+    private Button btnNavToRecipies;
     private TextView editable_item;
     private IngredientInfoAdapter mAdapter;
     private String selectedIngredientName;
@@ -51,6 +52,7 @@ public class IngredientInfo extends AppCompatActivity {
         //      btnDelete = (Button) findViewById(R.id.btnDelete);
 //        editable_item = (EditText) findViewById(R.id.editable_item);
         editable_item = (TextView) findViewById(R.id.editable_item);
+        btnNavToRecipies = (Button) findViewById(R.id.btnNavToRecipies);
         mDatabaseHelper = new DatabaseHelper(this);
         mListView = (ListView) findViewById(R.id.listView);
  //       populateListView();
@@ -69,7 +71,7 @@ public class IngredientInfo extends AppCompatActivity {
         selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1);
         //set text to show current selected name
         editable_item.setText(selectedRecipieName + " " + selectedRecipieID);
-
+        getSupportActionBar().setTitle(selectedRecipieName);
         //Recycler View Declaration...
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -85,6 +87,14 @@ public class IngredientInfo extends AppCompatActivity {
             @Override
             public void onDeleteClick(int position, String ingredientName) {
                 makeDialog(position, ingredientName);
+            }
+        });
+
+        btnNavToRecipies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IngredientInfo.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

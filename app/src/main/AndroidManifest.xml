@@ -38,6 +38,7 @@
         <activity android:name=".view.PublishedIngredient.IngredientInfoItem" />
         <activity android:name=".view.RecipieFolders.RecipieFolder" />
         <activity android:name=".view.RecipieFolders.RecipieFolderItem"></activity>
+        <activity android:name=".view.Recipie.RecipieInsert"></activity>
     </application>
 
 </manifest>

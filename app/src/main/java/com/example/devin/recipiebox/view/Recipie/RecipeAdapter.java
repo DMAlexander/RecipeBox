@@ -144,6 +144,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return mCursor.getCount();
     }
 
+
     /*
     public void swapCursor(Cursor newCursor) {
         if (mCursor != null) {

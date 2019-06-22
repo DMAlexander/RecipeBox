@@ -86,6 +86,7 @@ public class IngredientScreen extends AppCompatActivity {
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
         //set text to show current selected name
         editable_recipie_item.setText(selectedRecipieName);
+        getSupportActionBar().setTitle(selectedRecipieName);
 
         //Recycler View Declaration...
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -287,9 +288,9 @@ public class IngredientScreen extends AppCompatActivity {
         int num = 1;
         num = Integer.parseInt(newEntry2);
         String newEntry3 = spinner2.getSelectedItem().toString();
-        String newEntry = editable_ingredient_item.getText().toString();
+  //      String newEntry = editable_ingredient_item.getText().toString();
         if (editable_ingredient_item != null) {
-            boolean insertData = mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, itemID); //we need all 3 parameters here...
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, itemID); //we need all 3 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
                 mAdapter.notifyDataSetChanged();

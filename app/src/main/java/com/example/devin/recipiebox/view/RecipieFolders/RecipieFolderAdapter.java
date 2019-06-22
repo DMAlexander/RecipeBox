@@ -70,8 +70,8 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         }
 
         final int recipieFolderID = mCursor.getInt(mCursor.getColumnIndex("FolderID"));
-        final String recipieFolderValue = mCursor.getString(mCursor.getColumnIndex("RecipieFolderName"));
-        holder.mTextView1.setText(recipieFolderValue);
+        final String recipieFolderName = mCursor.getString(mCursor.getColumnIndex("RecipieFolderName"));
+        holder.mTextView1.setText(recipieFolderName);
 
         holder.mTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +80,7 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
                 Log.d(TAG, "onClick: recipieFolderID is: " + recipieFolderID);
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra("FolderID", recipieFolderID);
+                intent.putExtra("RecipieFolderName", recipieFolderName);
                 mContext.startActivity(intent);
             }
         });

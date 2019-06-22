@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextInsert;
     private Button newRecipie;
     private int selectedRecipieFolderID;
+    private String selectedRecipieFolderName;
 
    private ListView mListView, ch1;
     private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         Intent recievedIntent = getIntent();
         selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
         Log.d(TAG, "recipie folder Id value is: " + selectedRecipieFolderID);
+        selectedRecipieFolderName = recievedIntent.getStringExtra("RecipieFolderName");
+        getSupportActionBar().setTitle(selectedRecipieFolderName); // I need to pass in the Folder Name...
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecipeAdapter(this, getAllItems(selectedRecipieFolderID));
@@ -133,14 +137,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 */
+
     newRecipie.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-   //         Cursor data =mDatabaseHelper.getRecipieItemID(recipieName);
-            Cursor data =mDatabaseHelper.getRecipieData();
-
-            Intent editScreenIntent = new Intent(MainActivity.this, IngredientScreen.class);
+            Intent editScreenIntent = new Intent(MainActivity.this, RecipieInsert.class);
             startActivity(editScreenIntent);
         }
     });
