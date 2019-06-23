@@ -87,6 +87,7 @@ public class IngredientEditAdapter extends RecyclerView.Adapter<IngredientEditAd
         return new IngredientViewHolder(view, mListener);
     }
 
+
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, int position) {
         if (!mCursor.moveToPosition(position)) {
@@ -112,4 +113,5 @@ public class IngredientEditAdapter extends RecyclerView.Adapter<IngredientEditAd
     public int getItemCount() {
         return mCursor.getCount();
     }
+
 }

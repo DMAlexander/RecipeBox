@@ -27,7 +27,9 @@
         android:layout_marginBottom="100dp"
         android:background="@android:color/darker_gray"
         android:padding="4dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical" >
+
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:id="@+id/btnIngredientAdd"

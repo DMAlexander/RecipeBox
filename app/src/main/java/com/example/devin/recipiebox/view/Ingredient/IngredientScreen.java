@@ -1,5 +1,6 @@
 package com.example.devin.recipiebox.view.Ingredient;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.view.View;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -27,6 +30,7 @@ import android.widget.Toast;
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
+import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfoAdapter;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
@@ -53,6 +57,7 @@ public class IngredientScreen extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     private Spinner spinner, spinner2;
     Uri imageUri;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +95,7 @@ public class IngredientScreen extends AppCompatActivity {
         getSupportActionBar().setTitle(selectedRecipieName);
 
         //Recycler View Declaration...
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new IngredientEditAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
@@ -391,6 +396,8 @@ public class IngredientScreen extends AppCompatActivity {
 
     }
 
+
+
     private Cursor getAllItems() {
         Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
         int itemID = -1;
@@ -401,6 +408,13 @@ public class IngredientScreen extends AppCompatActivity {
             Log.d(TAG, "The RecipieID is: " + itemID);
         }
         return mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
+    }
+
+    //Method in progress..
+    public void onAddField(View v) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.activity_ingredient_item, null);
+        recyclerView.addView(rowView, recyclerView.getChildCount()-1);
     }
 
     private void toastMessage(String message) {
