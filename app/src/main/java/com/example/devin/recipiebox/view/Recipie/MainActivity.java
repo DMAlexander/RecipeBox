@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper mDatabaseHelper;
   //  private SQLiteDatabase mDatabaseHelper;
     private RecipeAdapter mAdapter;
-    private Button buttonInsert;
-    private EditText editTextInsert;
+//    private Button buttonInsert;
+//    private EditText editTextInsert;
     private Button newRecipie;
     private int selectedRecipieFolderID;
     private String selectedRecipieFolderName;
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
-
+/*
     public void insertItem(String recipieName, int selectedRecipieFolderID) {
   //      mRecipeList.add(new RecipieItem(RecipieName));
 
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             toastMessage("Something went wrong!");
         }
     }
-
+*/
     public void removeItem(int position, String recipieName) {
 //        mRecipeList.remove(position);
 
@@ -394,12 +394,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setButtons() {
-        buttonInsert = findViewById(R.id.button_insert);
-        editTextInsert = findViewById(R.id.edittext_insert);
+//        buttonInsert = findViewById(R.id.button_insert);
+//        editTextInsert = findViewById(R.id.edittext_insert);
 
 //        Intent recievedIntent = getIntent();
 //        selectedRecipieFolderID = recievedIntent.getIntExtra("folderID", -1);
-
+/*
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -413,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
                     toastMessage("Please put something in the textbox!");
                 }
             }
-        });
+        }); */
     }
 
     private Cursor getAllItems(int selectedRecipieFolderID) {
@@ -431,11 +431,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void addItem() {
 
-        String recipieName = editTextInsert.getText().toString();
+ //       String recipieName = editTextInsert.getText().toString();
  //       mDatabaseHelper.addRecipieData(recipieName);
    //     mAdapter.swapCursor(getAllItems());
 
-        editTextInsert.getText().clear();
+   //     editTextInsert.getText().clear();
 
 
     }

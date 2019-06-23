@@ -94,12 +94,6 @@ public class IngredientEditAdapter extends RecyclerView.Adapter<IngredientEditAd
             return;
         }
 
-        /*
-        mTextView1 = itemView.findViewById(R.id.spinner1Value);
-            mTextView2 = itemView.findViewById(R.id.spinner2Value);
-            mTextView3 = itemView.findViewById(R.id.ingredientTextView);
-         */
-
         final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
         holder.mTextView1.setText(spinner1Value);
         final String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
@@ -111,7 +105,7 @@ public class IngredientEditAdapter extends RecyclerView.Adapter<IngredientEditAd
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return mCursor.getCount()+1;
     }
 
 }

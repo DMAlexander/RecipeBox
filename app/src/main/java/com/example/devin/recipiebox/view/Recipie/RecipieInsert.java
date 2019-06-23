@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.NewIngredient.IngredientLayoutScreen;
 
 public class RecipieInsert extends AppCompatActivity {
 
@@ -56,7 +57,8 @@ public class RecipieInsert extends AppCompatActivity {
         if (insertData) {
             toastMessage("Data successfully inserted!");
 
-            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
+//            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
+            Intent intent = new Intent(RecipieInsert.this, IngredientLayoutScreen.class);
             intent.putExtra("RecipieName", recipieName);
             startActivity(intent);
         } else {
