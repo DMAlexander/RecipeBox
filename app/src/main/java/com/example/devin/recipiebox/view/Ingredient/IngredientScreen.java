@@ -39,7 +39,8 @@ public class IngredientScreen extends AppCompatActivity {
 
 //    private Button btnSave,btnDelete,btnIngredientAdd, addImage;
     private Button btnIngredientAdd, btnIngredientInfo;
-    private EditText editable_recipie_item, editable_ingredient_item;
+//    private EditText editable_recipie_item, editable_ingredient_item;
+    private EditText editable_ingredient_item;
 //    private ListView mListView;
  //   private ImageView imageView;
 
@@ -63,7 +64,7 @@ public class IngredientScreen extends AppCompatActivity {
         btnIngredientAdd = (Button) findViewById(R.id.btnIngredientAdd);
  //       addImage = (Button) findViewById(R.id.addImage);
  //       imageView = (ImageView) findViewById(R.id.imageView);
-        editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
+ //       editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
         editable_ingredient_item = (EditText) findViewById(R.id.editable_ingredient_item);
  //       mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
@@ -85,7 +86,7 @@ public class IngredientScreen extends AppCompatActivity {
         selectedIngredientID = receivedIntent.getIntExtra("IngredientId", -1);
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
         //set text to show current selected name
-        editable_recipie_item.setText(selectedRecipieName);
+//        editable_recipie_item.setText(selectedRecipieName);
         getSupportActionBar().setTitle(selectedRecipieName);
 
         //Recycler View Declaration...

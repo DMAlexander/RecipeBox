@@ -22,6 +22,7 @@ import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientEditAdapter;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class IngredientInfo extends AppCompatActivity {
     private String selectedRecipieName;
     private int selectedIngredientID;
     private int selectedRecipieID;
-    private ListView mListView;
+//    private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class IngredientInfo extends AppCompatActivity {
         editable_item = (TextView) findViewById(R.id.editable_item);
         btnNavToRecipies = (Button) findViewById(R.id.btnNavToRecipies);
         mDatabaseHelper = new DatabaseHelper(this);
-        mListView = (ListView) findViewById(R.id.listView);
+//        mListView = (ListView) findViewById(R.id.listView);
  //       populateListView();
 
 
@@ -93,7 +94,7 @@ public class IngredientInfo extends AppCompatActivity {
         btnNavToRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(IngredientInfo.this, MainActivity.class);
+                Intent intent = new Intent(IngredientInfo.this, MainMenu.class);
                 startActivity(intent);
             }
         });

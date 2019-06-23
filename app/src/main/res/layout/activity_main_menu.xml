@@ -7,24 +7,7 @@
     tools:context=".view.MainMenu">
 
     <Button
-        android:id="@+id/btnShoppingCart"
-        android:layout_width="258dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Shopping Cart List"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRecipie"
-        app:layout_constraintVertical_bias="0.096" />
-
-    <Button
-        android:id="@+id/btnRecipie"
+        android:id="@+id/btnAllRecipies"
         android:layout_width="258dp"
         android:layout_height="99dp"
         android:layout_marginStart="8dp"
@@ -32,29 +15,43 @@
         android:layout_marginTop="100dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="Recipies"
+        android:text="All Recipes"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnRecipieFolder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Folders"
-        />
-
-    <ImageView
-        android:id="@+id/my_image_view"
-        android:layout_width="57dp"
-        android:layout_height="52dp"
+        android:id="@+id/btnRecipieFolders"
+        android:layout_width="258dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="84dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Recipe Folders"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[0]" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAllRecipies" />
+
+    <Button
+        android:id="@+id/btnShoppingCart"
+        android:layout_width="258dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Shopping Cart List"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnRecipieFolders"
+        app:layout_constraintVertical_bias="0.096" />
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>

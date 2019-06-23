@@ -30,13 +30,13 @@ public class RecipieInsert extends AppCompatActivity {
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         mDatabaseHelper = new DatabaseHelper(this);
 
-        Intent recievedIntent = getIntent();
-        selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
-        Log.d(TAG, "recipie folder id value is: " + selectedRecipieFolderID);
-
         btnRecipeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent recievedIntent = getIntent();
+                selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
+                Log.d(TAG, "recipie folder id value is: " + selectedRecipieFolderID);
+
                 String recipieName = editRecipieText.getText().toString();
                 if (editRecipieText.length() != 0) {
                     insertItem(recipieName, selectedRecipieFolderID);

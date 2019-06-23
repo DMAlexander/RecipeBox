@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent editScreenIntent = new Intent(MainActivity.this, RecipieInsert.class);
+            editScreenIntent.putExtra("FolderID", selectedRecipieFolderID);
             startActivity(editScreenIntent);
         }
     });
@@ -421,7 +422,11 @@ public class MainActivity extends AppCompatActivity {
   //      Intent recievedIntent = getIntent();
   //      selectedRecipieFolderID = recievedIntent.getIntExtra("folderID", -1);
 
-        return mDatabaseHelper.getRecipiesByFolder(selectedRecipieFolderID);
+        if (selectedRecipieFolderID >0) {
+            return mDatabaseHelper.getRecipiesByFolder(selectedRecipieFolderID);
+        } else {
+            return mDatabaseHelper.getRecipieData();
+        }
     }
 
     private void addItem() {

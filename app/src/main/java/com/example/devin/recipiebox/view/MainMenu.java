@@ -15,18 +15,18 @@ import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 public class MainMenu extends AppCompatActivity {
 
-    private Button btnShoppingCart, btnRecipie, btnRecipieFolder;
+    private Button btnShoppingCart, btnRecipieFolders, btnAllRecipies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
-        btnRecipie = (Button) findViewById(R.id.btnRecipie);
-        btnRecipieFolder = (Button) findViewById(R.id.btnRecipieFolder);
+        btnRecipieFolders = (Button) findViewById(R.id.btnRecipieFolders);
+        btnAllRecipies = (Button) findViewById(R.id.btnAllRecipies);
 
-        ImageView myImageView = (ImageView) findViewById(R.id.my_image_view);
-        myImageView.setImageResource(R.drawable.androiddeletepicture);
+  //      ImageView myImageView = (ImageView) findViewById(R.id.my_image_view);
+  //      myImageView.setImageResource(R.drawable.androiddeletepicture);
 
 
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +37,7 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        btnRecipie.setOnClickListener(new View.OnClickListener() {
+        btnAllRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenu.this, MainActivity.class);
@@ -45,12 +45,14 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        btnRecipieFolder.setOnClickListener(new View.OnClickListener() {
+        btnRecipieFolders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenu.this, RecipieFolder.class);
                 startActivity(intent);
             }
         });
+
+
     }
 }

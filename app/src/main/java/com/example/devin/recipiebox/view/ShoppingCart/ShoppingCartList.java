@@ -1,9 +1,13 @@
 package com.example.devin.recipiebox.view.ShoppingCart;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,23 +28,43 @@ import java.util.List;
 
 public class ShoppingCartList extends AppCompatActivity {
 
-    private static final String TAG = "ShoppingCartList";
+    private static final String TAG = "ShoppingCartListActivity";
 
     DatabaseHelper mDatabaseHelper;
-    private ListView mListView;
+  //  private ListView mListView;
     private Button btnNavigate;
     private String selectedName;
     private int selectedID;
-
+    private ShoppingCartAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart_list);
-        mListView = (ListView) findViewById(R.id.listView);
+    //    mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
-        populateListView();
+        getSupportActionBar().setTitle("Shopping Cart List");
+        mDatabaseHelper = new DatabaseHelper(this);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new ShoppingCartAdapter(this, getAllItems());
+        recyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new ShoppingCartAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position, String ingredientName) {
+                makeDialog(position, ingredientName);
+            }
+        });
+
+
+   //     populateListView();
 
         Intent receivedIntent = getIntent();
 
@@ -78,7 +102,7 @@ public class ShoppingCartList extends AppCompatActivity {
 
     Collections.sort(contactList);
     } */
-
+/*
     private void populateListView() { //Original populateListView
         Log.d(TAG, "populateListView: Displaying data in the listview");
         Cursor data = mDatabaseHelper.getShoppingCartData();
@@ -116,6 +140,35 @@ public class ShoppingCartList extends AppCompatActivity {
                 toastMessage("Has been clicked!");
             }
         });
+    }
+*/
+    public void removeItem(int position, String ingredientName) {}
+
+    public void makeDialog(final int position, final String ingredientName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);
+        builder.setTitle("Delete Ingredient");
+        builder.setMessage("Are you sure you want to delete the ingredient?");
+
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                removeItem(position, ingredientName);
+                Toast.makeText(ShoppingCartList.this, "Thanks!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(ShoppingCartList.this, "Sorry.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.create().show();
+
+    }
+
+    private Cursor getAllItems() {
+        return mDatabaseHelper.getShoppingCartData();
+
     }
 
     private void toastMessage (String message){
