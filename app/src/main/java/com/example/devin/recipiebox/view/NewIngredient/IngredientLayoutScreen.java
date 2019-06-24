@@ -21,6 +21,8 @@ import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientEditAdapter;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
+import com.example.devin.recipiebox.view.Recipie.MainActivity;
+import com.example.devin.recipiebox.view.Recipie.RecipieInsert;
 
 public class IngredientLayoutScreen extends AppCompatActivity {
 
@@ -55,18 +57,27 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         Intent receivedIntent = getIntent();
         selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
-        getSupportActionBar().setTitle(selectedRecipieName + selectedIngredientID);
+        getSupportActionBar().setTitle(selectedRecipieName + selectedRecipieID);
 
         btnSave = (Button) findViewById(R.id.btnSave);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent receivedIntent = getIntent();
+                selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
+/*
+                Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                } */
+
          //       for(int i=0; i<sizeOfList; i++) {
                     String ingredientName = number_edit_text.getText().toString();
                     if (number_edit_text.length() != 0) {
-                        insertItem(ingredientName);
-                        number_edit_text.setText("");
+                        insertItem(ingredientName, selectedRecipieID);
+         //               number_edit_text.setText("");
                     } else {
                         toastMessage("Please put something in the textbox!");
                     }
@@ -104,25 +115,28 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         parentLinearLayout.removeView((View) v.getParent());
         sizeOfList--;
     }
-    public void insertItem(String ingredientName) {
-
+    public void insertItem(String ingredientName, int selectedRecipieID) {
+    /*
         Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
         int itemID = -1;
         while (data.moveToNext()) {
             itemID = data.getInt(0);
-        }
+        } */
         String newEntry2 = type_spinner.getSelectedItem().toString();
         int num = 1;
         num = Integer.parseInt(newEntry2);
         String newEntry3 = type_spinner2.getSelectedItem().toString();
         //      String newEntry = editable_ingredient_item.getText().toString();
-        if (number_edit_text != null) {
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, itemID); //we need all 3 parameters here...
+        if (number_edit_text.length() != 0) {
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, selectedRecipieID); //we need all 4 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
-                mAdapter.notifyDataSetChanged();
-                finish();
-                startActivity(getIntent());
+         //       mAdapter.notifyDataSetChanged();
+        //        finish();
+        //        startActivity(getIntent());
+                Intent editScreenIntent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
+       //         editScreenIntent.putExtra("FolderID", selectedRecipieFolderID);
+                startActivity(editScreenIntent);
             } else {
                 toastMessage("Something went wrong!");
             }

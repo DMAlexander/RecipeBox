@@ -1,6 +1,7 @@
 package com.example.devin.recipiebox.view.Recipie;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,9 +58,18 @@ public class RecipieInsert extends AppCompatActivity {
         if (insertData) {
             toastMessage("Data successfully inserted!");
 
+            Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
+            int itemID = -1;
+            while (data.moveToNext()) {
+                itemID = data.getInt(0);
+            }
+            toastMessage("The recipieID is: " + itemID);
+
 //            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
             Intent intent = new Intent(RecipieInsert.this, IngredientLayoutScreen.class);
             intent.putExtra("RecipieName", recipieName);
+            intent.putExtra("RecipieId", itemID);
+                     // receivedIntent.getIntExtra("RecipieId", -1);
             startActivity(intent);
         } else {
             toastMessage("Something went wrong!");
