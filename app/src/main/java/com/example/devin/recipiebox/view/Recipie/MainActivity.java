@@ -368,7 +368,9 @@ public class MainActivity extends AppCompatActivity {
             public void onDeleteClick(int position, String recipeName) {
                 makeDialog(position, recipeName);
             }
+
         });
+
     }
 
     public void makeDialog(final int position, final String recipeName) {

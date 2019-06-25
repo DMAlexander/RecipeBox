@@ -76,6 +76,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     }
                 }
             });
+
         }
     }
 

@@ -35,6 +35,7 @@ public class ShoppingCartList extends AppCompatActivity {
     private Button btnNavigate;
     private String selectedName;
     private int selectedID;
+    String selectedRecipieName;
     private ShoppingCartAdapter mAdapter;
 
     @Override
@@ -48,8 +49,13 @@ public class ShoppingCartList extends AppCompatActivity {
         mDatabaseHelper = new DatabaseHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Intent recievedIntent = getIntent();
+        selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
+        getSupportActionBar().setTitle(selectedRecipieName); // I need to pass in the Folder Name...
+
         mAdapter = new ShoppingCartAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
+
 
         mAdapter.setOnItemClickListener(new ShoppingCartAdapter.OnItemClickListener() {
             @Override
@@ -66,10 +72,10 @@ public class ShoppingCartList extends AppCompatActivity {
 
    //     populateListView();
 
-        Intent receivedIntent = getIntent();
+  //      Intent receivedIntent = getIntent();
 
-        selectedID = receivedIntent.getIntExtra("id", -1);
-        selectedName = receivedIntent.getStringExtra("name");
+   //     selectedID = receivedIntent.getIntExtra("id", -1);
+    //    selectedName = receivedIntent.getStringExtra("name");
 
         btnNavigate.setOnClickListener(new View.OnClickListener() {
             @Override

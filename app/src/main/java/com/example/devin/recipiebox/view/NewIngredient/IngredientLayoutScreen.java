@@ -53,12 +53,13 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         number_edit_text = (EditText) findViewById(R.id.number_edit_text);
         type_spinner = (Spinner) findViewById(R.id.type_spinner);
         type_spinner2 = (Spinner) findViewById(R.id.type_spinner2);
+        mDatabaseHelper = new DatabaseHelper(this);
 
         Intent receivedIntent = getIntent();
         selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
         getSupportActionBar().setTitle(selectedRecipieName + selectedRecipieID);
-
+        final int childCount = parentLinearLayout.getChildCount();
         btnSave = (Button) findViewById(R.id.btnSave);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -66,22 +67,28 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             public void onClick(View view) {
                 Intent receivedIntent = getIntent();
                 selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-/*
-                Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-                int itemID = -1;
-                while (data.moveToNext()) {
-                    itemID = data.getInt(0);
-                } */
-
-         //       for(int i=0; i<sizeOfList; i++) {
+                for(int i=1; i<childCount; i++) {
+                    View v = parentLinearLayout.getChildAt(i);
+                    number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
                     String ingredientName = number_edit_text.getText().toString();
+
+         //           View rv = v.getRootView()
+                    Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+                    int itemID = -1;
+                    while (data.moveToNext()) {
+                        itemID = data.getInt(0);
+                    }
+
+                    //       for(int i=0; i<sizeOfList; i++) {
+//                    View v = parentLinearLayout.getChildAt(i);
+
                     if (number_edit_text.length() != 0) {
                         insertItem(ingredientName, selectedRecipieID);
-         //               number_edit_text.setText("");
+                        //               number_edit_text.setText("");
                     } else {
                         toastMessage("Please put something in the textbox!");
                     }
-        //        }
+                }
 
 /*
                 Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
@@ -100,8 +107,14 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 intent.putExtra("RecipieName", selectedRecipieName);
          //       Log.d(TAG, "The RecipieId is: " + itemID);
                 startActivity(intent);
+
+       //         Intent editScreenIntent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
+                //         editScreenIntent.putExtra("FolderID", selectedRecipieFolderID);
+      //          startActivity(editScreenIntent);
+
             }
         });
+
 
     }
     public void onAddField(View v) {
@@ -109,7 +122,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
         //Add the new row before the add field button
         sizeOfList++;
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 1);
+        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 2);
     }
     public void onDelete(View v) {
         parentLinearLayout.removeView((View) v.getParent());
@@ -128,15 +141,10 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         String newEntry3 = type_spinner2.getSelectedItem().toString();
         //      String newEntry = editable_ingredient_item.getText().toString();
         if (number_edit_text.length() != 0) {
+            Log.d(TAG, "ingredientName: " + ingredientName + " num: " + num + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID);
             boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, selectedRecipieID); //we need all 4 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
-         //       mAdapter.notifyDataSetChanged();
-        //        finish();
-        //        startActivity(getIntent());
-                Intent editScreenIntent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
-       //         editScreenIntent.putExtra("FolderID", selectedRecipieFolderID);
-                startActivity(editScreenIntent);
             } else {
                 toastMessage("Something went wrong!");
             }

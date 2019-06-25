@@ -173,8 +173,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    */
-
+*/
+ //TEMPORAIRLY USING THE ABOVE METHOD...
     public boolean addShoppingCartData(String item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

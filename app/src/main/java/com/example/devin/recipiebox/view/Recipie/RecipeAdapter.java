@@ -19,6 +19,7 @@ import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
+import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import org.w3c.dom.Text;
 
@@ -27,8 +28,10 @@ import java.util.ArrayList;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private ArrayList<RecipeItem> mRecipeList;
     private OnItemClickListener mListener;
+   // private AdapterView.OnItemLongClickListener mListener2;
     private Context mContext;
     private Cursor mCursor;
+    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(mContext);
 
     private static final String TAG = "RecipieAdapter";
 
@@ -36,6 +39,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onItemClick(int position);
 
         void onDeleteClick(int position, String recipeName);
+
+   //     boolean onLongItemClick(int position, String recipeName);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -51,6 +56,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public TextView mTextView1;
         public ImageView mDeleteImage;
         public RelativeLayout relativeLayout;
+
 
         public RecipeViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -93,6 +99,22 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     }
                 }
             });
+
+            /*
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (listener != null) {
+                        final int position = getAdapterPosition();
+                        String recipeName = mTextView1.getText().toString();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onLongItemClick(position, recipeName);
+                        }
+                    }
+                    return true;
+                }
+            });
+            */
         }
     }
 
@@ -114,6 +136,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
 
         final String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
+   //     final int recipieId = mCursor.getInt(mCursor.getColumnIndex("RecipieId"));
+   //     Log.d(TAG, "Recipie ID value is: " + recipieId);
     //    RecipeItem currentItem = mRecipeList.get(position);
  //       holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView1.setText(recipieName);
@@ -126,7 +150,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
-
      //           Intent intent = new Intent(mContext, IngredientScreen.class);
       //          Intent intent = new Intent(mContext, IngredientScreen.class);
                 Intent intent = new Intent(mContext, IngredientInfo.class); //we're re-routing to IngredientInfo instead...
@@ -136,7 +159,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             }
 
         });
+        holder.mTextView1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
 
+     //           mDatabaseHelper.addShoppingCartData(recipieName);
+                Intent intent = new Intent(mContext, ShoppingCartList.class);
+                intent.putExtra("RecipieName", recipieName);
+       //         intent.putExtra("RecipieID", recipieId);
+                mContext.startActivity(intent);
+                return true;
+            }
+        });
     }
 
     @Override
