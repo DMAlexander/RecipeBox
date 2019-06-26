@@ -23,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "recipie_table";
     private static final String TABLE_NAME2 = "ingredient_table";
     private static final String TABLE_NAME3 = "recipie_and_ingredient_table";
-    private static final String TABLE_NAME4 = "shoppingcart_table";
+    private static final String TABLE_NAME4 = "shopping_cart_table";
     private static final String TABLE_NAME5 = "recipe_folder_table";
 
 
@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 26);
+        super(context, DATABASE_NAME, null, 27);
     }
 
     //Create Tables...
@@ -77,14 +77,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String createTable3 = "CREATE TABLE " + TABLE_NAME3 + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_RECIPIE_NAME +" TEXT)";
-/*
+
     private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_RECIPIE_NAME +" TEXT)";
-  */
-    private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
-            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_INGREDIENT_NAME +" TEXT)";
+            COLUMN_INGREDIENT_NAME +" TEXT, " +
+            COLUMN_INGREDIENT_QUANTITY + " INTEGER, " +
+            COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
             + "(FolderID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -175,10 +173,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 */
  //TEMPORAIRLY USING THE ABOVE METHOD...
-    public boolean addShoppingCartData(String item) {
+    public boolean addShoppingCartData(String item, int quantity, String measurementType) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
+        contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
+        contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
         long result = db.insert(TABLE_NAME4, null, contentValues);
         if (result == -1) {

@@ -80,7 +80,7 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
                 Log.d(TAG, "onClick: recipieFolderID is: " + recipieFolderID);
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra("FolderID", recipieFolderID);
-      //          intent.putExtra("RecipieFolderName", recipieFolderName);
+                intent.putExtra("RecipieFolderName", recipieFolderName);
                 mContext.startActivity(intent);
             }
         });

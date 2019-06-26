@@ -31,6 +31,7 @@ public class RecipieInsert extends AppCompatActivity {
         btnRecipeAdd = (Button) findViewById(R.id.btnRecipieAdd);
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         mDatabaseHelper = new DatabaseHelper(this);
+        getSupportActionBar().setTitle("Recipe Insert Screen");
 
         btnRecipeAdd.setOnClickListener(new View.OnClickListener() {
             @Override

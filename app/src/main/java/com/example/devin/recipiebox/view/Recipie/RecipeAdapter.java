@@ -28,10 +28,10 @@ import java.util.ArrayList;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private ArrayList<RecipeItem> mRecipeList;
     private OnItemClickListener mListener;
-   // private AdapterView.OnItemLongClickListener mListener2;
+    private OnLongClickListener mListener2;
     private Context mContext;
     private Cursor mCursor;
-    private DatabaseHelper mDatabaseHelper = new DatabaseHelper(mContext);
+    public DatabaseHelper mDatabaseHelper;
 
     private static final String TAG = "RecipieAdapter";
 
@@ -39,17 +39,25 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onItemClick(int position);
 
         void onDeleteClick(int position, String recipeName);
+    }
 
-   //     boolean onLongItemClick(int position, String recipeName);
+    public interface OnLongClickListener {
+        boolean onLongClick(int position, String recipeName);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
+    public void setOnLongClickListener(OnLongClickListener listener2) {
+        mListener2 = listener2;
+    }
+
     public RecipeAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;
+//        mDatabaseHelper = new DatabaseHelper(context.getApplicationContext());
+        mDatabaseHelper = new DatabaseHelper(context.getApplicationContext());
     }
 
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
@@ -58,7 +66,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public RelativeLayout relativeLayout;
 
 
-        public RecipeViewHolder(final View itemView, final OnItemClickListener listener) {
+        public RecipeViewHolder(final View itemView, final OnItemClickListener listener, final OnLongClickListener listener2) {
             super(itemView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
@@ -99,22 +107,31 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     }
                 }
             });
-
             /*
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (listener != null) {
-                        final int position = getAdapterPosition();
-                        String recipeName = mTextView1.getText().toString();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onLongItemClick(position, recipeName);
-                        }
-                    }
+
                     return true;
                 }
             });
             */
+            /*
+            itemView.setLongClickable(true);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (listener2 != null) {
+                        final int position = getAdapterPosition();
+                        String recipieName = mTextView1.getText().toString();
+                        Log.d(TAG, "recipie Name is: " + recipieName);
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener2.onLongClick(position, recipieName);
+                        }
+                    }
+                    return true;
+                }
+            }); */
         }
     }
 
@@ -122,7 +139,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.activity_recipe_item, parent, false);
-        return new RecipeViewHolder(view, mListener);
+        return new RecipeViewHolder(view, mListener, mListener2);
  //       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recipe_item, parent, false);
  //       RecipeViewHolder rvh = new RecipeViewHolder(v, mListener);
  //       return rvh;
@@ -156,22 +173,72 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 intent.putExtra("RecipieName", recipieName);
                 mContext.startActivity(intent);
 
+
+
             }
 
         });
+
         holder.mTextView1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                if(mListener != null) {
+                    Log.d(TAG, "recipie Name is: " + recipieName);
+                    String measurementType = "";
+                    int quantity;
+                    String quantityString;
+                    String ingredientName = "";
 
-     //           mDatabaseHelper.addShoppingCartData(recipieName);
-                Intent intent = new Intent(mContext, ShoppingCartList.class);
-                intent.putExtra("RecipieName", recipieName);
-       //         intent.putExtra("RecipieID", recipieId);
-                mContext.startActivity(intent);
+                    Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
+                    int itemID = -1;
+                    while (data.moveToNext()) {
+                        itemID = data.getInt(0);
+                    }
+                    if (itemID > -1) {
+                        Log.d(TAG, "onLongClick: The ID is: " + itemID);
+
+                        Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
+                        ArrayList<String> listData = new ArrayList<>();
+                        while(data2.moveToNext()) {
+                            ingredientName = data2.getString(1);
+                            quantityString = data2.getString(2);
+              //              quantity = Integer.parseInt(q);
+                            measurementType = data2.getString(3);
+                            listData.add(ingredientName);
+                            listData.add(quantityString);
+                            listData.add(measurementType);
+                        }
+
+                        for (int j=0; j<listData.size()/3; j++) {
+                            System.out.println(listData.get(j)); //0  //3   //6
+                            ingredientName = listData.get(0+(j*3));     //1  //4  //7
+                            quantityString = listData.get(1+(j*3));     //2  //5  //8
+                            quantity = Integer.parseInt(quantityString);
+                            measurementType = listData.get(2+(j*3));
+//                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName);
+                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, quantity, measurementType);
+
+                            if (insertData) {
+                                Log.d(TAG, "Data is added to shopping cart list");
+                            } else {
+                                Log.d(TAG, "Something went wrong");
+                            }
+                        }
+                    }
+                }
                 return true;
             }
         });
     }
+
+/*
+                Intent intent = new Intent(mContext, ShoppingCartList.class);
+                intent.putExtra("RecipieName", recipieName);
+
+                mContext.startActivity(intent);
+                return true;
+            }
+        }); */
 
     @Override
     public int getItemCount() {

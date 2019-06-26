@@ -65,9 +65,10 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
                 selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-                for(int i=0; i<childCount-1; i++) {
+                for(int i=0; i<childCount-2; i++) {
                     View v = parentLinearLayout.getChildAt(i);
                     number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
                     String ingredientName = number_edit_text.getText().toString();

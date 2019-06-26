@@ -51,7 +51,7 @@ public class ShoppingCartList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Intent recievedIntent = getIntent();
         selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
-        getSupportActionBar().setTitle(selectedRecipieName); // I need to pass in the Folder Name...
+        getSupportActionBar().setTitle("Shopping Cart"); // I need to pass in the Folder Name...
 
         mAdapter = new ShoppingCartAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
@@ -148,7 +148,9 @@ public class ShoppingCartList extends AppCompatActivity {
         });
     }
 */
-    public void removeItem(int position, String ingredientName) {}
+    public void removeItem(int position, String ingredientName) {
+        makeDialog(position, ingredientName);
+    }
 
     public void makeDialog(final int position, final String ingredientName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);

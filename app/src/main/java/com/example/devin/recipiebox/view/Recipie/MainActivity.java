@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new RecipeAdapter(this, getAllItems(selectedRecipieFolderID));
         recyclerView.setAdapter(mAdapter);
         newRecipie = (Button) findViewById(R.id.newRecipie);
+        btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
 
 //        mListView = (ListView) findViewById(R.id.listView);
 //        mDatabaseHelper = new DatabaseHelper(this);
@@ -106,16 +107,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }); */
-/*
+
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intnt shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
-                startActivity(eshoppingCartIntent);
+                Intent shoppingCartIntent = new Intent(MainActivity.this, ShoppingCartList.class);
+                startActivity(shoppingCartIntent);
             }
-
         });
-*/
+
 
 /*
         btnClearShoppingCart.setOnClickListener(new View.OnClickListener() {
@@ -329,11 +329,10 @@ public class MainActivity extends AppCompatActivity {
     //    mRecyclerView.setLayoutManager(mLayoutManager);
    //     mRecyclerView.setAdapter(mAdapter);
 
+
         mAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                /*
-                String RecipieName =
     //            String RecipieName = position.get
     //            String RecipieName = adapterView.getItemAtPosition(i).toString();
 //                String RecipieName = mRecyclerView.get
@@ -357,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //        mRecipeList.get(position).changeText1(text);
-            */
+
           //      changeItem(position, "Clicked!");
 //                RecipeAdapter.RecipeViewHolder
            //     String recipieName = ((TextView) itemView
@@ -370,6 +369,35 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    /*
+        mAdapter.setOnLongClickListener(new RecipeAdapter.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(int position, String recipeName) {
+
+                Cursor data = mDatabaseHelper.getRecipieItemID(recipeName);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                }
+                if (itemID > -1) {
+                    Log.d(TAG, "onLongClick: The ID is: " + itemID);
+
+                    Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
+                    ArrayList<String> listData = new ArrayList<>();
+                    while(data2.moveToNext()) {
+                        String ingredient = data2.getString(1);
+                        listData.add(ingredient);
+                    }
+
+                    for (int j=0; j<listData.size(); j++) {
+                        System.out.println(listData.get(j));
+                        String ingredientName = listData.get(j);
+                        addShoppingCartData(ingredientName);
+                    }
+                }
+                return true;
+            }
+        }); */
 
     }
 
@@ -442,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-/*
+    /*
         public void addShoppingCartData(String newEntry){
             boolean insertData = mDatabaseHelper.addShoppingCartData(newEntry);
 
@@ -451,8 +479,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 toastMessage("Something went wrong!");
             }
-        }
-*/
+        } */
+
         private void toastMessage (String message){
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
