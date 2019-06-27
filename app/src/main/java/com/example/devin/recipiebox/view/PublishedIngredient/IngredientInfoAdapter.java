@@ -98,8 +98,34 @@ public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAd
             mTextView3 = itemView.findViewById(R.id.ingredientTextView);
          */
 
-        final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
-        holder.mTextView1.setText(spinner1Value);
+        final String spinner1ValString;
+//      final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity")); (old way)
+        final double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
+        if (spinner1Value == 0.125) {
+            //      convertedSpinner = Double.parseDouble(newEntry2);
+            spinner1ValString = "1/8";
+            System.out.print(spinner1Value);
+        } else if (spinner1Value == 0.25) {
+            spinner1ValString = "1/4";
+            System.out.print(spinner1Value);
+        } else if (spinner1Value == 0.50) {
+            spinner1ValString = "1/2";
+            System.out.print(spinner1Value);
+        } else if (spinner1Value == 1.0) {
+            spinner1ValString = "1";
+            System.out.print(spinner1Value);
+        } else if (spinner1Value == 2.0) {
+            spinner1ValString = "2";
+            System.out.print(spinner1Value);
+        } else if (spinner1Value == 3.0) {
+            spinner1ValString = "3";
+            System.out.print(spinner1Value);
+        } else {
+            spinner1ValString = "0";
+            System.out.print(spinner1Value);
+        }
+
+        holder.mTextView1.setText(spinner1ValString);
         final String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
         holder.mTextView2.setText(spinner2Value);
         final String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));

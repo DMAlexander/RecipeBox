@@ -28,7 +28,7 @@ import java.util.List;
 
 public class ShoppingCartList extends AppCompatActivity {
 
-    private static final String TAG = "ShoppingCartListActivity";
+    private static final String TAG = "ShoppingCartList";
 
     DatabaseHelper mDatabaseHelper;
   //  private ListView mListView;
@@ -149,7 +149,24 @@ public class ShoppingCartList extends AppCompatActivity {
     }
 */
     public void removeItem(int position, String ingredientName) {
-        makeDialog(position, ingredientName);
+
+        Cursor data = mDatabaseHelper.getShoppingCartItemID(ingredientName);
+        int itemID = -1;
+        while (data.moveToNext()) {
+            itemID = data.getInt(0);
+        }
+        Log.d(TAG, "ingredientId: " + itemID + " and ingredient name is: " + ingredientName);
+
+        mDatabaseHelper.deleteShoppingCartIngredient(itemID, ingredientName);
+
+        mAdapter.notifyItemRemoved(position);
+        mAdapter.notifyDataSetChanged();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
+        toastMessage("Removed from database");
+
     }
 
     public void makeDialog(final int position, final String ingredientName) {

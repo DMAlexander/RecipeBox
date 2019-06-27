@@ -88,6 +88,15 @@
             android:text="Save" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/btnLayout3"
+        android:layout_width="290dp"
+        android:layout_height="165dp">
+        <EditText
+            android:id="@+id/recipieDescription"
+            android:layout_width="288dp"
+            android:layout_height="182dp" />
+    </LinearLayout>
 </LinearLayout>
 
 

@@ -43,6 +43,9 @@ public class IngredientInfo extends AppCompatActivity {
     private String selectedRecipieName;
     private int selectedIngredientID;
     private int selectedRecipieID;
+    private TextView ingredients;
+    private TextView instructions;
+    private EditText instructionsEdit;
 //    private ListView mListView;
 
     @Override
@@ -54,12 +57,13 @@ public class IngredientInfo extends AppCompatActivity {
 //        editable_item = (EditText) findViewById(R.id.editable_item);
         editable_item = (TextView) findViewById(R.id.editable_item);
         btnNavToRecipies = (Button) findViewById(R.id.btnNavToRecipies);
+        ingredients = (TextView) findViewById(R.id.ingredients);
+        instructions = (TextView) findViewById(R.id.instructions);
+        instructionsEdit = (EditText) findViewById(R.id.instructionsEdit);
+
         mDatabaseHelper = new DatabaseHelper(this);
 //        mListView = (ListView) findViewById(R.id.listView);
  //       populateListView();
-
-
-
         //get intent extra from IngredientScreenActivity
         Intent recievedIntent = getIntent();
         //get the itemID we passed in as an extra
@@ -73,12 +77,23 @@ public class IngredientInfo extends AppCompatActivity {
         //set text to show current selected name
 //        editable_item.setText(selectedRecipieName + " " + selectedRecipieID);
         editable_item.setText(selectedRecipieName);
+        ingredients.setText("Ingredients:");
+        instructions.setText("Instructions:");
         getSupportActionBar().setTitle(selectedRecipieName);
         //Recycler View Declaration...
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new IngredientInfoAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
+
+        Cursor data = mDatabaseHelper.getRecipieDescription(selectedRecipieName);
+        String recipeDescription = "";
+        while (data.moveToNext()) {
+            recipeDescription = data.getString(0);
+        }
+        Log.d(TAG, "Description is: " + recipeDescription);
+
+        instructionsEdit.setText(recipeDescription);
 
         mAdapter.setOnItemClickListener(new IngredientInfoAdapter.OnItemClickListener() {
             @Override

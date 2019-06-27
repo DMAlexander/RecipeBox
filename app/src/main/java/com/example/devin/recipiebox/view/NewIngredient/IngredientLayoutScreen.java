@@ -37,6 +37,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
     private IngredientEditAdapter mAdapter;
     private EditText number_edit_text;
+    private EditText recipieDescription;
     private String selectedRecipieName;
     private int selectedRecipieID;
     private int selectedIngredientID;
@@ -51,6 +52,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         setContentView(R.layout.activity_ingredient_layout_screen);
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
         number_edit_text = (EditText) findViewById(R.id.number_edit_text);
+        recipieDescription = (EditText) findViewById(R.id.recipieDescription);
         type_spinner = (Spinner) findViewById(R.id.type_spinner);
         type_spinner2 = (Spinner) findViewById(R.id.type_spinner2);
         mDatabaseHelper = new DatabaseHelper(this);
@@ -68,17 +70,14 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
                 selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-                for(int i=0; i<childCount-2; i++) {
+                for(int i=0; i<childCount-3; i++) {
                     View v = parentLinearLayout.getChildAt(i);
                     number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
                     String ingredientName = number_edit_text.getText().toString();
 
          //           View rv = v.getRootView()
                     Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-                    int itemID = -1;
-                    while (data.moveToNext()) {
-                        itemID = data.getInt(0);
-                    }
+
 
                     //       for(int i=0; i<sizeOfList; i++) {
 //                    View v = parentLinearLayout.getChildAt(i);
@@ -89,6 +88,13 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     } else {
                         toastMessage("Please put something in the textbox!");
                     }
+                }
+
+                if (recipieDescription.length() != 0) {
+                    String recipeDescription = recipieDescription.getText().toString();
+                    mDatabaseHelper.updateRecipieDescription(recipeDescription, selectedRecipieID);
+                } else {
+                    toastMessage("Put something in the description text field!");
                 }
 
 /*
@@ -123,7 +129,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
         //Add the new row before the add field button
         sizeOfList++;
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 2);
+        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 3);
     }
     public void onDelete(View v) {
         parentLinearLayout.removeView((View) v.getParent());
@@ -136,14 +142,38 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         while (data.moveToNext()) {
             itemID = data.getInt(0);
         } */
+        double convertedSpinner = 0;
         String newEntry2 = type_spinner.getSelectedItem().toString();
-        int num = 1;
-        num = Integer.parseInt(newEntry2);
         String newEntry3 = type_spinner2.getSelectedItem().toString();
+
+        if (newEntry2.equalsIgnoreCase("1/8")) {
+      //      convertedSpinner = Double.parseDouble(newEntry2);
+            convertedSpinner = 0.125;
+            System.out.print(convertedSpinner);
+        } else if (newEntry2.equalsIgnoreCase("1/4")) {
+            convertedSpinner = 0.25;
+            System.out.print(convertedSpinner);
+        } else if (newEntry2.equalsIgnoreCase("1/2")) {
+            convertedSpinner = 0.5;
+            System.out.print(convertedSpinner);
+        } else if (newEntry2.equalsIgnoreCase("1")) {
+            convertedSpinner = 1;
+            System.out.print(convertedSpinner);
+        } else if (newEntry2.equalsIgnoreCase("2")) {
+            convertedSpinner = 2;
+            System.out.print(convertedSpinner);
+        } else if (newEntry2.equalsIgnoreCase("3")) {
+            convertedSpinner = 3;
+            System.out.print(convertedSpinner);
+        } else {
+            convertedSpinner = 0;
+            System.out.print(convertedSpinner);
+        }
+
         //      String newEntry = editable_ingredient_item.getText().toString();
         if (number_edit_text.length() != 0) {
-            Log.d(TAG, "ingredientName: " + ingredientName + " num: " + num + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID);
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, selectedRecipieID); //we need all 4 parameters here...
+            Log.d(TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID);
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, selectedRecipieID); //we need all 4 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
             } else {

@@ -54,7 +54,7 @@ public class RecipieInsert extends AppCompatActivity {
 
     public void insertItem(String recipieName, int selectedRecipieFolderID) {
 
-        boolean insertData = mDatabaseHelper.addRecipieData(recipieName, selectedRecipieFolderID);
+        boolean insertData = mDatabaseHelper.addRecipieData(recipieName, null, selectedRecipieFolderID);
 
         if (insertData) {
             toastMessage("Data successfully inserted!");

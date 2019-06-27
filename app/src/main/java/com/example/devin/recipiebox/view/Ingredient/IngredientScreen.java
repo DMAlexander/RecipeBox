@@ -291,6 +291,8 @@ public class IngredientScreen extends AppCompatActivity {
             itemID = data.getInt(0);
         }
         String newEntry2 = spinner.getSelectedItem().toString();
+
+
         int num = 1;
         num = Integer.parseInt(newEntry2);
         String newEntry3 = spinner2.getSelectedItem().toString();

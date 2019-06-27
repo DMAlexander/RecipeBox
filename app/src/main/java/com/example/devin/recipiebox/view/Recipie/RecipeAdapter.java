@@ -185,7 +185,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 if(mListener != null) {
                     Log.d(TAG, "recipie Name is: " + recipieName);
                     String measurementType = "";
-                    int quantity;
+                    double quantity;
                     String quantityString;
                     String ingredientName = "";
 
@@ -213,10 +213,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                             System.out.println(listData.get(j)); //0  //3   //6
                             ingredientName = listData.get(0+(j*3));     //1  //4  //7
                             quantityString = listData.get(1+(j*3));     //2  //5  //8
-                            quantity = Integer.parseInt(quantityString);
                             measurementType = listData.get(2+(j*3));
+                            Double convertedQuantity = Double.parseDouble(quantityString);
+
 //                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName);
-                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, quantity, measurementType);
+                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
 
                             if (insertData) {
                                 Log.d(TAG, "Data is added to shopping cart list");

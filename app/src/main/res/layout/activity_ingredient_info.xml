@@ -17,37 +17,68 @@
 -->
 
     <TextView
-        android:textAlignment="center"
+        android:id="@+id/editable_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:text="Recipie Name"
-        android:textSize="30dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="78dp"
-        android:id="@+id/editable_item" />
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Recipie Name"
+        android:textAlignment="center"
+        android:textSize="30dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="237dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="100dp"
         android:background="@android:color/darker_gray"
         android:padding="4dp"
-        android:layout_marginTop="120dp"
         android:scrollbars="vertical" />
+
+    <TextView
+        android:id="@+id/ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/recyclerView"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="-120dp"
+        android:textSize="30dp"
+        android:text="Ingredients:" />
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recyclerView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="-100dp"
+        android:text="Instructions"
+        android:textSize="30dp" />
+
+    <EditText
+        android:id="@+id/instructionsEdit"
+        android:layout_width="315dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/instructions"
+        android:layout_alignParentStart="true"
+        android:text="Instructions are here!"
+        android:textSize="30dp" />
 
     <Button
         android:id="@+id/btnNavToRecipies"
-        android:layout_width="wrap_content"
+        android:layout_width="94dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="29dp"
-        android:text="Back to Recipies"
-        />
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="400dp"
+        android:text="Back to Recipies" />
     <!--
     <LinearLayout
         android:layout_width="wrap_content"

@@ -39,7 +39,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_INGREDIENT_QUANTITY = "Quantity";
     private static final String COLUMN_INGREDIENT_MEASUREMENT_TYPE = "MeasurementType";
     private static final String COLUMN_RECIPIE_FOLDER_NAME = "RecipieFolderName";
+    private static final String COLUMN_RECIPIE_DESCRIPTION = "RecipieDescription";
     private static final String COLUMN_RECIPIE_FOLDER_ID = "FolderID";
+    private static final String COLUMN_SHOPPING_CART_ID = "ShoppingCartID";
 
     /*
     private static final String COL1 = "ID";
@@ -50,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 27);
+        super(context, DATABASE_NAME, null, 31);
     }
 
     //Create Tables...
@@ -58,19 +60,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String createTable = "CREATE TABLE " + TABLE_NAME + " "
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_RECIPIE_NAME +" TEXT, "
+            + COLUMN_RECIPIE_DESCRIPTION +" TEXT, "
             + COLUMN_RECIPIE_FOLDER_ID + " INTEGER)";
 
-    /*
     private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
             + "(IngredientID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_INGREDIENT_NAME +" TEXT, " +
-            COLUMN_INGREDIENT_RECIPIE_ID + " INTEGER)";
-    */
-
-    private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
-            + "(IngredientID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_INGREDIENT_NAME +" TEXT, " +
-            COLUMN_INGREDIENT_QUANTITY + " INTEGER, " +
+            COLUMN_INGREDIENT_QUANTITY + " REAL, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT, " +
             COLUMN_INGREDIENT_RECIPIE_ID + " INTEGER)";
 
@@ -79,9 +75,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_RECIPIE_NAME +" TEXT)";
 
     private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
-            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            + "(ShoppingCartID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_INGREDIENT_NAME +" TEXT, " +
-            COLUMN_INGREDIENT_QUANTITY + " INTEGER, " +
+            COLUMN_INGREDIENT_QUANTITY + " REAL, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
@@ -108,10 +104,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean addRecipieData(String item, int FolderID) {
+    public boolean addRecipieData(String item, String description, int FolderID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_RECIPIE_NAME, item);
+        contentValues.put(COLUMN_RECIPIE_DESCRIPTION, description);
         contentValues.put(COLUMN_RECIPIE_FOLDER_ID, FolderID);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
@@ -125,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addIngredientData(String item, int quantity, String measurementType, int id) {
+    public boolean addIngredientData(String item, double quantity, String measurementType, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
@@ -173,7 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 */
  //TEMPORAIRLY USING THE ABOVE METHOD...
-    public boolean addShoppingCartData(String item, int quantity, String measurementType) {
+    public boolean addShoppingCartData(String item, double quantity, String measurementType) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
@@ -248,6 +245,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getRecipieDescription(String RecipieName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_RECIPIE_DESCRIPTION + " FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_RECIPIE_NAME + " = '" + RecipieName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     public Cursor getIngredientItemID(String IngredientName, int ID) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_INGREDIENT_ID + " FROM " + TABLE_NAME2 +
@@ -266,8 +271,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getShoppingCartItemID(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COLUMN_RECIPIE_ID + " FROM " + TABLE_NAME4 +
-                " WHERE " + COLUMN_RECIPIE_NAME + " = '" + name + "'";
+        String query = "SELECT " + COLUMN_SHOPPING_CART_ID + " FROM " + TABLE_NAME4 +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + name + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -280,6 +285,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " AND " + COLUMN_RECIPIE_NAME + " = '" + oldRecipieName + "'";
         Log.d(TAG, "updateName: query: " + query);
         Log.d(TAG, "updateName: Setting name to " + newRecipieName);
+        db.execSQL(query);
+    }
+
+
+    public void updateRecipieDescription(String newDescription, int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_RECIPIE_DESCRIPTION +
+                " = '" + newDescription + "' WHERE " + COLUMN_RECIPIE_ID + " = '" + id + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: Setting name to " + newDescription);
         db.execSQL(query);
     }
 
@@ -332,6 +348,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "deleteName: query: " + query);
         Log.d(TAG, "deleteName: Deleting " + RecipieName + " from shopping cart database.");
         db.execSQL(query);
+    }
+
+    public void deleteShoppingCartIngredient(int id, String ingredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME4 + " WHERE "
+                + COLUMN_SHOPPING_CART_ID + " = '" + id + "'" +
+                " AND " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: Deleting " + ingredientName + " from shopping cart database.");
     }
 
     public void deleteShoppingCartRecipieData() {

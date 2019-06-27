@@ -68,7 +68,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 public void onClick(View view) {
                     if (listener != null) {
                         final int position = getAdapterPosition();
-                        String IngredientName = mTextView1.getText().toString();
+                        String IngredientName = mTextView3.getText().toString();
                         Log.d(TAG, "ingredient name is: " + IngredientName);
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onDeleteClick(position, IngredientName);
@@ -100,8 +100,33 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     */
 //        holder.mTextView1.setOnClickView(new View())
 
-        final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
-        holder.mTextView1.setText(spinner1Value);
+        final String spinner1ValString;
+        final double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
+        if (spinner1Value == 0.125) {
+            spinner1ValString = "1/8";
+            System.out.print(spinner1ValString);
+        } else if (spinner1Value == 0.25) {
+            spinner1ValString = "1/4";
+            System.out.print(spinner1ValString);
+        } else if (spinner1Value == 0.50) {
+            spinner1ValString = "1/2";
+            System.out.print(spinner1ValString);
+        } else if (spinner1Value == 1.0) {
+            spinner1ValString = "1";
+            System.out.print(spinner1ValString);
+        } else if (spinner1Value == 2.0) {
+            spinner1ValString = "2";
+            System.out.print(spinner1ValString);
+        } else if (spinner1Value == 3.0) {
+            spinner1ValString = "3";
+            System.out.print(spinner1ValString);
+        } else {
+            spinner1ValString = "0";
+            System.out.print(spinner1ValString);
+        }
+
+
+        holder.mTextView1.setText(spinner1ValString);
         final String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
         holder.mTextView2.setText(spinner2Value);
         final String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
