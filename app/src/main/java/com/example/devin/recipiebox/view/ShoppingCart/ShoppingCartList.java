@@ -45,13 +45,13 @@ public class ShoppingCartList extends AppCompatActivity {
     //    mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
-        getSupportActionBar().setTitle("Shopping Cart List");
+    //    getSupportActionBar().setTitle("Shopping Cart List");
         mDatabaseHelper = new DatabaseHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Intent recievedIntent = getIntent();
         selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
-        getSupportActionBar().setTitle("Shopping Cart"); // I need to pass in the Folder Name...
+   //     getSupportActionBar().setTitle("Shopping Cart"); // I need to pass in the Folder Name...
 
         mAdapter = new ShoppingCartAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);

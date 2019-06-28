@@ -389,4 +389,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    public int getShoppingCartCount() {
+        String countQuery = "SELECT * FROM " + TABLE_NAME4;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
 }
