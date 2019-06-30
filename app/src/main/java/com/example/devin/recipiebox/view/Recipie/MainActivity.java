@@ -11,12 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -27,6 +31,7 @@ import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.database.model.RecipieDatabase;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import org.w3c.dom.Text;
@@ -55,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> selectedItems = new ArrayList<>();
     private ArrayList<RecipeItem> mRecipeList;
+    ImageButton mImageBtn;
+    Toolbar mMyToolbar;
+    TextView mCountTv;
+    MenuItem mCartIconMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
         Log.d(TAG, "recipie folder Id value is: " + selectedRecipieFolderID);
         selectedRecipieFolderName = recievedIntent.getStringExtra("RecipieFolderName");
-        getSupportActionBar().setTitle(selectedRecipieFolderName); // I need to pass in the Folder Name...
+   //     getSupportActionBar().setTitle(selectedRecipieFolderName); // I need to pass in the Folder Name...
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
         newRecipie = (Button) findViewById(R.id.newRecipie);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
+        mMyToolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(mMyToolbar);
+        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
 //        mListView = (ListView) findViewById(R.id.listView);
 //        mDatabaseHelper = new DatabaseHelper(this);
@@ -421,6 +433,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         builder.create().show();
+    }
+
+    //Need this method for shopping cart icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+        View actionView = mCartIconMenuItem.getActionView();
+
+        if(actionView != null) {
+            mCountTv = actionView.findViewById(R.id.count_tv_layout);
+            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        }
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ShoppingCartList.class);
+                startActivity(intent);
+            }
+        });
+        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        String shoppingCartString = String.valueOf(shoppingCartCount);
+        mCountTv.setText(shoppingCartString);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void setButtons() {

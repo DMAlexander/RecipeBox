@@ -188,6 +188,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     double quantity;
                     String quantityString;
                     String ingredientName = "";
+                    String measurementType2 = "";
+                    String quantityString2;
+                    String ingredientName2 = "";
+                    String quantityString3;
 
                     Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
                     int itemID = -1;
@@ -216,14 +220,48 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                             measurementType = listData.get(2+(j*3));
                             Double convertedQuantity = Double.parseDouble(quantityString);
 
+                            Cursor data3 = mDatabaseHelper.getShoppingCartIngredient(ingredientName);
+                            ArrayList<String> listData2 = new ArrayList<>();
+                            while(data3.moveToNext()) {
+                                ingredientName2 = data3.getString(1);
+                                quantityString2 = data3.getString(2);
+                                measurementType2 = data3.getString(3);
+                                listData2.add(ingredientName2);
+                                listData2.add(quantityString2);
+                                listData2.add(measurementType2);
+                            }
+
+
+                            for(int k=0; k<listData2.size()/3; k++) {
+                                ingredientName2 = listData2.get(0+(k*3));
+                                quantityString2 = listData2.get(1+(k*3));
+                        //        measurementType2 = listData2.get(2+(k*3));
+                                Double convertedQuantity2 = Double.parseDouble(quantityString2);
+                                if(ingredientName.equalsIgnoreCase(ingredientName2)) {
+                                   Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
+                                   mDatabaseHelper.updateShoppingCartQuantity(convertedQuantity3, ingredientName);
+                                } else {
+                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
+
+                                    if (insertData) {
+                                        Log.d(TAG, "Data is added to shopping cart list");
+                                    } else {
+                                        Log.d(TAG, "Something went wrong");
+                                    }
+                                }
+                            }
+
+                    //        mDatabaseHelper.getShoppingCartData();
+
 //                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName);
+                            /*
                             boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
 
                             if (insertData) {
                                 Log.d(TAG, "Data is added to shopping cart list");
                             } else {
                                 Log.d(TAG, "Something went wrong");
-                            }
+                            } */
                         }
                     }
                 }

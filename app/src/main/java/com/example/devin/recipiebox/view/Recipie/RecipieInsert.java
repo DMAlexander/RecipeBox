@@ -3,17 +3,24 @@ package com.example.devin.recipiebox.view.Recipie;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.NewIngredient.IngredientLayoutScreen;
+import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 public class RecipieInsert extends AppCompatActivity {
 
@@ -23,6 +30,11 @@ public class RecipieInsert extends AppCompatActivity {
     private Button btnRecipeAdd;
     private EditText editRecipieText;
     private int selectedRecipieFolderID;
+    ImageButton mImageBtn;
+    Toolbar mMyToolbar;
+    TextView mCountTv;
+    MenuItem mCartIconMenuItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +43,10 @@ public class RecipieInsert extends AppCompatActivity {
         btnRecipeAdd = (Button) findViewById(R.id.btnRecipieAdd);
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         mDatabaseHelper = new DatabaseHelper(this);
-        getSupportActionBar().setTitle("Recipe Insert Screen");
+        mMyToolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(mMyToolbar);
+        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+  //      getSupportActionBar().setTitle("Recipe Insert Screen");
 
         btnRecipeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +90,31 @@ public class RecipieInsert extends AppCompatActivity {
         } else {
             toastMessage("Something went wrong!");
         }
+    }
+
+    //Need this method for shopping cart icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+        View actionView = mCartIconMenuItem.getActionView();
+
+        if(actionView != null) {
+            mCountTv = actionView.findViewById(R.id.count_tv_layout);
+            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        }
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecipieInsert.this, ShoppingCartList.class);
+                startActivity(intent);
+            }
+        });
+        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        String shoppingCartString = String.valueOf(shoppingCartCount);
+        mCountTv.setText(shoppingCartString);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void toastMessage(String message) {

@@ -1,18 +1,27 @@
 package com.example.devin.recipiebox.view.RecipieFolders;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.MainMenu;
+import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.util.ArrayList;
 
@@ -24,8 +33,12 @@ public class RecipieFolder extends AppCompatActivity {
     private DatabaseHelper mDatabaseHelper;
     private RecipieFolderAdapter mAdapter;
     private Button btnRecipieFolderAdd;
-
+    ImageView mImageBtn;
+    MenuItem mCartIconMenuItem;
+    Toolbar mMyToolbar;
+    TextView mCountTv;
     private ArrayList<RecipieFolderItem> arrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +48,9 @@ public class RecipieFolder extends AppCompatActivity {
         btnRecipieFolderAdd = (Button) findViewById(R.id.btnRecipieFolderAdd);
         editable_recipie_folder_item = (EditText) findViewById(R.id.editable_recipie_folder_item);
         mDatabaseHelper = new DatabaseHelper(this);
+        mMyToolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(mMyToolbar);
+        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -71,6 +87,31 @@ public class RecipieFolder extends AppCompatActivity {
         } else {
             toastMessage("Put something in the text field!");
         }
+    }
+
+    //Need this method for shopping cart icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+        View actionView = mCartIconMenuItem.getActionView();
+
+        if(actionView != null) {
+            mCountTv = actionView.findViewById(R.id.count_tv_layout);
+            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        }
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecipieFolder.this, ShoppingCartList.class);
+                startActivity(intent);
+            }
+        });
+        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        String shoppingCartString = String.valueOf(shoppingCartCount);
+        mCountTv.setText(shoppingCartString);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void setButtons() {

@@ -11,27 +11,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfoAdapter;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
+import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +65,10 @@ public class IngredientScreen extends AppCompatActivity {
     private Spinner spinner, spinner2;
     Uri imageUri;
     RecyclerView recyclerView;
+    ImageButton mImageBtn;
+    Toolbar mMyToolbar;
+    TextView mCountTv;
+    MenuItem mCartIconMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +103,10 @@ public class IngredientScreen extends AppCompatActivity {
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
         //set text to show current selected name
 //        editable_recipie_item.setText(selectedRecipieName);
-        getSupportActionBar().setTitle(selectedRecipieName);
+ //       getSupportActionBar().setTitle(selectedRecipieName);
+        mMyToolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(mMyToolbar);
+        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         //Recycler View Declaration...
         recyclerView = findViewById(R.id.recyclerView);
@@ -357,6 +371,33 @@ public class IngredientScreen extends AppCompatActivity {
         });
         builder.create().show();
     }
+
+    //Need this method for shopping cart icon
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+        View actionView = mCartIconMenuItem.getActionView();
+
+        if(actionView != null) {
+            mCountTv = actionView.findViewById(R.id.count_tv_layout);
+            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        }
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IngredientScreen.this, ShoppingCartList.class);
+                startActivity(intent);
+            }
+        });
+        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        String shoppingCartString = String.valueOf(shoppingCartCount);
+        mCountTv.setText(shoppingCartString);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
 
     public void setButtons() {
         btnIngredientAdd = findViewById(R.id.btnIngredientAdd);

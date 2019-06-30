@@ -22,6 +22,7 @@ public class RecipieScreen extends AppCompatActivity {
     private Button btnRecipieAdd, btnIngredientAdd, btnViewRecipieData, btnViewIngredientData;
     private EditText editRecipieText, editIngredientText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

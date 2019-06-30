@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 31);
+        super(context, DATABASE_NAME, null, 32);
     }
 
     //Create Tables...
@@ -185,6 +185,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateShoppingCartQuantity(double newQuantity, String ingredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_INGREDIENT_QUANTITY +
+                " = '" + newQuantity + "' WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: Setting name to " + newQuantity);
+        db.execSQL(query);
+    }
+
 
     public Cursor getRecipieData(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -311,6 +321,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    //We're making a Select shopping cart name query here...
+    public Cursor getShoppingCartIngredient(String IngredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_INGREDIENT_NAME + " FROM " + TABLE_NAME4 +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + IngredientName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    /*
+    public Cursor getIngredientItemID(String IngredientName, int ID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_INGREDIENT_ID + " FROM " + TABLE_NAME2 +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + IngredientName + "'"
+                + " AND " + COLUMN_INGREDIENT_RECIPIE_ID + " = '" + ID + "'";
+        ;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+*/
     public void updateShoppingCartName(String newName, int id, String oldName) {
         SQLiteDatabase db = this.getWritableDatabase();
 

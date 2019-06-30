@@ -67,6 +67,7 @@ public class MainMenu extends AppCompatActivity {
         });
     }
 
+    //Need this method for shopping cart icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
