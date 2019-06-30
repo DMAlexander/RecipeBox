@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 32);
+        super(context, DATABASE_NAME, null, 33);
     }
 
     //Create Tables...
@@ -188,10 +188,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateShoppingCartQuantity(double newQuantity, String ingredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_INGREDIENT_QUANTITY +
+        String query = "UPDATE " + TABLE_NAME4 + " SET " + COLUMN_INGREDIENT_QUANTITY +
                 " = '" + newQuantity + "' WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         Log.d(TAG, "updateName: query: " + query);
-        Log.d(TAG, "updateName: Setting name to " + newQuantity);
+        Log.d(TAG, "updateName: Setting quantity to " + newQuantity);
         db.execSQL(query);
     }
 
@@ -215,6 +215,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME4;
         Cursor data = db.rawQuery(query, null);
         return data;
+    }
+
+    public Cursor getShoppingCartDataRow(String IngredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME4 +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + IngredientName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return  data;
     }
 
     public Cursor getRecipieFolderData(){

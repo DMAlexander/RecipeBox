@@ -192,6 +192,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     String quantityString2;
                     String ingredientName2 = "";
                     String quantityString3;
+                    String ingredientName3 = "";
 
                     Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
                     int itemID = -1;
@@ -213,33 +214,39 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                             listData.add(measurementType);
                         }
 
-                        for (int j=0; j<listData.size()/3; j++) {
-                            System.out.println(listData.get(j)); //0  //3   //6
-                            ingredientName = listData.get(0+(j*3));     //1  //4  //7
-                            quantityString = listData.get(1+(j*3));     //2  //5  //8
-                            measurementType = listData.get(2+(j*3));
-                            Double convertedQuantity = Double.parseDouble(quantityString);
+                            for (int j = 0; j < listData.size() / 3; j++) {
+                                System.out.println(listData.get(j)); //0  //3   //6
+                                ingredientName = listData.get(0 + (j * 3));     //1  //4  //7
+                                quantityString = listData.get(1 + (j * 3));     //2  //5  //8
+                                measurementType = listData.get(2 + (j * 3));
+                                Double convertedQuantity = Double.parseDouble(quantityString);
 
-                            Cursor data3 = mDatabaseHelper.getShoppingCartIngredient(ingredientName);
-                            ArrayList<String> listData2 = new ArrayList<>();
-                            while(data3.moveToNext()) {
-                                ingredientName2 = data3.getString(1);
-                                quantityString2 = data3.getString(2);
-                                measurementType2 = data3.getString(3);
-                                listData2.add(ingredientName2);
-                                listData2.add(quantityString2);
-                                listData2.add(measurementType2);
-                            }
+                                Cursor data4 = mDatabaseHelper.getShoppingCartIngredient(ingredientName);
+                                ArrayList<String> listData3 = new ArrayList<>();
+                                while (data4.moveToNext()) {
+                                    ingredientName2 = data4.getString(0);
+                                    listData3.add(ingredientName2);
+                                }
 
-
-                            for(int k=0; k<listData2.size()/3; k++) {
-                                ingredientName2 = listData2.get(0+(k*3));
-                                quantityString2 = listData2.get(1+(k*3));
-                        //        measurementType2 = listData2.get(2+(k*3));
-                                Double convertedQuantity2 = Double.parseDouble(quantityString2);
-                                if(ingredientName.equalsIgnoreCase(ingredientName2)) {
-                                   Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
-                                   mDatabaseHelper.updateShoppingCartQuantity(convertedQuantity3, ingredientName);
+                                if (listData3.size() != 0) { //ingredient name already exists in shopping cart
+                                    //we will need to put in the information for the specific row...
+                                    Cursor data5 = mDatabaseHelper.getShoppingCartDataRow(ingredientName);
+                                    ArrayList<String> listData4 = new ArrayList<>();
+                                    while (data5.moveToNext()) {
+                                        ingredientName2 = data5.getString(1);
+                                        quantityString2 = data5.getString(2);
+                                        measurementType2 = data5.getString(3);
+                                        listData4.add(ingredientName2);
+                                        listData4.add(quantityString2);
+                                        listData4.add(measurementType2);
+                                    }
+                                    ingredientName2 = listData4.get(0);
+                                    quantityString2 = listData4.get(1);
+                                    measurementType2 = listData4.get(2);
+                                    Double convertedQuantity2 = Double.parseDouble(quantityString2);
+                                    System.out.println("Ingredient Name: " + ingredientName2 + "Quantity: " + quantityString2 + " measurement type: " + measurementType2);
+                                    Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
+                                    mDatabaseHelper.updateShoppingCartQuantity(convertedQuantity3, ingredientName);
                                 } else {
                                     boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
 
@@ -249,24 +256,53 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         Log.d(TAG, "Something went wrong");
                                     }
                                 }
+/*
+                                Cursor data3 = mDatabaseHelper.getShoppingCartData();
+                                ArrayList<String> listData2 = new ArrayList<>();
+                                while (data3.moveToNext()) {
+                                    ingredientName2 = data3.getString(1);
+                                    quantityString2 = data3.getString(2);
+                                    measurementType2 = data3.getString(3);
+                                    listData2.add(ingredientName2);
+                                    listData2.add(quantityString2);
+                                    listData2.add(measurementType2);
+                                }
+
+                                if (listData2.size() != 0) {
+                                    for (int k = 0; k<listData2.size()/3; k++) {
+                                        ingredientName2 = listData2.get(0 + (k * 3));
+                                        quantityString2 = listData2.get(1 + (k * 3));
+                                        measurementType2 = listData2.get(2+ (k * 3));
+                                        Double convertedQuantity2 = Double.parseDouble(quantityString2);
+                                        if (ingredientName.equalsIgnoreCase(ingredientName2)) {
+                                            System.out.println("Quantity: " + quantityString2 + " measurement type: " + measurementType2);
+                                            Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
+                                            mDatabaseHelper.updateShoppingCartQuantity(convertedQuantity3, ingredientName);
+                                        } else {
+                                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
+
+                                            if (insertData) {
+                                                Log.d(TAG, "Data is added to shopping cart list");
+                                            } else {
+                                                Log.d(TAG, "Something went wrong");
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
+
+                                    if (insertData) {
+                                        Log.d(TAG, "Data is added to shopping cart list");
+                                    } else {
+                                        Log.d(TAG, "Something went wrong");
+                                    }
+                                } */
                             }
-
-                    //        mDatabaseHelper.getShoppingCartData();
-
-//                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName);
-                            /*
-                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
-
-                            if (insertData) {
-                                Log.d(TAG, "Data is added to shopping cart list");
-                            } else {
-                                Log.d(TAG, "Something went wrong");
-                            } */
-                        }
                     }
                 }
                 return true;
             }
+
         });
     }
 
