@@ -31,6 +31,8 @@ import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.Recipie.RecipieInsert;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
+import java.util.ArrayList;
+
 public class IngredientLayoutScreen extends AppCompatActivity {
 
     private static final String TAG = "IngredientLayoutScreen";
@@ -44,6 +46,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
     private IngredientEditAdapter mAdapter;
     private EditText number_edit_text;
+    private EditText price_edit_text;
     private EditText recipieDescription;
     private String selectedRecipieName;
     private int selectedRecipieID;
@@ -64,6 +67,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         setContentView(R.layout.activity_ingredient_layout_screen);
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
         number_edit_text = (EditText) findViewById(R.id.number_edit_text);
+        price_edit_text = (EditText) findViewById(R.id.price_edit_text);
         recipieDescription = (EditText) findViewById(R.id.recipieDescription);
         type_spinner = (Spinner) findViewById(R.id.type_spinner);
         type_spinner2 = (Spinner) findViewById(R.id.type_spinner2);
@@ -88,6 +92,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 for(int i=1; i<childCount-3; i++) {
                     View v = parentLinearLayout.getChildAt(i);
                     number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
+
                     String ingredientName = number_edit_text.getText().toString();
 
          //           View rv = v.getRootView()
@@ -97,8 +102,14 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     //       for(int i=0; i<sizeOfList; i++) {
 //                    View v = parentLinearLayout.getChildAt(i);
 
+                    price_edit_text = (EditText) v.findViewById(R.id.price_edit_text);
+                    String price = price_edit_text.getText().toString();
+                    double convertedPrice = Double.parseDouble(price);
+
+
+
                     if (number_edit_text.length() != 0) {
-                        insertItem(ingredientName, selectedRecipieID);
+                        insertItem(ingredientName, convertedPrice, selectedRecipieID);
                         //               number_edit_text.setText("");
                     } else {
                         toastMessage("Please put something in the textbox!");
@@ -150,7 +161,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         parentLinearLayout.removeView((View) v.getParent());
         sizeOfList--;
     }
-    public void insertItem(String ingredientName, int selectedRecipieID) {
+    public void insertItem(String ingredientName, double convertedPrice, int selectedRecipieID) {
     /*
         Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
         int itemID = -1;
@@ -185,10 +196,17 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             System.out.print(convertedSpinner);
         }
 
+        /*
+        View v = parentLinearLayout.getChildAt(i);
+        price_edit_text = (EditText) v.findViewById(R.id.price_edit_text);
+        String price = price_edit_text.getText().toString();
+        double convertedPrice = Double.parseDouble(price);
+        */
+
         //      String newEntry = editable_ingredient_item.getText().toString();
         if (number_edit_text.length() != 0) {
             Log.d(TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID);
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, selectedRecipieID); //we need all 4 parameters here...
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, convertedPrice, selectedRecipieID); //we need all 4 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
             } else {
@@ -197,6 +215,20 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         } else {
             toastMessage("Put something in the text field!");
         }
+
+        String currentPrice2 = "";
+
+        Cursor data = mDatabaseHelper.getRecipePrice(selectedRecipieName);
+        ArrayList<String> listData = new ArrayList<>();
+        while (data.moveToNext()) {
+            currentPrice2 = data.getString(0);
+            listData.add(currentPrice2);
+        }
+        currentPrice2 = listData.get(0);
+        Double convertedPrice2 = Double.parseDouble(currentPrice2);
+        Double convertedPrice3 = convertedPrice + convertedPrice2;
+
+        mDatabaseHelper.updateRecipePrice(convertedPrice3, selectedRecipieName);
     }
 
     //Need this method for shopping cart icon

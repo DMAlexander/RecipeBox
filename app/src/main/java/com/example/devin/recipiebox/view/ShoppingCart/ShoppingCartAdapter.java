@@ -41,6 +41,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         public final TextView mTextView1;
         public final TextView mTextView2;
         public final TextView mTextView3;
+        public final TextView mTextView4;
         public ImageView mDeleteImage;
         public RelativeLayout relativeLayout;
 
@@ -49,6 +50,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             mTextView1 = itemView.findViewById(R.id.spinner1Value);
             mTextView2 = itemView.findViewById(R.id.spinner2Value);
             mTextView3 = itemView.findViewById(R.id.ingredientTextView);
+            mTextView4 = itemView.findViewById(R.id.price_edit_text);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +133,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         holder.mTextView2.setText(spinner2Value);
         final String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
         holder.mTextView3.setText(ingredientName);
+        final double price = mCursor.getDouble(mCursor.getColumnIndex("ShoppingCartPrice"));
+        String priceString = Double.toString(price);
+        holder.mTextView4.setText(priceString);
     }
 
     @Override

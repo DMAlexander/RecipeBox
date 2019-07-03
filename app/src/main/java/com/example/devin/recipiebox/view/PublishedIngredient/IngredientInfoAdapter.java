@@ -41,6 +41,7 @@ public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAd
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
+        public TextView mTextView4;
         public ImageView mDeleteImage;
 
         public IngredientInfoViewHolder(final View itemView, final OnItemClickListener listener) {
@@ -48,6 +49,7 @@ public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAd
             mTextView1 = itemView.findViewById(R.id.spinner1Value);
             mTextView2 = itemView.findViewById(R.id.spinner2Value);
             mTextView3 = itemView.findViewById(R.id.ingredientTextView);
+            mTextView4 = itemView.findViewById(R.id.price_edit_text);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,6 +132,9 @@ public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAd
         holder.mTextView2.setText(spinner2Value);
         final String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
         holder.mTextView3.setText(ingredientName);
+        final double price = mCursor.getDouble(mCursor.getColumnIndex("IngPrice"));
+        String priceString = Double.toString(price);
+        holder.mTextView4.setText(priceString);
 
     }
 

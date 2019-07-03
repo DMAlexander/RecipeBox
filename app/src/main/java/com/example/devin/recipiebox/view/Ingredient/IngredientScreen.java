@@ -52,6 +52,7 @@ public class IngredientScreen extends AppCompatActivity {
     private Button btnIngredientAdd, btnIngredientInfo;
 //    private EditText editable_recipie_item, editable_ingredient_item;
     private EditText editable_ingredient_item;
+    private EditText price_edit_text;
 //    private ListView mListView;
  //   private ImageView imageView;
 
@@ -82,6 +83,7 @@ public class IngredientScreen extends AppCompatActivity {
  //       imageView = (ImageView) findViewById(R.id.imageView);
  //       editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
         editable_ingredient_item = (EditText) findViewById(R.id.editable_ingredient_item);
+        price_edit_text = (EditText) findViewById(R.id.price_edit_text);
  //       mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -306,13 +308,16 @@ public class IngredientScreen extends AppCompatActivity {
         }
         String newEntry2 = spinner.getSelectedItem().toString();
 
+        String price = price_edit_text.getText().toString();
+        double convertedPrice = Double.parseDouble(price);
 
         int num = 1;
         num = Integer.parseInt(newEntry2);
+
         String newEntry3 = spinner2.getSelectedItem().toString();
   //      String newEntry = editable_ingredient_item.getText().toString();
         if (editable_ingredient_item != null) {
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, itemID); //we need all 3 parameters here...
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, convertedPrice, itemID); //we need all 3 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
                 mAdapter.notifyDataSetChanged();

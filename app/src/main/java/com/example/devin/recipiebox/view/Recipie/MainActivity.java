@@ -1,11 +1,8 @@
 package com.example.devin.recipiebox.view.Recipie;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,29 +13,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
-import com.example.devin.recipiebox.database.model.RecipieDatabase;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
-import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 //Screen that displays list of recipies --> ListDataActivity
 public class MainActivity extends AppCompatActivity {
@@ -108,17 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
         //     configureNextButton();
         //    configureShoppingCartButton();
-
-
-
-    /*
-        btnNavigate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RecipieScreen.class);
-                startActivity(intent);
-            }
-        }); */
 
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
