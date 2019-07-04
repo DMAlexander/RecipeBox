@@ -106,10 +106,16 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     String price = price_edit_text.getText().toString();
                     double convertedPrice = Double.parseDouble(price);
 
+              //      String newEntry2 = type_spinner.getSelectedItem().toString();
+                    type_spinner = (Spinner) v.findViewById(R.id.type_spinner);
+                    String newEntry2 = type_spinner.getSelectedItem().toString();
+                    type_spinner2 = (Spinner) v.findViewById(R.id.type_spinner2);
+                    String newEntry3 = type_spinner2.getSelectedItem().toString();
+
 
 
                     if (number_edit_text.length() != 0) {
-                        insertItem(ingredientName, convertedPrice, selectedRecipieID);
+                        insertItem(ingredientName, convertedPrice, newEntry2, newEntry3, selectedRecipieID);
                         //               number_edit_text.setText("");
                     } else {
                         toastMessage("Please put something in the textbox!");
@@ -161,7 +167,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         parentLinearLayout.removeView((View) v.getParent());
         sizeOfList--;
     }
-    public void insertItem(String ingredientName, double convertedPrice, int selectedRecipieID) {
+    public void insertItem(String ingredientName, double convertedPrice, String newEntry2, String newEntry3, int selectedRecipieID) {
     /*
         Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
         int itemID = -1;
@@ -169,8 +175,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             itemID = data.getInt(0);
         } */
         double convertedSpinner = 0;
-        String newEntry2 = type_spinner.getSelectedItem().toString();
-        String newEntry3 = type_spinner2.getSelectedItem().toString();
+   //     String newEntry2 = type_spinner.getSelectedItem().toString();
+   //     String newEntry3 = type_spinner2.getSelectedItem().toString();
 
         if (newEntry2.equalsIgnoreCase("1/8")) {
       //      convertedSpinner = Double.parseDouble(newEntry2);
@@ -192,7 +198,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             convertedSpinner = 3;
             System.out.print(convertedSpinner);
         } else {
-            convertedSpinner = 0;
+       //     convertedSpinner = 0;
+            convertedSpinner = Double.valueOf(newEntry2);
             System.out.print(convertedSpinner);
         }
 

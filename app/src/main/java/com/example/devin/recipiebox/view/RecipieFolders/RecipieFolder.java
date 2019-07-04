@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,13 +40,14 @@ public class RecipieFolder extends AppCompatActivity {
     Toolbar mMyToolbar;
     TextView mCountTv;
     private ArrayList<RecipieFolderItem> arrayList;
+    private RelativeLayout parentRelativeLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipie_folder);
-
+        parentRelativeLayout = (RelativeLayout) findViewById(R.id.parentRelativeLayout);
         btnRecipieFolderAdd = (Button) findViewById(R.id.btnRecipieFolderAdd);
         editable_recipie_folder_item = (EditText) findViewById(R.id.editable_recipie_folder_item);
         mDatabaseHelper = new DatabaseHelper(this);
@@ -65,6 +68,7 @@ public class RecipieFolder extends AppCompatActivity {
 
         mAdapter = new RecipieFolderAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
+        final int childCount = parentRelativeLayout.getChildCount();
 
     }
 

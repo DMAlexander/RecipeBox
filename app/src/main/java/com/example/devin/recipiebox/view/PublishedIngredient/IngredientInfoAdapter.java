@@ -123,7 +123,7 @@ public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAd
             spinner1ValString = "3";
             System.out.print(spinner1Value);
         } else {
-            spinner1ValString = "0";
+            spinner1ValString = String.valueOf(spinner1Value);
             System.out.print(spinner1Value);
         }
 

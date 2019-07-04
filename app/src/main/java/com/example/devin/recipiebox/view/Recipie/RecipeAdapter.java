@@ -259,12 +259,68 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     quantityString2 = listData4.get(1);
                                     price2 = listData4.get(2);
                                     measurementType2 = listData4.get(3);
+
                                     Double convertedQuantity2 = Double.parseDouble(quantityString2);
                                     Double convertedPrice2 = Double.parseDouble(price2);
                                     System.out.println("Ingredient Name: " + ingredientName2 + "Quantity: " + quantityString2 + " measurement type: " + measurementType2);
-                                    Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
+
+                                    //Measurement Type conversions
+                                    Double convertedMeasurementType1 = 1.0;
+                                    Double convertedMeasurementType2 = 1.0;
+
+                                    if(measurementType.equals("teaspoon")) {
+                                        convertedMeasurementType1 = 1.0;
+                                    } else if (measurementType.equals("tablespoon")) {
+                                        convertedMeasurementType1 = 3.0;
+                                    } else if (measurementType.equals("cup")) {
+                                        convertedMeasurementType1 = 48.0;
+                                    } else if (measurementType.equals("pint")) {
+                                        convertedMeasurementType1 = 96.0;
+                                    } else if (measurementType.equals("quart")) {
+                                        convertedMeasurementType1 = 192.0;
+                                    } else if (measurementType.equals("gallon")) {
+                                        convertedMeasurementType1 = 768.0;
+                                    }
+
+                                    if(measurementType2.equals("teaspoon")) {
+                                        convertedMeasurementType2 = 1.0;
+                                    } else if (measurementType2.equals("tablespoon")) {
+                                        convertedMeasurementType2 = 3.0;
+                                    } else if (measurementType2.equals("cup")) {
+                                        convertedMeasurementType2 = 48.0;
+                                    } else if (measurementType2.equals("pint")) {
+                                        convertedMeasurementType2 = 96.0;
+                                    } else if (measurementType2.equals("quart")) {
+                                        convertedMeasurementType2 = 192.0;
+                                    } else if (measurementType2.equals("gallon")) {
+                                        convertedMeasurementType2 = 768.0;
+                                    }
+
+                                    Double measurementFactor = convertedMeasurementType1/convertedMeasurementType2;
+                                    Double convertedAddedQuantity = measurementFactor*convertedQuantity;
+                                    Double sCartQuantity = convertedAddedQuantity + convertedQuantity2;
+
+                                    Double newQuantity=sCartQuantity;
+                                    if (sCartQuantity > 3 && measurementType2.equals("teaspoon")) {
+                                        newQuantity = sCartQuantity/3;
+                                        measurementType = "tablespoon";
+                                    } else if(sCartQuantity > 16 && measurementType2.equals("tablespoon")) {
+                                        newQuantity = sCartQuantity / 16;
+                                        measurementType = "cup";
+                                    } else if(sCartQuantity > 2 && measurementType2.equals("cup")) {
+                                        newQuantity = sCartQuantity / 2;
+                                        measurementType = "pint";
+                                    } else if(sCartQuantity > 2 && measurementType2.equals("pint")) {
+                                        newQuantity = sCartQuantity / 2;
+                                        measurementType = "quart";
+                                    } else if(sCartQuantity > 4 && measurementType2.equals("quart")) {
+                                        newQuantity = sCartQuantity / 4;
+                                        measurementType = "gallon";
+                                    }
+
+                             //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
                                     Double convertedPrice3 = convertedPrice + convertedPrice2;
-                                    mDatabaseHelper.updateShoppingCartQuantity(convertedQuantity3, ingredientName);
+                                    mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
                                     mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
                                 } else {
                                     boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType, convertedPrice);

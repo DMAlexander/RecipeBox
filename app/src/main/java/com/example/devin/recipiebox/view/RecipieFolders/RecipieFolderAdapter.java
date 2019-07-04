@@ -85,6 +85,8 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
             }
         });
 
+
+
 //        final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
 //        holder.mTextView1.setText(spinner1Value);
     }
