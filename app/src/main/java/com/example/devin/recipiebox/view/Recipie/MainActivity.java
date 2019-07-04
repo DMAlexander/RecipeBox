@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,8 +25,10 @@ import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //Screen that displays list of recipies --> ListDataActivity
 public class MainActivity extends AppCompatActivity {
@@ -51,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
     Toolbar mMyToolbar;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
+    MaterialSearchView searchView;
+    ListView lstView;
+    //populate the listview
+    RecyclerView recyclerView;
+    ArrayList<String> lstSource = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         selectedRecipieFolderName = recievedIntent.getStringExtra("RecipieFolderName");
    //     getSupportActionBar().setTitle(selectedRecipieFolderName); // I need to pass in the Folder Name...
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecipeAdapter(this, getAllItems(selectedRecipieFolderID));
         recyclerView.setAdapter(mAdapter);
@@ -76,6 +85,79 @@ public class MainActivity extends AppCompatActivity {
         mMyToolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(mMyToolbar);
         mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+
+
+        Cursor data = mDatabaseHelper.getRecipieData();
+        while (data.moveToNext()) {
+            lstSource.add(data.getString(1));
+        }
+
+/*
+        lstView = (ListView) findViewById(R.id.lstView);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,lstSource);
+        lstView.setAdapter(adapter);
+*/
+
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //if closed Search view, lstView will return default
+
+                recyclerView = findViewById(R.id.recyclerView);
+                mAdapter = new RecipeAdapter(MainActivity.this, getAllItems(selectedRecipieFolderID));
+                recyclerView.setAdapter(mAdapter);
+
+
+                /*
+                lstView = (ListView) findViewById(R.id.lstView);
+                ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,lstSource);
+                lstView.setAdapter(adapter);
+                */
+            }
+        });
+
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText != null && !newText.isEmpty()) {
+                    List<String> lstFound = new ArrayList<String>();
+                    for(String item:lstSource) {
+                        if(item.contains(newText))
+                            lstFound.add(item);
+                    }
+                    /*
+                    ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,lstFound);
+                    lstView.setAdapter(adapter);
+                    */
+                    recyclerView = findViewById(R.id.recyclerView);
+                    mAdapter = new RecipeAdapter(MainActivity.this, getAllItems(selectedRecipieFolderID));
+                    recyclerView.setAdapter(mAdapter);
+                } else {
+                    /*
+                    ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,lstSource);
+                    lstView.setAdapter(adapter);
+                    */
+                    recyclerView = findViewById(R.id.recyclerView);
+                    mAdapter = new RecipeAdapter(MainActivity.this, getAllItems(selectedRecipieFolderID));
+                    recyclerView.setAdapter(mAdapter);
+                }
+                return true;
+            }
+        });
+
+
 
 //        mListView = (ListView) findViewById(R.id.listView);
 //        mDatabaseHelper = new DatabaseHelper(this);
@@ -415,6 +497,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
         mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
         View actionView = mCartIconMenuItem.getActionView();
 
@@ -471,6 +555,8 @@ public class MainActivity extends AppCompatActivity {
             return mDatabaseHelper.getRecipieData();
         }
     }
+
+
 
     private void addItem() {
 
