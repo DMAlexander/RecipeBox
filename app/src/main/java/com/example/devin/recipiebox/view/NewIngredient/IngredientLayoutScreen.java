@@ -1,9 +1,16 @@
 package com.example.devin.recipiebox.view.NewIngredient;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -30,8 +37,21 @@ import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.Recipie.RecipieInsert;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class IngredientLayoutScreen extends AppCompatActivity {
 
@@ -59,6 +79,9 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     Toolbar mMyToolbar;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
+    private ImageButton imageButton;
+    private static final String IMAGE_DIRECTORY = "/demonuts";
+    private int GALLERY = 1, CAMERA = 2;
 
 
     @Override
@@ -75,6 +98,17 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         mMyToolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(mMyToolbar);
         mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+
+        requestMultiplePermissions();
+
+        imageButton = (ImageButton) findViewById(R.id.iv);
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPictureDialog();
+            }
+        });
 
         Intent receivedIntent = getIntent();
         selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
@@ -289,4 +323,123 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }
+
+    private void showPictureDialog() {
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
+        pictureDialog.setTitle("Select Action");
+        String[] pictureDialogItems = {
+                "Select photo from gallery",
+                "Capture photo from camera" };
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallery();
+                                break;
+                            case 1:
+                                takePhotoFromCamera();
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+
+    public void choosePhotoFromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private void takePhotoFromCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == this.RESULT_CANCELED) {
+            return;
+        }
+        if(requestCode == GALLERY) {
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    String path = saveImage(bitmap);
+                    Toast.makeText(IngredientLayoutScreen.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    //   imageView.setImageBitmap(bitmap);
+                    imageButton.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();;
+                    Toast.makeText(IngredientLayoutScreen.this, "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else if (requestCode == CAMERA) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            //   imageView.setImageBitmap(thumbnail);
+            imageButton.setImageBitmap(thumbnail);
+            saveImage(thumbnail);
+            Toast.makeText(IngredientLayoutScreen.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure if needed
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdir();
+        }
+
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this, new String[]{f.getPath()},new String[]{"image/jpeg"},null);
+            fo.close();
+            Log.d("TAG", "File Saved::-->" + f.getAbsolutePath());
+
+            return f.getAbsolutePath();
+        } catch (IOException el) {
+            el.printStackTrace();
+        }
+        return "";
+    }
+
+    private void requestMultiplePermissions(){
+        Dexter.withActivity(this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                if (report.areAllPermissionsGranted()) {
+                    Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                }
+
+                //check for permanent denial of any permission
+                if (report.isAnyPermissionPermanentlyDenied()) {
+                    //show alert dialog navigating to Settings
+                    //openSettingsDialog();
+                }
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }).withErrorListener(new PermissionRequestErrorListener() {
+            @Override
+            public void onError(DexterError error) {
+                Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
+            }
+        }).onSameThread().check();
+    }
+
 }
