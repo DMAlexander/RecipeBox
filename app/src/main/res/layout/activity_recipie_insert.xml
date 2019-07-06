@@ -27,6 +27,7 @@
         android:id="@+id/editRecipieText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="110dp" />

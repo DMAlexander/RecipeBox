@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -78,6 +79,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     ImageButton mImageBtn;
     Toolbar mMyToolbar;
     TextView mCountTv;
+    TextView descriptionLabel;
     MenuItem mCartIconMenuItem;
     private ImageButton imageButton;
     private static final String IMAGE_DIRECTORY = "/demonuts";
@@ -94,12 +96,14 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         recipieDescription = (EditText) findViewById(R.id.recipieDescription);
         type_spinner = (Spinner) findViewById(R.id.type_spinner);
         type_spinner2 = (Spinner) findViewById(R.id.type_spinner2);
+        descriptionLabel = (TextView) findViewById(R.id.descriptionLabel);
+        descriptionLabel.setText("Recipe Description:");
         mDatabaseHelper = new DatabaseHelper(this);
         mMyToolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(mMyToolbar);
         mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
-        requestMultiplePermissions();
+   //     requestMultiplePermissions();
 
         imageButton = (ImageButton) findViewById(R.id.iv);
 
@@ -123,7 +127,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
                 selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-                for(int i=1; i<childCount-3; i++) {
+                for(int i=1; i<childCount-5; i++) {
                     View v = parentLinearLayout.getChildAt(i);
                     number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
 
@@ -175,8 +179,17 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 */
                 //         return mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
 
+         //       imageButton.buildDrawingCache();
+         //       Bitmap bitmap = imageButton.getDrawingCache();
+
+                Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(bitmap);
+
                 Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
         //       intent.putExtra("RecipieId", itemID);
+
+
+                intent.putExtra("BitmapImage", bitmap);
                 intent.putExtra("RecipieName", selectedRecipieName);
          //       Log.d(TAG, "The RecipieId is: " + itemID);
                 startActivity(intent);
@@ -195,7 +208,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
         //Add the new row before the add field button
         sizeOfList++;
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 3);
+        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 5);
     }
     public void onDelete(View v) {
         parentLinearLayout.removeView((View) v.getParent());
@@ -413,7 +426,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         }
         return "";
     }
-
+        /*
     private void requestMultiplePermissions(){
         Dexter.withActivity(this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
@@ -441,5 +454,5 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             }
         }).onSameThread().check();
     }
-
+    */
 }
