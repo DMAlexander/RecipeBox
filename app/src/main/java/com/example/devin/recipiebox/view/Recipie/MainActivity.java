@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+//import android.widget.SearchView;
+import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +30,11 @@ import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 //Screen that displays list of recipies --> ListDataActivity
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "ListDataActivity";
     private DatabaseHelper mDatabaseHelper;
@@ -55,10 +58,12 @@ public class MainActivity extends AppCompatActivity {
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
     MaterialSearchView searchView;
-    ListView lstView;
+  //  ListView lstView;
     //populate the listview
     RecyclerView recyclerView;
-    ArrayList<String> lstSource = new ArrayList<>();
+ //   ArrayList<String> lstSource = new ArrayList<>();
+//    private List<String> recipes =  new ArrayList<>();
+    private ArrayList<String> recipes = new ArrayList<>();
 
 
     @Override
@@ -79,25 +84,29 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RecipeAdapter(this, getAllItems(selectedRecipieFolderID));
+
+        Cursor data = mDatabaseHelper.getRecipieData();
+        while (data.moveToNext()) {
+            recipes.add(data.getString(1));
+        }
+
+   //     recipes = Arrays.asList(getResources().getStringArray(recipes));
         recyclerView.setAdapter(mAdapter);
         newRecipie = (Button) findViewById(R.id.newRecipie);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+//        setSupportActionBar(mMyToolbar);
+//        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
 
-        Cursor data = mDatabaseHelper.getRecipieData();
-        while (data.moveToNext()) {
-            lstSource.add(data.getString(1));
-        }
+
 
 /*
         lstView = (ListView) findViewById(R.id.lstView);
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,lstSource);
         lstView.setAdapter(adapter);
 */
-
+/*
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
 
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
@@ -115,11 +124,12 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.setAdapter(mAdapter);
 
 
-                /*
+
                 lstView = (ListView) findViewById(R.id.lstView);
                 ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,lstSource);
                 lstView.setAdapter(adapter);
-                */
+
+
             }
         });
 
@@ -137,18 +147,22 @@ public class MainActivity extends AppCompatActivity {
                         if(item.contains(newText))
                             lstFound.add(item);
                     }
-                    /*
+*/
+/*
                     ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,lstFound);
                     lstView.setAdapter(adapter);
-                    */
+*/
+/*
                     recyclerView = findViewById(R.id.recyclerView);
                     mAdapter = new RecipeAdapter(MainActivity.this, getAllItems(selectedRecipieFolderID));
-                    recyclerView.setAdapter(mAdapter);
+                    recyclerView.setAdapter(mAdapter); */
+/*
                 } else {
-                    /*
+
                     ArrayAdapter adapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1,lstSource);
                     lstView.setAdapter(adapter);
-                    */
+
+
                     recyclerView = findViewById(R.id.recyclerView);
                     mAdapter = new RecipeAdapter(MainActivity.this, getAllItems(selectedRecipieFolderID));
                     recyclerView.setAdapter(mAdapter);
@@ -156,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+*/
 
 
 //        mListView = (ListView) findViewById(R.id.listView);
@@ -496,9 +510,13 @@ public class MainActivity extends AppCompatActivity {
     //Need this method for shopping cart icon
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
+//        searchView.setMenuItem(item);
+
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(this);
+
         mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
         View actionView = mCartIconMenuItem.getActionView();
 
@@ -583,4 +601,43 @@ public class MainActivity extends AppCompatActivity {
         private void toastMessage (String message){
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         }
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+
+            String userInput = newText.toLowerCase();
+       //     List<String> newList = new ArrayList<>();
+/*
+            for(String recipie : recipes)
+            {
+                if(recipie.toLowerCase().contains(userInput))
+                {
+    //                Cursor data = mDatabaseHelper.getRecipeDataRow(recipie);
+                    newList.add(recipie);
+             //       mAdapter = new RecipeAdapter(this, mDatabaseHelper.getRecipeDataRowSubstr(userInput));
+                }
+            }
+*/
+            mAdapter = new RecipeAdapter(this, mDatabaseHelper.getRecipeDataRowSubstr(userInput));
+            recyclerView.setAdapter(mAdapter);
+
+            /*
+            for(int i=0; i<newList; i++) {
+                mDatabaseHelper.getRecipeDataRow(recipe);
+            }
+            */
+      //      (
+    //        mAdapter.updateList(newList);
+          //  mAdapter = new RecipeAdapter(this, mDatabaseHelper.getRecipeDataRow());
+
+
+            return true;
+        }
+
     }
+

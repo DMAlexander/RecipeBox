@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--
+<!--
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/lstView"
         android:layout_width="0dp"
         android:layout_height="348dp"
         app:layout_constraintBottom_toTopOf="@+id/btnNavigate"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_conversion_absoluteHeight="334dp"
         tools:layout_conversion_absoluteWidth="384dp" />
--->
+        -->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/myToolBar"

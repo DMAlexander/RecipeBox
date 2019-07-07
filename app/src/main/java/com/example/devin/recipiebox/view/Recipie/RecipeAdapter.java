@@ -24,6 +24,7 @@ import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private ArrayList<RecipeItem> mRecipeList;
@@ -32,6 +33,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private Context mContext;
     private Cursor mCursor;
     public DatabaseHelper mDatabaseHelper;
+
+    private List<String> recipes;
 
     private static final String TAG = "RecipieAdapter";
 
@@ -389,6 +392,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return mCursor.getCount();
     }
 
+    /*
+    public void updateList(List<String> newList) {
+        recipes = new ArrayList<>();
+        recipes.addAll(newList);
+
+        notifyDataSetChanged();
+    }
+    */
 
     /*
     public void swapCursor(Cursor newCursor) {

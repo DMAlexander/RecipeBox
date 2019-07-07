@@ -246,6 +246,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  data;
     }
 
+    /*
+    public Cursor getRecipeDataRow(String RecipeName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_RECIPIE_NAME + " = '" + RecipeName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return  data;
+    } */
+
+    /*
+    public Cursor getRecipeDataRowSubstr(String recipieString) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT instr(COLUMN_RECIPIE_NAME, 'recipeString') recipeString FROM " + TABLE_NAME +
+                " WHERE recipeString > 0";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+    */
+    public Cursor getRecipeDataRowSubstr(String recipieString) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_RECIPIE_ID + "," + COLUMN_RECIPIE_NAME + "," + COLUMN_RECIPIE_PRICE + " FROM " + TABLE_NAME +
+                " WHERE INSTR(" + COLUMN_RECIPIE_NAME + ",'" + recipieString + "')>" + 0;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     public Cursor getRecipieFolderData(){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME5;

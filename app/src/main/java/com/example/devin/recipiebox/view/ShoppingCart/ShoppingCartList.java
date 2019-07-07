@@ -63,8 +63,8 @@ public class ShoppingCartList extends AppCompatActivity {
         selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
    //     getSupportActionBar().setTitle("Shopping Cart"); // I need to pass in the Folder Name...
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+  //      setSupportActionBar(mMyToolbar);
+  //      mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         mAdapter = new ShoppingCartAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);

@@ -51,9 +51,9 @@ public class RecipieFolder extends AppCompatActivity {
         btnRecipieFolderAdd = (Button) findViewById(R.id.btnRecipieFolderAdd);
         editable_recipie_folder_item = (EditText) findViewById(R.id.editable_recipie_folder_item);
         mDatabaseHelper = new DatabaseHelper(this);
-        mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+    //    mMyToolbar = findViewById(R.id.myToolBar);
+    //    setSupportActionBar(mMyToolbar);
+    //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 

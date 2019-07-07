@@ -52,8 +52,8 @@ public class MainMenu extends AppCompatActivity {
         requestMultiplePermissions();
 
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+    //    setSupportActionBar(mMyToolbar);
+    //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
