@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -127,7 +128,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
                 selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-                for(int i=1; i<childCount-5; i++) {
+                for(int i=1; i<childCount-4; i++) {
                     View v = parentLinearLayout.getChildAt(i);
                     number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
 
@@ -182,14 +183,15 @@ public class IngredientLayoutScreen extends AppCompatActivity {
          //       imageButton.buildDrawingCache();
          //       Bitmap bitmap = imageButton.getDrawingCache();
 
-                Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
+                // myImage
+
+                Bitmap bm=((BitmapDrawable)imageButton.getDrawable()).getBitmap();
 
                 Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
         //       intent.putExtra("RecipieId", itemID);
 
 
-                intent.putExtra("BitmapImage", bitmap);
+                intent.putExtra("myImage", bm);
                 intent.putExtra("RecipieName", selectedRecipieName);
          //       Log.d(TAG, "The RecipieId is: " + itemID);
                 startActivity(intent);
@@ -208,7 +210,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
         //Add the new row before the add field button
         sizeOfList++;
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 5);
+        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 4);
     }
     public void onDelete(View v) {
         parentLinearLayout.removeView((View) v.getParent());
@@ -412,13 +414,15 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         }
 
         try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
+         //   File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
+            String fileName = "myImage";
+            File f = new File(wallpaperDirectory, fileName + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
             MediaScannerConnection.scanFile(this, new String[]{f.getPath()},new String[]{"image/jpeg"},null);
             fo.close();
-            Log.d("TAG", "File Saved::-->" + f.getAbsolutePath());
+            Log.d("TAG", "File Saved::-->" + f.getAbsolutePath()); //should be 'myImage.jpg'
 
             return f.getAbsolutePath();
         } catch (IOException el) {

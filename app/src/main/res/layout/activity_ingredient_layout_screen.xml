@@ -30,7 +30,22 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <LinearLayout
+        android:id="@+id/btnLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
+        <ImageButton
+            android:id="@+id/iv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:background="#FAFAFA"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+    </LinearLayout>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -71,8 +86,6 @@
             android:background="@android:drawable/ic_delete"
             android:onClick="onDelete" />
     </LinearLayout>
-
-
     <LinearLayout
         android:id="@+id/btnLayout"
         android:layout_width="wrap_content"
@@ -80,12 +93,12 @@
 
         <Button
             android:id="@+id/add_field_position"
-            android:layout_width="61dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:onClick="onAddField"
             android:paddingLeft="5dp"
-            android:text="Add Field" />
+            android:text="Add Ingredient" />
         <!--
         android:background="@android:drawable/ic_input_add"
         android:textColor="#FFF" /> -->
@@ -97,11 +110,13 @@
             android:layout_weight="6"
             android:text="Add Ingredient"
             android:textSize="25dp" /> -->
+        <!--
         <TextView
             android:id="@+id/number_edit_text2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello" />
+            android:text="Add Ingredient" />
+            -->
 
     </LinearLayout>
     <LinearLayout
@@ -130,25 +145,10 @@
         <EditText
             android:id="@+id/recipieDescription"
             android:layout_width="288dp"
-            android:layout_height="182dp"
+            android:layout_height="160dp"
             android:background="@drawable/border" />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/btnLayout4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageButton
-            android:id="@+id/iv"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="#FAFAFA"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"
-            />
 
-    </LinearLayout>
 </LinearLayout>
 </ScrollView>
 
