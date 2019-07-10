@@ -44,8 +44,8 @@ public class RecipieInsert extends AppCompatActivity {
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         mDatabaseHelper = new DatabaseHelper(this);
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+   //     setSupportActionBar(mMyToolbar);
+   //     mMyToolbar.setTitleTextColor(0xFFFFFFFF);
   //      getSupportActionBar().setTitle("Recipe Insert Screen");
 
         btnRecipeAdd.setOnClickListener(new View.OnClickListener() {

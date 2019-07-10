@@ -19,7 +19,7 @@
         tools:layout_conversion_absoluteHeight="334dp"
         tools:layout_conversion_absoluteWidth="384dp" />
         -->
-
+<!--
     <android.support.v7.widget.Toolbar
         android:id="@+id/myToolBar"
         android:layout_width="match_parent"
@@ -36,7 +36,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-
+        -->
+<!--
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -48,12 +49,11 @@
         app:searchSuggestionIcon="@drawable/ic_suggestion"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF" />
-
+-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="54dp"
         android:layout_marginBottom="100dp"
         android:background="@android:color/darker_gray"
         android:padding="4dp"

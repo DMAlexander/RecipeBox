@@ -1,5 +1,6 @@
 package com.example.devin.recipiebox.view.RecipieFolders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +37,7 @@ public class RecipieFolder extends AppCompatActivity {
     private DatabaseHelper mDatabaseHelper;
     private RecipieFolderAdapter mAdapter;
     private Button btnRecipieFolderAdd;
+    int sizeOfList = 1;
     ImageView mImageBtn;
     MenuItem mCartIconMenuItem;
     Toolbar mMyToolbar;
@@ -132,6 +135,18 @@ public class RecipieFolder extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void onAddField(View v) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
+        //Add the new row before the add field button
+        sizeOfList++;
+        parentRelativeLayout.addView(rowView, parentRelativeLayout.getChildCount() -1 );
+    }
+    public void onDelete(View v) {
+        parentRelativeLayout.removeView((View) v.getParent());
+        sizeOfList--;
     }
 
     private void toastMessage(String message) {

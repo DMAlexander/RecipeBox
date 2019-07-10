@@ -3,6 +3,9 @@ package com.example.devin.recipiebox.view.PublishedIngredient;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -82,6 +87,8 @@ public class IngredientInfo extends AppCompatActivity {
         selectedIngredientName = recievedIntent.getStringExtra("IngredientName");
         selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
 
+        mImageBtn = (ImageButton) findViewById(R.id.iv);
+
         //get the recipieID which is attached to the table...
         selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1);
         //set text to show current selected name
@@ -91,8 +98,8 @@ public class IngredientInfo extends AppCompatActivity {
         instructions.setText("Instructions:");
   //      getSupportActionBar().setTitle(selectedRecipieName);
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+    //    setSupportActionBar(mMyToolbar);
+    //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
         //Recycler View Declaration...
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -127,6 +134,14 @@ public class IngredientInfo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        String fileName = "myImage" + selectedRecipieName;
+        File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
+        if(imgFile.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            mImageBtn = (ImageButton) findViewById(R.id.iv);
+            mImageBtn.setImageBitmap(bitmap);
+        }
 
 /*
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -189,6 +204,8 @@ public class IngredientInfo extends AppCompatActivity {
     }
 */
     }
+
+
     private void toastMessage(String message) {
         Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
     }

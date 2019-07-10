@@ -85,6 +85,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     private ImageButton imageButton;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
+  //  String path = "";
 
 
     @Override
@@ -101,8 +102,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         descriptionLabel.setText("Recipe Description:");
         mDatabaseHelper = new DatabaseHelper(this);
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+    //    setSupportActionBar(mMyToolbar);
+    //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
    //     requestMultiplePermissions();
 
@@ -415,14 +416,14 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
         try {
          //   File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
-            String fileName = "myImage";
+            String fileName = "myImage" + selectedRecipieName;
             File f = new File(wallpaperDirectory, fileName + ".jpg");
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
             MediaScannerConnection.scanFile(this, new String[]{f.getPath()},new String[]{"image/jpeg"},null);
             fo.close();
-            Log.d("TAG", "File Saved::-->" + f.getAbsolutePath()); //should be 'myImage.jpg'
+            Log.d("TAG", "File Saved::-->" + f.getAbsolutePath()); //ex) should be 'myImagePizza.jpg'
 
             return f.getAbsolutePath();
         } catch (IOException el) {

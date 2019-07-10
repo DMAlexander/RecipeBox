@@ -107,8 +107,8 @@ public class IngredientScreen extends AppCompatActivity {
 //        editable_recipie_item.setText(selectedRecipieName);
  //       getSupportActionBar().setTitle(selectedRecipieName);
         mMyToolbar = findViewById(R.id.myToolBar);
-        setSupportActionBar(mMyToolbar);
-        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+     //   setSupportActionBar(mMyToolbar);
+     //   mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         //Recycler View Declaration...
         recyclerView = findViewById(R.id.recyclerView);
