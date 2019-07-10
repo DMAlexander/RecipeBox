@@ -61,7 +61,7 @@ public class IngredientInfo extends AppCompatActivity {
     Toolbar mMyToolbar;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
-
+    private static final String IMAGE_DIRECTORY = "/demonuts/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,8 +135,11 @@ public class IngredientInfo extends AppCompatActivity {
             }
         });
 
-        String fileName = "myImage" + selectedRecipieName;
-        File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        String fileName = "/myImage" + selectedRecipieName;
+    //    File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
         if(imgFile.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             mImageBtn = (ImageButton) findViewById(R.id.iv);

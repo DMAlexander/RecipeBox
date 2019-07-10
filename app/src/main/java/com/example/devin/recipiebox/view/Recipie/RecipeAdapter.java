@@ -3,6 +3,9 @@ package com.example.devin.recipiebox.view.Recipie;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +26,7 @@ import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private Context mContext;
     private Cursor mCursor;
     public DatabaseHelper mDatabaseHelper;
+    private static final String IMAGE_DIRECTORY = "/demonuts";
 
     private List<String> recipes;
 
@@ -67,6 +72,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public TextView mTextView1;
         public TextView mTextView2;
         public ImageView mDeleteImage;
+        public ImageView mRecipeImage;
         public RelativeLayout relativeLayout;
 
 
@@ -75,6 +81,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textView2);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
+            mRecipeImage = itemView.findViewById(R.id.recipeImage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,6 +174,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         String priceString = Double.toString(price);
         holder.mTextView2.setText(priceString);
 
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        String fileName = "/myImage" + recipieName;
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
+        if(imgFile.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            holder.mRecipeImage.setImageBitmap(bitmap);
+        }
 
  //       holder.mTextView1.setText(mCursor.getPosition());
 //        holder.mTextView1.setText(String.valueOf(mCursor.getPosition()));

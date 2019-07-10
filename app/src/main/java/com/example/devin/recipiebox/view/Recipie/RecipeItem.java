@@ -2,6 +2,7 @@ package com.example.devin.recipiebox.view.Recipie;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.example.devin.recipiebox.R;
 
@@ -10,6 +11,7 @@ public class RecipeItem {
 //    private int mImageResource;
     private String mText1;
     private String mText2;
+    private ImageView mRecipeImage;
 
     public RecipeItem(/*int imageResource,*/ String text1, String text2) {
    //     mImageResource = imageResource;

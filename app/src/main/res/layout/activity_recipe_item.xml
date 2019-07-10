@@ -8,13 +8,13 @@
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
     tools:context=".view.Recipie.RecipeItem">
-    
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="384dp"
+        android:layout_height="106dp"
         android:layout_margin="4dp">
-<!--
+        <!--
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="50dp"
@@ -37,13 +37,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_margin="2dp"
             android:layout_toEndOf="@+id/textView"
             android:text="0.00"
-            android:layout_margin="2dp"
             android:textColor="@android:color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
-<!--
+        <!--
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -62,6 +62,17 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_delete" />
+
+        <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="163dp"
+            android:layout_marginBottom="6dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_add_a_photo_black_24dp" />
 
 
     </RelativeLayout>
