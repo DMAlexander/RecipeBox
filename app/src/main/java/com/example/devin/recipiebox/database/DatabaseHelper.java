@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 37);
+        super(context, DATABASE_NAME, null, 38);
     }
 
     //Create Tables...
@@ -357,6 +357,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateRecipieDescription(String newDescription, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         String newDescriptionTwo = "";
+/*        char apostraphe = ;
+        int count = 0;
+
+        for (int i=0; i<newDescription.length(); i++) {
+            if(newDescription.charAt(i) == "'") {
+                count++;
+            }
+        }
+    */
         if(newDescription.contains("'")) {
             int firstIndex = newDescription.indexOf("'");
             String first = newDescription.substring(0, firstIndex);

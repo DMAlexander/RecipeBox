@@ -84,9 +84,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/recyclerView"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="79dp"
+        android:layout_marginEnd="121dp"
         android:layout_marginRight="-156dp"
-        android:layout_marginBottom="-83dp"
+        android:layout_marginBottom="-85dp"
         android:text="Insert Recipie" />
 <!--
     <EditText
@@ -156,7 +156,7 @@
         tools:layout_conversion_absoluteHeight="48dp"
         tools:layout_conversion_absoluteWidth="179dp" />
         -->
-
+<!--
     <Button
         android:id="@+id/btnShoppingCart"
         android:layout_width="wrap_content"
@@ -169,6 +169,6 @@
         android:layout_marginRight="-156dp"
         android:layout_marginBottom="-84dp"
         android:text="Shopping Cart" />
-
+-->
 
 </RelativeLayout>

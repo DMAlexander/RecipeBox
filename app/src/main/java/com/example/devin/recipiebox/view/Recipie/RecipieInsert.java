@@ -69,12 +69,14 @@ public class RecipieInsert extends AppCompatActivity {
 
     public void insertItem(String recipieName, int selectedRecipieFolderID) {
 
-        boolean insertData = mDatabaseHelper.addRecipieData(recipieName, null, 0, selectedRecipieFolderID);
+        String lowerCaseRecipe = recipieName.toLowerCase();
+
+        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, 0, selectedRecipieFolderID);
 
         if (insertData) {
             toastMessage("Data successfully inserted!");
 
-            Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
+            Cursor data = mDatabaseHelper.getRecipieItemID(lowerCaseRecipe);
             int itemID = -1;
             while (data.moveToNext()) {
                 itemID = data.getInt(0);
@@ -83,7 +85,7 @@ public class RecipieInsert extends AppCompatActivity {
 
 //            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
             Intent intent = new Intent(RecipieInsert.this, IngredientLayoutScreen.class);
-            intent.putExtra("RecipieName", recipieName);
+            intent.putExtra("RecipieName", lowerCaseRecipe);
             intent.putExtra("RecipieId", itemID);
                      // receivedIntent.getIntExtra("RecipieId", -1);
             startActivity(intent);

@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private String selectedRecipieFolderName;
 
    private ListView mListView, ch1;
-    private Button btnNavigate, btnShoppingCart, btnClearShoppingCart;
+    private Button btnNavigate, btnClearShoppingCart;
+//    private Button btnShoppingCart;
     private EditText editable_recipie_counter_item;
 //    private ImageView;
 
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
    //     recipes = Arrays.asList(getResources().getStringArray(recipes));
         recyclerView.setAdapter(mAdapter);
         newRecipie = (Button) findViewById(R.id.newRecipie);
-        btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
+    //    btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
    //     mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
 //        setSupportActionBar(mMyToolbar);
 //        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         //     configureNextButton();
         //    configureShoppingCartButton();
-
+/*
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 startActivity(shoppingCartIntent);
             }
         });
-
+*/
 
 /*
         btnClearShoppingCart.setOnClickListener(new View.OnClickListener() {
@@ -609,7 +610,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         @Override
         public boolean onQueryTextChange(String newText) {
-
+     //       String userInput = newText;
             String userInput = newText.toLowerCase();
        //     List<String> newList = new ArrayList<>();
 /*
