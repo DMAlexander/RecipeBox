@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         recyclerView.setAdapter(mAdapter);
         newRecipie = (Button) findViewById(R.id.newRecipie);
         btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
-        mMyToolbar = findViewById(R.id.myToolBar);
+   //     mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
 //        setSupportActionBar(mMyToolbar);
 //        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 

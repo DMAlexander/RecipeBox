@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 36);
+        super(context, DATABASE_NAME, null, 37);
     }
 
     //Create Tables...
@@ -356,12 +356,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateRecipieDescription(String newDescription, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        String newDescriptionTwo = "";
+        if(newDescription.contains("'")) {
+            int firstIndex = newDescription.indexOf("'");
+            String first = newDescription.substring(0, firstIndex);
+     //       String slash = "\'";
+            String second = newDescription.substring(firstIndex+1, newDescription.length());
+            newDescriptionTwo = first+second;
 
-        String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_RECIPIE_DESCRIPTION +
-                " = '" + newDescription + "' WHERE " + COLUMN_RECIPIE_ID + " = '" + id + "'";
-        Log.d(TAG, "updateName: query: " + query);
-        Log.d(TAG, "updateName: Setting name to " + newDescription);
-        db.execSQL(query);
+            String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_RECIPIE_DESCRIPTION +
+                    " = '" + newDescriptionTwo + "' WHERE " + COLUMN_RECIPIE_ID + " = '" + id + "'";
+            Log.d(TAG, "updateName: query: " + query);
+            Log.d(TAG, "updateName: Setting name to " + newDescriptionTwo);
+            db.execSQL(query);
+
+        } else {
+
+            String query = "UPDATE " + TABLE_NAME + " SET " + COLUMN_RECIPIE_DESCRIPTION +
+                    " = '" + newDescription + "' WHERE " + COLUMN_RECIPIE_ID + " = '" + id + "'";
+            Log.d(TAG, "updateName: query: " + query);
+            Log.d(TAG, "updateName: Setting name to " + newDescription);
+            db.execSQL(query);
+        }
     }
 
     public void updateIngredientName(String newIngredientName, int id, String oldIngredientName, int RecipieID) {

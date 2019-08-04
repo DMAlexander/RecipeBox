@@ -106,7 +106,7 @@ public class IngredientScreen extends AppCompatActivity {
         //set text to show current selected name
 //        editable_recipie_item.setText(selectedRecipieName);
  //       getSupportActionBar().setTitle(selectedRecipieName);
-        mMyToolbar = findViewById(R.id.myToolBar);
+  //      mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
      //   setSupportActionBar(mMyToolbar);
      //   mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 

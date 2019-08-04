@@ -51,7 +51,7 @@ public class MainMenu extends AppCompatActivity {
 
         requestMultiplePermissions();
 
-        mMyToolbar = findViewById(R.id.myToolBar);
+    //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
     //    setSupportActionBar(mMyToolbar);
     //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 

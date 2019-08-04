@@ -62,7 +62,7 @@ public class ShoppingCartList extends AppCompatActivity {
         Intent recievedIntent = getIntent();
         selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
    //     getSupportActionBar().setTitle("Shopping Cart"); // I need to pass in the Folder Name...
-        mMyToolbar = findViewById(R.id.myToolBar);
+    //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
   //      setSupportActionBar(mMyToolbar);
   //      mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 

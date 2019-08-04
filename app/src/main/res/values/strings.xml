@@ -13,11 +13,11 @@
     </string-array>
     <string-array name="measurement_type_array">
         <item></item>
-        <item>teaspoon</item>
-        <item>tablespoon</item>
-        <item>cup</item>
-        <item>pint</item>
-        <item>quart</item>
-        <item>gallon</item>
+        <item>tsp</item>
+        <item>tbsp</item>
+        <item>c</item>
+        <item>pt</item>
+        <item>qt</item>
+        <item>gal</item>
     </string-array>
 </resources>

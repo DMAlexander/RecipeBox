@@ -31,7 +31,7 @@ public class RecipieInsert extends AppCompatActivity {
     private EditText editRecipieText;
     private int selectedRecipieFolderID;
     ImageButton mImageBtn;
-    Toolbar mMyToolbar;
+//    Toolbar mMyToolbar;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
 
@@ -43,7 +43,7 @@ public class RecipieInsert extends AppCompatActivity {
         btnRecipeAdd = (Button) findViewById(R.id.btnRecipieAdd);
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         mDatabaseHelper = new DatabaseHelper(this);
-        mMyToolbar = findViewById(R.id.myToolBar);
+   //     mMyToolbar = findViewById(R.id.myToolBar);
    //     setSupportActionBar(mMyToolbar);
    //     mMyToolbar.setTitleTextColor(0xFFFFFFFF);
   //      getSupportActionBar().setTitle("Recipe Insert Screen");

@@ -286,31 +286,31 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     Double convertedMeasurementType1 = 1.0;
                                     Double convertedMeasurementType2 = 1.0;
 
-                                    if(measurementType.equals("teaspoon")) {
+                                    if(measurementType.equals("tsp")) {
                                         convertedMeasurementType1 = 1.0;
-                                    } else if (measurementType.equals("tablespoon")) {
+                                    } else if (measurementType.equals("tbsp")) {
                                         convertedMeasurementType1 = 3.0;
-                                    } else if (measurementType.equals("cup")) {
+                                    } else if (measurementType.equals("c")) {
                                         convertedMeasurementType1 = 48.0;
-                                    } else if (measurementType.equals("pint")) {
+                                    } else if (measurementType.equals("pt")) {
                                         convertedMeasurementType1 = 96.0;
-                                    } else if (measurementType.equals("quart")) {
+                                    } else if (measurementType.equals("qt")) {
                                         convertedMeasurementType1 = 192.0;
-                                    } else if (measurementType.equals("gallon")) {
+                                    } else if (measurementType.equals("gal")) {
                                         convertedMeasurementType1 = 768.0;
                                     }
 
-                                    if(measurementType2.equals("teaspoon")) {
+                                    if(measurementType2.equals("tsp")) {
                                         convertedMeasurementType2 = 1.0;
-                                    } else if (measurementType2.equals("tablespoon")) {
+                                    } else if (measurementType2.equals("tbsp")) {
                                         convertedMeasurementType2 = 3.0;
-                                    } else if (measurementType2.equals("cup")) {
+                                    } else if (measurementType2.equals("c")) {
                                         convertedMeasurementType2 = 48.0;
-                                    } else if (measurementType2.equals("pint")) {
+                                    } else if (measurementType2.equals("pt")) {
                                         convertedMeasurementType2 = 96.0;
-                                    } else if (measurementType2.equals("quart")) {
+                                    } else if (measurementType2.equals("qt")) {
                                         convertedMeasurementType2 = 192.0;
-                                    } else if (measurementType2.equals("gallon")) {
+                                    } else if (measurementType2.equals("gal")) {
                                         convertedMeasurementType2 = 768.0;
                                     }
 
@@ -319,21 +319,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     Double sCartQuantity = convertedAddedQuantity + convertedQuantity2;
 
                                     Double newQuantity=sCartQuantity;
-                                    if (sCartQuantity > 3 && measurementType2.equals("teaspoon")) {
+                                    if (sCartQuantity > 3 && measurementType2.equals("tsp")) {
                                         newQuantity = sCartQuantity/3;
-                                        measurementType = "tablespoon";
-                                    } else if(sCartQuantity > 16 && measurementType2.equals("tablespoon")) {
+                                        measurementType = "tbsp";
+                                    } else if(sCartQuantity > 16 && measurementType2.equals("tbsp")) {
                                         newQuantity = sCartQuantity / 16;
-                                        measurementType = "cup";
-                                    } else if(sCartQuantity > 2 && measurementType2.equals("cup")) {
+                                        measurementType = "c";
+                                    } else if(sCartQuantity > 2 && measurementType2.equals("c")) {
                                         newQuantity = sCartQuantity / 2;
-                                        measurementType = "pint";
-                                    } else if(sCartQuantity > 2 && measurementType2.equals("pint")) {
+                                        measurementType = "pt";
+                                    } else if(sCartQuantity > 2 && measurementType2.equals("pt")) {
                                         newQuantity = sCartQuantity / 2;
-                                        measurementType = "quart";
-                                    } else if(sCartQuantity > 4 && measurementType2.equals("quart")) {
+                                        measurementType = "qt";
+                                    } else if(sCartQuantity > 4 && measurementType2.equals("qt")) {
                                         newQuantity = sCartQuantity / 4;
-                                        measurementType = "gallon";
+                                        measurementType = "gal";
                                     }
 
                              //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;

@@ -97,7 +97,7 @@ public class IngredientInfo extends AppCompatActivity {
         ingredients.setText("Ingredients:");
         instructions.setText("Instructions:");
   //      getSupportActionBar().setTitle(selectedRecipieName);
-        mMyToolbar = findViewById(R.id.myToolBar);
+   //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
     //    setSupportActionBar(mMyToolbar);
     //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
         //Recycler View Declaration...

@@ -101,7 +101,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         descriptionLabel = (TextView) findViewById(R.id.descriptionLabel);
         descriptionLabel.setText("Recipe Description:");
         mDatabaseHelper = new DatabaseHelper(this);
-        mMyToolbar = findViewById(R.id.myToolBar);
+    //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
     //    setSupportActionBar(mMyToolbar);
     //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
@@ -185,14 +185,11 @@ public class IngredientLayoutScreen extends AppCompatActivity {
          //       Bitmap bitmap = imageButton.getDrawingCache();
 
                 // myImage
-
-                Bitmap bm=((BitmapDrawable)imageButton.getDrawable()).getBitmap();
-
+            //    if(imageButton.getDrawable() != null) {
+       //            Bitmap bm = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
                 Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
         //       intent.putExtra("RecipieId", itemID);
-
-
-                intent.putExtra("myImage", bm);
+        //        intent.putExtra("myImage", bm);
                 intent.putExtra("RecipieName", selectedRecipieName);
          //       Log.d(TAG, "The RecipieId is: " + itemID);
                 startActivity(intent);
