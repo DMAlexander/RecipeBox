@@ -39,6 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_INGREDIENT_PRICE = "IngPrice";
     private static final String COLUMN_RECIPIE_PRICE = "RecipiePrice";
     private static final String COLUMN_SHOPPING_CART_PRICE = "ShoppingCartPrice";
+    private static final String COLUMN_SHOPPING_CART_PRICE_TOTAL = "ShoppingCartPriceTotal";
 
     /*
     private static final String COL1 = "ID";
@@ -49,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 38);
+        super(context, DATABASE_NAME, null, 39);
     }
 
     //Create Tables...
@@ -78,6 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_INGREDIENT_NAME +" TEXT, " +
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
             COLUMN_SHOPPING_CART_PRICE + " REAL, " +
+            COLUMN_SHOPPING_CART_PRICE_TOTAL + " REAL, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
@@ -172,13 +174,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 */
  //TEMPORAIRLY USING THE ABOVE METHOD...
-    public boolean addShoppingCartData(String item, double quantity, String measurementType, double price) {
+    public boolean addShoppingCartData(String item, double quantity, String measurementType, double price, double priceTotal) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
         contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
         contentValues.put(COLUMN_SHOPPING_CART_PRICE, price);
+        contentValues.put(COLUMN_SHOPPING_CART_PRICE_TOTAL, priceTotal);
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
         long result = db.insert(TABLE_NAME4, null, contentValues);
         if (result == -1) {
@@ -517,6 +520,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: query: " + query);
         Log.d(TAG, "updateName: Setting price to " + price);
         db.execSQL(query);
+    }
+
+    public void updateShoppingCartPriceTotal(double priceTotal) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_NAME4 + " SET " + COLUMN_SHOPPING_CART_PRICE +
+                " = '" + priceTotal + "'";
+        Log.d(TAG, "update total price: query: " + query);
+        Log.d(TAG, "update total price: Setting price to " + priceTotal);
+    }
+
+    public Cursor getShoppingCartPriceSum() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + " SUM(" + COLUMN_SHOPPING_CART_PRICE + ") " +  "FROM " + TABLE_NAME4;
+        Cursor data = db.rawQuery(query, null);
+        return data;
     }
 
 }

@@ -340,8 +340,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     Double convertedPrice3 = convertedPrice + convertedPrice2;
                                     mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
                                     mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
+                              //      Double priceTotal = 0.00;
+                              //      mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
+                          //          Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
+                          //          mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
                                 } else {
-                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType, convertedPrice);
+                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType, convertedPrice, convertedPrice);
 
                                     if (insertData) {
                                         Log.d(TAG, "Data is added to shopping cart list");
