@@ -126,6 +126,11 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //if ingredients already exist, then lets delete them...
+                Intent recievedIntent = getIntent();
+                selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1);
+                mDatabaseHelper.deleteRecipeIngredients(selectedRecipieID);
+
                 final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
                 selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);

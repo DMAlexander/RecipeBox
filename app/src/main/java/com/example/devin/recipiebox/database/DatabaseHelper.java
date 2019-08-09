@@ -453,6 +453,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    public void deleteRecipeIngredients(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME2 + " WHERE "
+                + COLUMN_INGREDIENT_RECIPIE_ID + " = '" + id + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: Deleting Ingredients for recipe ID: " + id + "from database.");
+        db.execSQL(query);
+    }
+
     public void deleteShoppingCartRecipie(int id, String RecipieName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME4 + " WHERE "
