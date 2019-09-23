@@ -108,7 +108,7 @@
         android:layout_alignParentStart="true"
         android:text="Instructions are here!"
         android:textSize="30dp" />
-
+<!--
     <Button
         android:id="@+id/btnNavToRecipies"
         android:layout_width="94dp"
@@ -118,6 +118,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="400dp"
         android:text="Back to Recipies" />
+       -->
     <!--
     <LinearLayout
         android:layout_width="wrap_content"

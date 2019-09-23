@@ -71,7 +71,7 @@ public class IngredientInfo extends AppCompatActivity {
         //      btnDelete = (Button) findViewById(R.id.btnDelete);
 //        editable_item = (EditText) findViewById(R.id.editable_item);
         editable_item = (TextView) findViewById(R.id.editable_item);
-        btnNavToRecipies = (Button) findViewById(R.id.btnNavToRecipies);
+    //    btnNavToRecipies = (Button) findViewById(R.id.btnNavToRecipies);
         ingredients = (TextView) findViewById(R.id.ingredients);
         instructions = (TextView) findViewById(R.id.instructions);
         instructionsEdit = (EditText) findViewById(R.id.instructionsEdit);

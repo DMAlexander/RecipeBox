@@ -25,13 +25,11 @@
 -->
     <Button
         android:id="@+id/btnAllRecipies"
-        android:layout_width="258dp"
-        android:layout_height="99dp"
+        android:layout_width="270dp"
+        android:layout_height="231dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="All Recipes"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,17 +38,17 @@
 
     <Button
         android:id="@+id/btnRecipieFolders"
-        android:layout_width="258dp"
-        android:layout_height="100dp"
+        android:layout_width="284dp"
+        android:layout_height="206dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:text="Recipe Folders"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAllRecipies" />
-
+    <!--
     <Button
         android:id="@+id/btnShoppingCart"
         android:layout_width="258dp"
@@ -66,5 +64,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRecipieFolders"
         app:layout_constraintVertical_bias="0.096" />
-
+    -->
 </android.support.constraint.ConstraintLayout>

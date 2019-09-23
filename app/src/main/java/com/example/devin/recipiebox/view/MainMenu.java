@@ -44,7 +44,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
+   //     btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         btnRecipieFolders = (Button) findViewById(R.id.btnRecipieFolders);
         btnAllRecipies = (Button) findViewById(R.id.btnAllRecipies);
         mDatabaseHelper = new DatabaseHelper(this);
@@ -54,7 +54,7 @@ public class MainMenu extends AppCompatActivity {
     //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
     //    setSupportActionBar(mMyToolbar);
     //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
-
+/*
         btnShoppingCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +62,7 @@ public class MainMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+*/
         btnAllRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
