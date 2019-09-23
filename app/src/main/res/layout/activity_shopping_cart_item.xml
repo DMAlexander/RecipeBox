@@ -41,8 +41,8 @@
             android:textSize="40dp"
             android:layout_margin="2dp"
             />
-
-        <EditText
+<!--
+        <TextView
             android:id="@+id/price_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_weight="3"
             android:layout_margin="2dp"
             />
-
+-->
         <ImageView
             android:id="@+id/image_delete"
             android:layout_width="50dp"

@@ -100,12 +100,13 @@
         android:text="Instructions"
         android:textSize="30dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/instructionsEdit"
-        android:layout_width="315dp"
-        android:layout_height="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="113dp"
         android:layout_below="@+id/instructions"
         android:layout_alignParentStart="true"
+        android:gravity="top|left"
         android:text="Instructions are here!"
         android:textSize="30dp" />
 <!--
