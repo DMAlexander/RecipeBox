@@ -165,14 +165,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
 
         final String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
-        final double price = mCursor.getDouble(mCursor.getColumnIndex("RecipiePrice"));
+   //     final double price = mCursor.getDouble(mCursor.getColumnIndex("RecipiePrice"));
    //     final int recipieId = mCursor.getInt(mCursor.getColumnIndex("RecipieId"));
    //     Log.d(TAG, "Recipie ID value is: " + recipieId);
     //    RecipeItem currentItem = mRecipeList.get(position);
  //       holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView1.setText(recipieName);
-        String priceString = Double.toString(price);
-        holder.mTextView2.setText(priceString);
+  //      String priceString = Double.toString(price);
+  //      holder.mTextView2.setText(priceString);
 
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
@@ -213,11 +213,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     double quantity;
                     String quantityString;
                     String ingredientName = "";
-                    String price = "";
+        //            String price = "";
                     String measurementType2 = "";
                     String quantityString2;
                     String ingredientName2 = "";
-                    String price2 = "";
+        //            String price2 = "";
                     String quantityString3;
                     String ingredientName3 = "";
 
@@ -236,11 +236,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                             quantityString = data2.getString(2);
               //              quantity = Integer.parseInt(q);
                             measurementType = data2.getString(3);
-                            price = data2.getString(4);
+               //             price = data2.getString(4);
                             listData.add(ingredientName);
                             listData.add(quantityString);
                             listData.add(measurementType);
-                            listData.add(price);
+               //             listData.add(price);
                         }
 
                             for (int j = 0; j < listData.size() / 4; j++) {
@@ -248,9 +248,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                 ingredientName = listData.get(0 + (j * 4));
                                 quantityString = listData.get(1 + (j * 4));
                                 measurementType = listData.get(2 + (j * 4));
-                                price = listData.get(3 + (j * 4));
+              //                  price = listData.get(3 + (j * 4));
                                 Double convertedQuantity = Double.parseDouble(quantityString);
-                                Double convertedPrice = Double.parseDouble(price);
+              //                 Double convertedPrice = Double.parseDouble(price);
 
                                 Cursor data4 = mDatabaseHelper.getShoppingCartIngredient(ingredientName);
                                 ArrayList<String> listData3 = new ArrayList<>();
@@ -266,20 +266,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     while (data5.moveToNext()) {
                                         ingredientName2 = data5.getString(1);
                                         quantityString2 = data5.getString(2);
-                                        price2 = data5.getString(3);
+                      //                 price2 = data5.getString(3);
                                         measurementType2 = data5.getString(4);
                                         listData4.add(ingredientName2);
                                         listData4.add(quantityString2);
-                                        listData4.add(price2);
+                    //                    listData4.add(price2);
                                         listData4.add(measurementType2);
                                     }
                                     ingredientName2 = listData4.get(0);
                                     quantityString2 = listData4.get(1);
-                                    price2 = listData4.get(2);
+                   //                 price2 = listData4.get(2);
                                     measurementType2 = listData4.get(3);
 
                                     Double convertedQuantity2 = Double.parseDouble(quantityString2);
-                                    Double convertedPrice2 = Double.parseDouble(price2);
+                   //                 Double convertedPrice2 = Double.parseDouble(price2);
                                     System.out.println("Ingredient Name: " + ingredientName2 + "Quantity: " + quantityString2 + " measurement type: " + measurementType2);
 
                                     //Measurement Type conversions
@@ -337,15 +337,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     }
 
                              //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
-                                    Double convertedPrice3 = convertedPrice + convertedPrice2;
+                       //             Double convertedPrice3 = convertedPrice + convertedPrice2;
                                     mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
-                                    mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
+                       //             mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
                               //      Double priceTotal = 0.00;
                               //      mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
                           //          Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
                           //          mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
                                 } else {
-                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType, convertedPrice, convertedPrice);
+                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
 
                                     if (insertData) {
                                         Log.d(TAG, "Data is added to shopping cart list");

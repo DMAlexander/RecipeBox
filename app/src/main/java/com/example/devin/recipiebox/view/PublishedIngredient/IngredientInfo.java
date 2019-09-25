@@ -55,7 +55,7 @@ public class IngredientInfo extends AppCompatActivity {
     private int selectedRecipieID;
     private TextView ingredients;
     private TextView instructions;
-    private EditText instructionsEdit;
+    private TextView instructionsEdit;
 //    private ListView mListView;
     ImageButton mImageBtn;
     Toolbar mMyToolbar;
@@ -74,7 +74,7 @@ public class IngredientInfo extends AppCompatActivity {
     //    btnNavToRecipies = (Button) findViewById(R.id.btnNavToRecipies);
         ingredients = (TextView) findViewById(R.id.ingredients);
         instructions = (TextView) findViewById(R.id.instructions);
-        instructionsEdit = (EditText) findViewById(R.id.instructionsEdit);
+        instructionsEdit = (TextView) findViewById(R.id.instructionsEdit);
 
         mDatabaseHelper = new DatabaseHelper(this);
 //        mListView = (ListView) findViewById(R.id.listView);

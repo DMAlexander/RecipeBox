@@ -36,10 +36,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_RECIPIE_DESCRIPTION = "RecipieDescription";
     private static final String COLUMN_RECIPIE_FOLDER_ID = "FolderID";
     private static final String COLUMN_SHOPPING_CART_ID = "ShoppingCartID";
-    private static final String COLUMN_INGREDIENT_PRICE = "IngPrice";
-    private static final String COLUMN_RECIPIE_PRICE = "RecipiePrice";
-    private static final String COLUMN_SHOPPING_CART_PRICE = "ShoppingCartPrice";
-    private static final String COLUMN_SHOPPING_CART_PRICE_TOTAL = "ShoppingCartPriceTotal";
+//    private static final String COLUMN_INGREDIENT_PRICE = "IngPrice";
+//    private static final String COLUMN_RECIPIE_PRICE = "RecipiePrice";
+//    private static final String COLUMN_SHOPPING_CART_PRICE = "ShoppingCartPrice";
+//    private static final String COLUMN_SHOPPING_CART_PRICE_TOTAL = "ShoppingCartPriceTotal";
 
     /*
     private static final String COL1 = "ID";
@@ -59,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             + COLUMN_RECIPIE_NAME +" TEXT, "
             + COLUMN_RECIPIE_DESCRIPTION +" TEXT, "
-            + COLUMN_RECIPIE_PRICE + " REAL, "
+  //          + COLUMN_RECIPIE_PRICE + " REAL, "
             + COLUMN_RECIPIE_FOLDER_ID + " INTEGER)";
 
     private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_INGREDIENT_NAME +" TEXT, " +
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT, " +
-            COLUMN_INGREDIENT_PRICE + " REAL, " +
+     //       COLUMN_INGREDIENT_PRICE + " REAL, " +
             COLUMN_INGREDIENT_RECIPIE_ID + " INTEGER)";
 
     private static final String createTable3 = "CREATE TABLE " + TABLE_NAME3 + " "
@@ -78,8 +78,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(ShoppingCartID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_INGREDIENT_NAME +" TEXT, " +
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
-            COLUMN_SHOPPING_CART_PRICE + " REAL, " +
-            COLUMN_SHOPPING_CART_PRICE_TOTAL + " REAL, " +
+  //          COLUMN_SHOPPING_CART_PRICE + " REAL, " +
+  //          COLUMN_SHOPPING_CART_PRICE_TOTAL + " REAL, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
@@ -106,12 +106,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean addRecipieData(String item, String description, double price, int FolderID) {
+    public boolean addRecipieData(String item, String description, /* double price, */ int FolderID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_RECIPIE_NAME, item);
         contentValues.put(COLUMN_RECIPIE_DESCRIPTION, description);
-        contentValues.put(COLUMN_RECIPIE_PRICE, price);
+   //     contentValues.put(COLUMN_RECIPIE_PRICE, price);
         contentValues.put(COLUMN_RECIPIE_FOLDER_ID, FolderID);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);
@@ -125,13 +125,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addIngredientData(String item, double quantity, String measurementType, double price, int id) {
+    public boolean addIngredientData(String item, double quantity, String measurementType, /* double price, */ int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
         contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
-        contentValues.put(COLUMN_INGREDIENT_PRICE, price);
+ //       contentValues.put(COLUMN_INGREDIENT_PRICE, price);
         contentValues.put(COLUMN_INGREDIENT_RECIPIE_ID, id);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME2);
@@ -174,14 +174,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 */
  //TEMPORAIRLY USING THE ABOVE METHOD...
-    public boolean addShoppingCartData(String item, double quantity, String measurementType, double price, double priceTotal) {
+    public boolean addShoppingCartData(String item, double quantity, String measurementType/*, double price, double priceTotal*/) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
         contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
-        contentValues.put(COLUMN_SHOPPING_CART_PRICE, price);
-        contentValues.put(COLUMN_SHOPPING_CART_PRICE_TOTAL, priceTotal);
+ //       contentValues.put(COLUMN_SHOPPING_CART_PRICE, price);
+ //       contentValues.put(COLUMN_SHOPPING_CART_PRICE_TOTAL, priceTotal);
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
         long result = db.insert(TABLE_NAME4, null, contentValues);
         if (result == -1) {
@@ -200,7 +200,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: Setting quantity to " + newQuantity);
         db.execSQL(query);
     }
-
+/*
     public void updateShoppingCartPrice(double price, String ingredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -210,7 +210,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: Setting price to " + price);
         db.execSQL(query);
     }
-
+*/
+/*
     public Cursor getRecipePrice(String recipeName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_RECIPIE_PRICE + " FROM " + TABLE_NAME +
@@ -218,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor data = db.rawQuery(query, null);
         return data;
     }
-
+*/
 
     public Cursor getRecipieData(){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -267,9 +268,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
     */
+    /*
     public Cursor getRecipeDataRowSubstr(String recipieString) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_RECIPIE_ID + "," + COLUMN_RECIPIE_NAME + "," + COLUMN_RECIPIE_PRICE + " FROM " + TABLE_NAME +
+                " WHERE INSTR(" + COLUMN_RECIPIE_NAME + ",'" + recipieString + "')>" + 0;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+*/
+    public Cursor getRecipeDataRowSubstr(String recipieString) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_RECIPIE_ID + "," + COLUMN_RECIPIE_NAME + " FROM " + TABLE_NAME +
                 " WHERE INSTR(" + COLUMN_RECIPIE_NAME + ",'" + recipieString + "')>" + 0;
         Cursor data = db.rawQuery(query, null);
         return data;
@@ -520,7 +530,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return count;
     }
-
+/*
     public void updateRecipePrice(double price, String recipeName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -530,7 +540,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: Setting price to " + price);
         db.execSQL(query);
     }
-
+    */
+/*
     public void updateShoppingCartPriceTotal(double priceTotal) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -539,12 +550,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "update total price: query: " + query);
         Log.d(TAG, "update total price: Setting price to " + priceTotal);
     }
-
+    */
+/*
     public Cursor getShoppingCartPriceSum() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + " SUM(" + COLUMN_SHOPPING_CART_PRICE + ") " +  "FROM " + TABLE_NAME4;
         Cursor data = db.rawQuery(query, null);
         return data;
     }
-
+*/
 }

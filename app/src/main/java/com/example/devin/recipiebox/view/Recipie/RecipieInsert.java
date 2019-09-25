@@ -71,7 +71,7 @@ public class RecipieInsert extends AppCompatActivity {
 
         String lowerCaseRecipe = recipieName.toLowerCase();
 
-        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, 0, selectedRecipieFolderID);
+        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, /*0,*/ selectedRecipieFolderID);
 
         if (insertData) {
             toastMessage("Data successfully inserted!");

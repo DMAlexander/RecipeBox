@@ -137,10 +137,14 @@ public class RecipieFolder extends AppCompatActivity {
         });
     }
 
+    /**
+     *
+     * @param v
+     * Add the new row before the add field button
+     */
     public void onAddField(View v) {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
-        //Add the new row before the add field button
         sizeOfList++;
         parentRelativeLayout.addView(rowView, parentRelativeLayout.getChildCount() -1 );
     }

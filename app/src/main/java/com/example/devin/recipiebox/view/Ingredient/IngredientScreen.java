@@ -52,7 +52,7 @@ public class IngredientScreen extends AppCompatActivity {
     private Button btnIngredientAdd, btnIngredientInfo;
 //    private EditText editable_recipie_item, editable_ingredient_item;
     private EditText editable_ingredient_item;
-    private EditText price_edit_text;
+//    private EditText price_edit_text;
 //    private ListView mListView;
  //   private ImageView imageView;
 
@@ -74,26 +74,14 @@ public class IngredientScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //      setContentView(R.layout.activity_ingredient_screen);
         setContentView(R.layout.activity_ingredient_screen);
- //       btnSave = (Button) findViewById(R.id.btnSave);
- //       btnDelete = (Button) findViewById(R.id.btnDelete);
         btnIngredientAdd = (Button) findViewById(R.id.btnIngredientAdd);
- //       addImage = (Button) findViewById(R.id.addImage);
- //       imageView = (ImageView) findViewById(R.id.imageView);
- //       editable_recipie_item = (EditText) findViewById(R.id.editable_recipie_item);
         editable_ingredient_item = (EditText) findViewById(R.id.editable_ingredient_item);
-        price_edit_text = (EditText) findViewById(R.id.price_edit_text);
- //       mListView = (ListView) findViewById(R.id.listView);
+   //     price_edit_text = (EditText) findViewById(R.id.price_edit_text);
         mDatabaseHelper = new DatabaseHelper(this);
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         setButtons();
-
-     //   spinner.setOnItemSelectedListener(this);
- //       spinner2.setOnItemSelectedListener(this);
-
-//        populateIngredientListView();
         //get intent extra from the ListDataActivity
         Intent receivedIntent = getIntent();
         //get the itemID we passed as extra (From main screen)
@@ -127,61 +115,6 @@ public class IngredientScreen extends AppCompatActivity {
                 makeDialog(position, ingredientName);
             }
         });
-
-/*
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String item = editable_recipie_item.getText().toString();
-                if (!item.equals("")) {
-                    mDatabaseHelper.updateRecipieName(item, selectedRecipieID, selectedRecipieName);
-                    Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    toastMessage("Enter a name");
-                }
-            }
-        });
-
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
-                editable_recipie_item.setText("");
-                toastMessage("removed from database");
-                Intent intent = new Intent(IngredientScreen.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }); */
-/*
-        btnIngredientAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-                int itemID = -1;
-                while (data.moveToNext()) {
-                    itemID = data.getInt(0);
-                }
-                String newEntry2 = spinner.getSelectedItem().toString();
-                int num = 1;
-                num = Integer.parseInt(newEntry2);
-                String newEntry3 = spinner2.getSelectedItem().toString();
-                String newEntry = editable_ingredient_item.getText().toString();
-                if (editable_ingredient_item.length() != 0) {
-//                    mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, selectedRecipieID);
-                    mDatabaseHelper.addIngredientData(newEntry, num, newEntry3, itemID);
-//                    toastMessage("Values added: " + newEntry + " , " + num + ", " + newEntry3 + ", " + selectedRecipieID);
-                    toastMessage("Values added: " + newEntry + " , " + num + ", " + newEntry3 + ", " + itemID);
-                    toastMessage("Data successfully inserted!");
-                    finish();
-                    startActivity(getIntent());
-                } else {
-                    toastMessage("Put something in the text field!");
-                }
-            }
-        });
-        */
-
         //Create an ArrayAdapter using the string array and a default spinner layout
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.measurements_array, android.R.layout.simple_spinner_item);
@@ -225,79 +158,7 @@ public class IngredientScreen extends AppCompatActivity {
 
             }
         });
-
     }
-
-
-    //Everything in this view should be ingredient related....
-    /*
-    private void populateIngredientListView() {
-        Intent receivedIntent = getIntent();
-        //get the itemID we passed as extra
-        selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-        //get name we passed as an extra
-        selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
-
-        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-        int itemID = -1;
-        while(data.moveToNext()) {
-            itemID = data.getInt(0);
-        }
-        if (itemID > 1) {
-            Log.d(TAG, "The RecipieID is: " + itemID);
-        }
-
-        Log.d(TAG, "populate ingredient listview: Displaying data in the ingredient listview");
- //       Log.d(TAG, "This data is based on recipieID: " + selectedRecipieID + " And recipieName: " + selectedRecipieName);
-        Log.d(TAG, "This data is based on recipieID: " + selectedRecipieID + " and recipieName: " + itemID);
-        //get data and append to a list
-  //      data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
-        data = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
-//        Cursor data = mDatabaseHelper.getIngredientData();
-        ArrayList<String> listData = new ArrayList<>();
-        while(data.moveToNext()){
-            //get value from database in column then add it to arraylist...
-            listData.add(data.getString(1));
-        }
-        Collections.sort(listData);
-        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
-        mListView.setAdapter(adapter);
-        //set onItemClickListener to the listview
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String IngredientName = adapterView.getItemAtPosition(i).toString();
-                Log.d(TAG, "onItemCLick: you clicked on " + IngredientName);
-                Cursor data = mDatabaseHelper.getIngredientItemID(IngredientName, selectedRecipieID); //get id associated with IngredientName;
-                int itemID = -1;
-                while (data.moveToNext()){
-                    itemID = data.getInt(0);
-                }
-                if(itemID > -1) {
-                    Log.d(TAG, "onItemClick: The IngredientID is " + itemID);
-                    Intent ingredientScreenintent = new Intent(IngredientScreen.this, IngredientInfo.class);
-                    ingredientScreenintent.putExtra("IngredientId",itemID);
-                    ingredientScreenintent.putExtra("IngredientName",IngredientName);
-                    ingredientScreenintent.putExtra("RecipieId", selectedRecipieID);
-                    startActivity(ingredientScreenintent);
-                } else {
-                    toastMessage("No ID associated with that IngredientName");
-                }
-            }
-        });
-
-    }
-    */
-/*
-    public void AddData(String newEntry) {
-        boolean insertData = mDatabaseHelper.addIngredientData(newEntry);
-
-        if (insertData) {
-            toastMessage("Data Successfully Inserted!");
-        } else {
-            toastMessage("Something went wrong");
-        }
-    } */
 
     public void insertItem(String ingredientName) {
 
@@ -308,8 +169,8 @@ public class IngredientScreen extends AppCompatActivity {
         }
         String newEntry2 = spinner.getSelectedItem().toString();
 
-        String price = price_edit_text.getText().toString();
-        double convertedPrice = Double.parseDouble(price);
+  //      String price = price_edit_text.getText().toString();
+  //      double convertedPrice = Double.parseDouble(price);
 
         int num = 1;
         num = Integer.parseInt(newEntry2);
@@ -317,7 +178,7 @@ public class IngredientScreen extends AppCompatActivity {
         String newEntry3 = spinner2.getSelectedItem().toString();
   //      String newEntry = editable_ingredient_item.getText().toString();
         if (editable_ingredient_item != null) {
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, convertedPrice, itemID); //we need all 3 parameters here...
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, /* convertedPrice,*/ itemID); //we need all 3 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
                 mAdapter.notifyDataSetChanged();

@@ -10,7 +10,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        card_view:cardBackgroundColor="#FAFAFA"
+        card_view:cardBackgroundColor="#FAFA"
         card_view:cardCornerRadius="0dp"
         card_view:cardElevation="10dp"
         card_view:contentPadding="@dimen/margin_10"
@@ -43,7 +43,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:text="Hello"
-                android:textSize="24dp" />
+                android:textSize="32dp" />
 
         </RelativeLayout>
 

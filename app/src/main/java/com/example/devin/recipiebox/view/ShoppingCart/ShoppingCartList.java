@@ -45,14 +45,15 @@ public class ShoppingCartList extends AppCompatActivity {
     private ShoppingCartAdapter mAdapter;
     ImageButton mImageBtn; //Shopping Cart button in toolbar...
     Toolbar mMyToolbar;
-    TextView mCountTv, totalPrice;
+    TextView mCountTv;
+//    TextView totalPrice;
     MenuItem mCartIconMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart_list);
-        totalPrice = findViewById(R.id.totalPrice);
+ //       totalPrice = findViewById(R.id.totalPrice);
     //    mListView = (ListView) findViewById(R.id.listView);
         mDatabaseHelper = new DatabaseHelper(this);
         btnNavigate = (Button) findViewById(R.id.btnNavigate);
@@ -70,7 +71,7 @@ public class ShoppingCartList extends AppCompatActivity {
         mAdapter = new ShoppingCartAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
 
-        setTotalPrice();
+     //   setTotalPrice();
 
 
         mAdapter.setOnItemClickListener(new ShoppingCartAdapter.OnItemClickListener() {
@@ -237,18 +238,18 @@ public class ShoppingCartList extends AppCompatActivity {
 
     }
 
-    private void setTotalPrice() {
+  //  private void setTotalPrice() {
   //      Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
-        ArrayList<String> listData = new ArrayList();
-        Cursor priceTottal = mDatabaseHelper.getShoppingCartPriceSum();
-        while(priceTottal.moveToNext()) {
-            String priceTottalString = priceTottal.getString(0);
-            totalPrice.setText(priceTottalString);
-        }
+  //      ArrayList<String> listData = new ArrayList();
+  //      Cursor priceTottal = mDatabaseHelper.getShoppingCartPriceSum();
+  //      while(priceTottal.moveToNext()) {
+  //          String priceTottalString = priceTottal.getString(0);
+  //          totalPrice.setText(priceTottalString);
+  //      }
   //      listData.add(priceTottal);
       //  String totalPriceString = String.valueOf(priceTotal);
   //      totalPrice.setText(totalPriceString);
-    }
+  //  }
 
     private void toastMessage (String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
