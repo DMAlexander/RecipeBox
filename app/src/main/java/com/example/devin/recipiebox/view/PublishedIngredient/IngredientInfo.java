@@ -16,22 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
-import com.example.devin.recipiebox.view.Ingredient.IngredientEditAdapter;
-import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
 import com.example.devin.recipiebox.view.MainMenu;
-import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.io.File;
@@ -46,7 +38,7 @@ public class IngredientInfo extends AppCompatActivity {
     DatabaseHelper mDatabaseHelper;
 //    private Button btnSave,btnDelete;
 //    private EditText editable_item;
-    private Button btnNavToRecipies;
+//    private Button btnNavToRecipies;
     private TextView editable_item;
     private IngredientInfoAdapter mAdapter;
     private String selectedIngredientName;
@@ -126,7 +118,7 @@ public class IngredientInfo extends AppCompatActivity {
                 makeDialog(position, ingredientName);
             }
         });
-
+/*
         btnNavToRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -134,7 +126,7 @@ public class IngredientInfo extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+*/
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
         String fileName = "/myImage" + selectedRecipieName;
@@ -145,67 +137,6 @@ public class IngredientInfo extends AppCompatActivity {
             mImageBtn = (ImageButton) findViewById(R.id.iv);
             mImageBtn.setImageBitmap(bitmap);
         }
-
-/*
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String item = editable_item.getText().toString();
-                if(!item.equals("")) {
-                    mDatabaseHelper.updateIngredientName(item, selectedIngredientID, selectedIngredientName, selectedRecipieID);
-                    Log.d(TAG, "item is: " + item + ", " + "selectedIngredientID is: " + selectedIngredientID);
-                    Log.d(TAG, "selectedName is: " + selectedIngredientName + " selectedRecipieID is: " + selectedRecipieID);
-             //       Intent intent = new Intent(IngredientInfo.this, IngredientScreen.class);
-                    Intent intent = new Intent(IngredientInfo.this, MainActivity.class);
-                    intent.putExtra("IngredientId", selectedIngredientID);
-                    intent.putExtra("IngredientName", selectedIngredientName);
-                    intent.putExtra("RecipieId", selectedRecipieID);
-                    startActivity(intent);
-                } else {
-                    toastMessage("Enter a name");
-                }
-            }
-        });
-
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDatabaseHelper.deleteIngredientName(selectedIngredientID, selectedIngredientName);
-                editable_item.setText("");
-                toastMessage("removed from database");
-                /*
-                Intent intent = new Intent(IngredientInfo.this, IngredientScreen.class);
-                intent.putExtra("IngredientId", selectedIngredientID);
-                intent.putExtra("IngredientName", selectedIngredientName);
-                intent.putExtra("RecipieId", selectedRecipieID);
-                */
-/*
-                Intent intent = new Intent(IngredientInfo.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-*/
-/*
-    private void populateListView() {
-        Log.d(TAG, "populateListView: Displaying data in the listView");
-        Intent receivedIntent = getIntent();
-        selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-
-        Cursor data = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
-        ArrayList<String> listData = new ArrayList<>();
-        while (data.moveToNext()) {
-            listData.add(data.getString(1));
-   //         listData.add(data.getString(1));
-   //         listData.add(data.getString(1));
-   //         listData.add(data.getString(2));
-        }
-        Collections.sort(listData);
-        ListAdapter adapter = new ArrayAdapter<String>(this, R.layout.ingredientrowlayout, R.id.textView1,listData);
-//        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listData);
-        mListView.setAdapter(adapter);
-    }
-*/
     }
 
 

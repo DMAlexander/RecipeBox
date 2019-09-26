@@ -41,7 +41,7 @@ public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAd
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
-        public TextView mTextView4;
+    //    public TextView mTextView4;
         public ImageView mDeleteImage;
 
         public IngredientInfoViewHolder(final View itemView, final OnItemClickListener listener) {
