@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
+import com.example.devin.recipiebox.view.NewIngredient.IngredientLayoutScreen;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
@@ -71,6 +72,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView1;
         public TextView mTextView2;
+        public ImageView mEditImage;
         public ImageView mDeleteImage;
         public ImageView mRecipeImage;
         public RelativeLayout relativeLayout;
@@ -80,6 +82,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             super(itemView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mTextView2 = itemView.findViewById(R.id.textView2);
+            mEditImage = itemView.findViewById(R.id.image_edit);
             mDeleteImage = itemView.findViewById(R.id.image_delete);
             mRecipeImage = itemView.findViewById(R.id.recipeImage);
 
@@ -202,6 +205,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
             }
 
+        });
+
+        holder.mEditImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
+                int itemID = -1;
+                while (data.moveToNext()) {
+                    itemID = data.getInt(0);
+                }
+
+                Intent intent = new Intent(mContext, IngredientLayoutScreen.class);
+                intent.putExtra("RecipieName", recipieName);
+                intent.putExtra("RecipieId", itemID);
+                mContext.startActivity(intent);
+            }
         });
 
         holder.mTextView1.setOnLongClickListener(new View.OnLongClickListener() {
