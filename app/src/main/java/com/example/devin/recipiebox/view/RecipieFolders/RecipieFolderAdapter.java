@@ -3,6 +3,7 @@ package com.example.devin.recipiebox.view.RecipieFolders;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,10 +38,12 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
 
     public static class RecipieFolderViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView1;
+        public CardView mCardView;
 
         public RecipieFolderViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
             mTextView1 = itemView.findViewById(R.id.textView);
+            mCardView = itemView.findViewById(R.id.cardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,6 +76,19 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         final String recipieFolderName = mCursor.getString(mCursor.getColumnIndex("RecipieFolderName"));
         holder.mTextView1.setText(recipieFolderName);
 
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
+                Log.d(TAG, "onClick: recipieFolderID is: " + recipieFolderID);
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra("FolderID", recipieFolderID);
+                intent.putExtra("RecipieFolderName", recipieFolderName);
+                mContext.startActivity(intent);
+            }
+        });
+
+        /*
         holder.mTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +100,7 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
                 mContext.startActivity(intent);
             }
         });
+        */
 
 
 

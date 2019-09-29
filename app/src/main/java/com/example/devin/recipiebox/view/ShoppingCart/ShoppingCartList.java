@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.RecipieFolders.RecipieFolder;
 
@@ -97,7 +98,7 @@ public class ShoppingCartList extends AppCompatActivity {
         btnNavigate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ShoppingCartList.this, MainActivity.class);
+                Intent intent = new Intent(ShoppingCartList.this, MainMenu.class);
                 startActivity(intent);
             }
         });
