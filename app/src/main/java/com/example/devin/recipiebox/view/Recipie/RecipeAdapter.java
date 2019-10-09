@@ -287,7 +287,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         ingredientName2 = data5.getString(1);
                                         quantityString2 = data5.getString(2);
                       //                 price2 = data5.getString(3);
-                                        measurementType2 = data5.getString(4);
+                                        measurementType2 = data5.getString(3);
                                         listData4.add(ingredientName2);
                                         listData4.add(quantityString2);
                     //                    listData4.add(price2);
@@ -296,7 +296,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     ingredientName2 = listData4.get(0);
                                     quantityString2 = listData4.get(1);
                    //                 price2 = listData4.get(2);
-                                    measurementType2 = listData4.get(3);
+                                    measurementType2 = listData4.get(2);
 
                                     Double convertedQuantity2 = Double.parseDouble(quantityString2);
                    //                 Double convertedPrice2 = Double.parseDouble(price2);
@@ -306,6 +306,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     Double convertedMeasurementType1 = 1.0;
                                     Double convertedMeasurementType2 = 1.0;
 
+                                    //"MeasurementType" is from the recipie Info being added
                                     if(measurementType.equals("tsp")) {
                                         convertedMeasurementType1 = 1.0;
                                     } else if (measurementType.equals("tbsp")) {
@@ -320,6 +321,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         convertedMeasurementType1 = 768.0;
                                     }
 
+                                    //"MeasurementType2" is from the Shopping Cart row that already exists
                                     if(measurementType2.equals("tsp")) {
                                         convertedMeasurementType2 = 1.0;
                                     } else if (measurementType2.equals("tbsp")) {
@@ -334,11 +336,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         convertedMeasurementType2 = 768.0;
                                     }
 
+                                    //Make factor based on measurementType(s) on both added recipie and shoppingCart
                                     Double measurementFactor = convertedMeasurementType1/convertedMeasurementType2;
+                                    //How many are added to the shoppingCart times the factor
+                                    //Ex) 1/3 * 6 = 2.0
                                     Double convertedAddedQuantity = measurementFactor*convertedQuantity;
+                                    //Add quantity from line above to existing ShoppingCart row
                                     Double sCartQuantity = convertedAddedQuantity + convertedQuantity2;
 
                                     Double newQuantity=sCartQuantity;
+                                    //If sCartQuantity is above a certain threshold, we want to change the measurementType
                                     if (sCartQuantity > 3 && measurementType2.equals("tsp")) {
                                         newQuantity = sCartQuantity/3;
                                         measurementType = "tbsp";
@@ -359,6 +366,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                              //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
                        //             Double convertedPrice3 = convertedPrice + convertedPrice2;
                                     mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
+                                    mDatabaseHelper.updateShoppingCartMeasurementType(measurementType, ingredientName);
                        //             mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
                               //      Double priceTotal = 0.00;
                               //      mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);

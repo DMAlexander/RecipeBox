@@ -200,6 +200,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "updateName: Setting quantity to " + newQuantity);
         db.execSQL(query);
     }
+    public void updateShoppingCartMeasurementType(String measurementType, String ingredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_NAME4 + " SET " + COLUMN_INGREDIENT_MEASUREMENT_TYPE +
+                " = '" + measurementType + "' WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        Log.d(TAG, "updateName: query: " + query);
+        Log.d(TAG, "updateName: Setting quantity to " + measurementType);
+        db.execSQL(query);
+    }
 /*
     public void updateShoppingCartPrice(double price, String ingredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -489,6 +498,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " AND " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         Log.d(TAG, "deleteName: query: " + query);
         Log.d(TAG, "deleteName: Deleting " + ingredientName + " from shopping cart database.");
+        db.execSQL(query);
     }
 
     public void deleteShoppingCartRecipieData() {
