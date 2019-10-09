@@ -263,12 +263,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                //             listData.add(price);
                         }
 
-                            for (int j = 0; j < listData.size() / 4; j++) {
+                            for (int j = 0; j < listData.size() / 3; j++) {
                                 System.out.println(listData.get(j));
-                                ingredientName = listData.get(0 + (j * 4));
-                                quantityString = listData.get(1 + (j * 4));
-                                measurementType = listData.get(2 + (j * 4));
-              //                  price = listData.get(3 + (j * 4));
+                                ingredientName = listData.get(0 + (j * 3));
+                                quantityString = listData.get(1 + (j * 3));
+                                measurementType = listData.get(2 + (j * 3));
+              //                  price = listData.get(3 + (j * 3));
                                 Double convertedQuantity = Double.parseDouble(quantityString);
               //                 Double convertedPrice = Double.parseDouble(price);
 
