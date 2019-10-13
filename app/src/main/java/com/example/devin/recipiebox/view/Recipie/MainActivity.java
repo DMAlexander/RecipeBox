@@ -265,12 +265,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             itemID = data.getInt(0);
         }
         Log.d(TAG, "recipieId: " + itemID + " and recipie name is: " + recipieName);
-//        mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
-          mDatabaseHelper.deleteRecipieName(itemID, recipieName);
-//        mAdapter.notifyItemRemoved(position);
-//       mAdapter.notifyDataSetChanged();
-//        mRecipeList.remove(position);
+//      mDatabaseHelper.deleteRecipieName(selectedRecipieID, selectedRecipieName);
+        mDatabaseHelper.deleteRecipieName(itemID, recipieName);
         mAdapter.notifyItemRemoved(position);
+        mAdapter.notifyDataSetChanged();
+//        mRecipeList.remove(position);
+//        mAdapter.notifyItemRemoved(position);
         finish();
         overridePendingTransition(0, 0); //Get rid of blink after activity recreation
         startActivity(getIntent());
@@ -495,7 +495,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 removeItem(position, recipeName);
-                Toast.makeText(MainActivity.this, "Thanks!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Item has been removed!!",Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -38,9 +38,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     }
 
     public static class ShoppingCartViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mTextView1;
-        public final TextView mTextView2;
-        public final TextView mTextView3;
+        public TextView mTextView1;
+        public TextView mTextView2;
+        public TextView mTextView3;
      //   public final TextView mTextView4;
         public ImageView mDeleteImage;
         public RelativeLayout relativeLayout;
@@ -102,8 +102,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     */
 //        holder.mTextView1.setOnClickView(new View())
 
-        final String spinner1ValString;
-        final double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
+//        String spinner1ValString;
+        double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
+        String spinner1ValString = String.format("%.2f", spinner1Value);
+     //   String.format("%.2f", spinner1Value);
+        /*
         if (spinner1Value == 0.125) {
             spinner1ValString = "1/8";
             System.out.print(spinner1ValString);
@@ -127,12 +130,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             spinner1ValString = String.valueOf(spinner1Value);
             System.out.print(spinner1ValString);
         }
-
-
+*/
+//        spinner1ValString = String.format("%.2f", spinner1ValString); //erroring out somehow...
         holder.mTextView1.setText(spinner1ValString);
-        final String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
+        String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
         holder.mTextView2.setText(spinner2Value);
-        final String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
+        String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
         holder.mTextView3.setText(ingredientName);
   //      final double price = mCursor.getDouble(mCursor.getColumnIndex("ShoppingCartPrice"));
   //      String priceString = Double.toString(price);

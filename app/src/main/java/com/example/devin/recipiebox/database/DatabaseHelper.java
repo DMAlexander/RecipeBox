@@ -456,8 +456,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteRecipieName(int id, String RecipieName){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "DELETE FROM " + TABLE_NAME + " WHERE "
-                + COLUMN_RECIPIE_ID + " = '" + id + "'" +
-                " AND " + COLUMN_RECIPIE_NAME + " = '" + RecipieName + "'";
+                + COLUMN_RECIPIE_ID + " = '" + id + "'";
+    //            " AND " + COLUMN_RECIPIE_NAME + " = '" + RecipieName + "'";
         Log.d(TAG, "deleteName: query: " + query);
         Log.d(TAG, "deleteName: Deleting " + RecipieName + " from database.");
         db.execSQL(query);
