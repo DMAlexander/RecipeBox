@@ -531,6 +531,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+    //Select number of Ingredients in the Recipe
+    public int getIngredientCount(int id) {
+        String coutQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
+                + COLUMN_RECIPIE_ID + " = '" + id + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(coutQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
     public int getShoppingCartCount() {
         String countQuery = "SELECT * FROM " + TABLE_NAME4;
         SQLiteDatabase db = this.getReadableDatabase();

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
@@ -107,6 +108,18 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
    //     requestMultiplePermissions();
 
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        String fileName = "/myImage" + selectedRecipieName;
+        //    File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
+        if(imgFile.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            mImageBtn = (ImageButton) findViewById(R.id.iv);
+            mImageBtn.setImageBitmap(bitmap);
+        }
+
+
         imageButton = (ImageButton) findViewById(R.id.iv);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +133,42 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
         selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
   //      getSupportActionBar().setTitle(selectedRecipieName + selectedRecipieID);
+
+        Cursor data = mDatabaseHelper.getRecipieDescription(selectedRecipieName);
+        String recipeDescription = "";
+        while (data.moveToNext()) {
+            recipeDescription = data.getString(0);
+        }
+        Log.d(TAG, "Description is: " + recipeDescription);
+
+        recipieDescription.setText(recipeDescription);
+
+        int count = mDatabaseHelper.getIngredientCount(selectedRecipieID);
+        for(int i=0; i<count; i++) {
+            String ingredientName = "";
+            String measurementQuantity = "";
+            String measurementType = "";
+
+            Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
+            ArrayList<String> listData = new ArrayList<>();
+            while (data2.moveToNext()) {
+
+                ingredientName = data2.getString(1);
+                measurementQuantity = data2.getString(2);
+                measurementType = data2.getString(3);
+                listData.add(ingredientName);
+                listData.add(measurementQuantity);
+                listData.add(measurementType);
+            }
+            ingredientName = listData.get(0);
+            measurementQuantity = listData.get(1);
+            measurementType = listData.get(2);
+
+            View v = parentLinearLayout.getChildAt(i);
+            number_edit_text.setText(ingredientName);
+
+        }
+
         final int childCount = parentLinearLayout.getChildCount();
         btnSave = (Button) findViewById(R.id.btnSave);
 
@@ -219,6 +268,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         parentLinearLayout.removeView((View) v.getParent());
         sizeOfList--;
     }
+
     public void insertItem(String ingredientName, /* double convertedPrice, */ String newEntry2, String newEntry3, int selectedRecipieID) {
     /*
         Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
