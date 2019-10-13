@@ -361,6 +361,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     } else if(sCartQuantity > 4 && measurementType2.equals("qt")) {
                                         newQuantity = sCartQuantity / 4;
                                         measurementType = "gal";
+                                    } else {
+                                        measurementType = measurementType2;
                                     }
 
                              //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;

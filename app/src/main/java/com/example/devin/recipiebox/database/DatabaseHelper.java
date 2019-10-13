@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 40);
+        super(context, DATABASE_NAME, null, 41);
     }
 
     //Create Tables...
