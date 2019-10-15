@@ -16,7 +16,7 @@
             android:id="@+id/spinner1Value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
+            android:textSize="30dp"
             android:text="9"
             android:layout_margin="2dp"
             />
@@ -25,7 +25,7 @@
             android:id="@+id/spinner2Value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
+            android:textSize="30dp"
             android:text="gallon"
             android:layout_toEndOf="@+id/spinner1Value"
             android:layout_margin="2dp"
@@ -38,7 +38,18 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/spinner2Value"
             android:text="Ingredient"
-            android:textSize="40dp"
+            android:textSize="30dp"
+            android:layout_margin="2dp"
+            />
+
+        <TextView
+            android:id="@+id/ingredientQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/ingredientTextView"
+            android:text="Swag"
+            android:textSize="30dp"
             android:layout_margin="2dp"
             />
 <!--
@@ -57,7 +68,7 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@+id/ingredientTextView"
+            android:layout_toEndOf="@+id/ingredientQuantity"
             android:layout_margin="2dp"
             android:src="@drawable/ic_delete"
             />

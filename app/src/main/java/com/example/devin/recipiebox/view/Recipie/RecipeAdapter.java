@@ -279,6 +279,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     listData3.add(ingredientName2);
                                 }
 
+                                int exportedRecipeCount = mDatabaseHelper.getExportedRecipeCount();
+                                mDatabaseHelper.updateShoppingCartRecipeCount(exportedRecipeCount);
+
                                 if (listData3.size() != 0) { //ingredient name already exists in shopping cart
                                     //we will need to put in the information for the specific row...
                                     Cursor data5 = mDatabaseHelper.getShoppingCartDataRow(ingredientName);
@@ -287,7 +290,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         ingredientName2 = data5.getString(1);
                                         quantityString2 = data5.getString(2);
                       //                 price2 = data5.getString(3);
-                                        measurementType2 = data5.getString(3);
+                                        measurementType2 = data5.getString(4);
                                         listData4.add(ingredientName2);
                                         listData4.add(quantityString2);
                     //                    listData4.add(price2);
@@ -365,6 +368,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         measurementType = measurementType2;
                                     }
 
+
+
                              //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
                        //             Double convertedPrice3 = convertedPrice + convertedPrice2;
                                     mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
@@ -375,7 +380,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                           //          Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
                           //          mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
                                 } else {
-                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
+                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType, exportedRecipeCount);
 
                                     if (insertData) {
                                         Log.d(TAG, "Data is added to shopping cart list");

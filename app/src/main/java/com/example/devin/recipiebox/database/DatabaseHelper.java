@@ -36,6 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_RECIPIE_DESCRIPTION = "RecipieDescription";
     private static final String COLUMN_RECIPIE_FOLDER_ID = "FolderID";
     private static final String COLUMN_SHOPPING_CART_ID = "ShoppingCartID";
+    private static final String COLUMN_SHOPPING_CART_FLAG = "ShoppingCartFlag";
+    private static final String COLUMN_RECIPE_QUANTITY = "RecipieQuantity";
 //    private static final String COLUMN_INGREDIENT_PRICE = "IngPrice";
 //    private static final String COLUMN_RECIPIE_PRICE = "RecipiePrice";
 //    private static final String COLUMN_SHOPPING_CART_PRICE = "ShoppingCartPrice";
@@ -50,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 41);
+        super(context, DATABASE_NAME, null, 42);
     }
 
     //Create Tables...
@@ -68,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT, " +
      //       COLUMN_INGREDIENT_PRICE + " REAL, " +
+            COLUMN_SHOPPING_CART_FLAG + " TEXT, " +
             COLUMN_INGREDIENT_RECIPIE_ID + " INTEGER)";
 
     private static final String createTable3 = "CREATE TABLE " + TABLE_NAME3 + " "
@@ -80,6 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
   //          COLUMN_SHOPPING_CART_PRICE + " REAL, " +
   //          COLUMN_SHOPPING_CART_PRICE_TOTAL + " REAL, " +
+            COLUMN_RECIPE_QUANTITY + " INTEGER, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
@@ -125,13 +129,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean addIngredientData(String item, double quantity, String measurementType, /* double price, */ int id) {
+    public boolean addIngredientData(String item, double quantity, String measurementType, String scf, /* double price, */ int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
         contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
  //       contentValues.put(COLUMN_INGREDIENT_PRICE, price);
+        contentValues.put(COLUMN_SHOPPING_CART_FLAG, scf);
         contentValues.put(COLUMN_INGREDIENT_RECIPIE_ID, id);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME2);
@@ -174,12 +179,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 */
  //TEMPORAIRLY USING THE ABOVE METHOD...
-    public boolean addShoppingCartData(String item, double quantity, String measurementType/*, double price, double priceTotal*/) {
+    public boolean addShoppingCartData(String item, double quantity, String measurementType, int recipeQuantity/*, double price, double priceTotal*/) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
         contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
+        contentValues.put(COLUMN_RECIPE_QUANTITY, recipeQuantity);
  //       contentValues.put(COLUMN_SHOPPING_CART_PRICE, price);
  //       contentValues.put(COLUMN_SHOPPING_CART_PRICE_TOTAL, priceTotal);
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);
@@ -533,14 +539,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Select number of Ingredients in the Recipe
     public int getIngredientCount(int id) {
-        String coutQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
+        String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
                 + COLUMN_RECIPIE_ID + " = '" + id + "'";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(coutQuery, null);
+        Cursor cursor = db.rawQuery(countQuery, null);
 
         int count = cursor.getCount();
         cursor.close();
         return count;
+    }
+
+    //Count instances where Shopping Cart Flag is "Y".
+    public int getExportedRecipeCount() {
+        String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
+                + COLUMN_SHOPPING_CART_FLAG + " = '" + "Y" + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public void updateShoppingCartRecipeCount(int quantity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_NAME4 + " SET " + COLUMN_RECIPE_QUANTITY +
+                " = '" + quantity + "'";
+        Log.d(TAG, "updateName: query: " + query);
     }
 
     public int getShoppingCartCount() {

@@ -119,7 +119,6 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             mImageBtn.setImageBitmap(bitmap);
         }
 
-
         imageButton = (ImageButton) findViewById(R.id.iv);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -206,13 +205,22 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     type_spinner2 = (Spinner) v.findViewById(R.id.type_spinner2);
                     String newEntry3 = type_spinner2.getSelectedItem().toString();
 
+                    if(newEntry2.equalsIgnoreCase("")) {
+                        newEntry2 = null;
+                    }
 
+                    if(newEntry3.equalsIgnoreCase("")) {
+                        newEntry3 = null;
+                    }
+
+                    Double convertedSpinner = Double.valueOf(newEntry2);
 
                     if (number_edit_text.length() != 0) {
                         insertItem(ingredientName, /* convertedPrice, */ newEntry2, newEntry3, selectedRecipieID);
                         //               number_edit_text.setText("");
                     } else {
-                        toastMessage("Please put something in the textbox!");
+                        mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, null, "N", /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
+                        toastMessage("No Ingredients Added!");
                     }
                 }
 
@@ -315,7 +323,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         //      String newEntry = editable_ingredient_item.getText().toString();
         if (number_edit_text.length() != 0) {
             Log.d(TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID);
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, "Y", /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
             } else {

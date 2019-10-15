@@ -75,6 +75,10 @@ public class ShoppingCartList extends AppCompatActivity {
      //   setTotalPrice();
 
 
+
+
+
+
         mAdapter.setOnItemClickListener(new ShoppingCartAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

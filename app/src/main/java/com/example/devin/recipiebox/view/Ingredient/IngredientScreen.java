@@ -178,7 +178,7 @@ public class IngredientScreen extends AppCompatActivity {
         String newEntry3 = spinner2.getSelectedItem().toString();
   //      String newEntry = editable_ingredient_item.getText().toString();
         if (editable_ingredient_item != null) {
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, /* convertedPrice,*/ itemID); //we need all 3 parameters here...
+            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, num, newEntry3, "Y", /* convertedPrice,*/ itemID); //we need all 3 parameters here...
             if (insertData) {
                 toastMessage("Data successfully inserted!");
                 mAdapter.notifyDataSetChanged();
