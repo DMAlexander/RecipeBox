@@ -222,28 +222,35 @@ public class ShoppingCartList extends AppCompatActivity {
         ArrayList arrayList2 = new ArrayList();
 
         //Add data to the listView
-        String[] items={"Facebook","Google","amazon"};
+        String[] items = {"Facebook", "Google", "amazon"};
 
         int recipeNumber = mDatabaseHelper.getIngredientRecipieItemIDCount(ingredientName);
 
         String recipeName;
         int ingredientRecipeId;
-        for(int i=0; i<recipeNumber; i++) {
+        //      for(int i=0; i<recipeNumber; i++) {
 
-            ingredientRecipeId = -1;
+        ingredientRecipeId = -1;
 
-            Cursor data2 = mDatabaseHelper.getIngredientRecipieItemID(ingredientName);
-            while (data2.moveToNext()) {
-                ingredientRecipeId = data2.getInt(0);
-            }
+        Cursor data2 = mDatabaseHelper.getIngredientRecipieItemID(ingredientName);
+        while (data2.moveToNext()) {
+            ingredientRecipeId = data2.getInt(0);
 
             Cursor data3 = mDatabaseHelper.getRecipiesByIngredientID(ingredientRecipeId);
-
             while (data3.moveToNext()) {
                 recipeName = data3.getString(1);
                 arrayList2.add(recipeName);
             }
         }
+ //           }
+/*
+            Cursor data3 = mDatabaseHelper.getRecipiesByIngredientID(ingredientRecipeId);
+
+            while (data3.moveToNext()) {
+                recipeName = data3.getString(1);
+                arrayList2.add(recipeName);
+            } */
+   //     }
 
 /*
         Cursor data2 = mDatabaseHelper.getIngredientItemID(ingredientName);
