@@ -74,11 +74,6 @@ public class ShoppingCartList extends AppCompatActivity {
 
      //   setTotalPrice();
 
-
-
-
-
-
         mAdapter.setOnItemClickListener(new ShoppingCartAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -86,8 +81,13 @@ public class ShoppingCartList extends AppCompatActivity {
             }
 
             @Override
+            public void onQuantityClick(int position, String ingredientName) {
+                makeQuantityDialog(position, ingredientName);
+            }
+
+            @Override
             public void onDeleteClick(int position, String ingredientName) {
-                makeDialog(position, ingredientName);
+                makeDeleteDialog(position, ingredientName);
             }
         });
 
@@ -191,7 +191,7 @@ public class ShoppingCartList extends AppCompatActivity {
 
     }
 
-    public void makeDialog(final int position, final String ingredientName) {
+    public void makeDeleteDialog(final int position, final String ingredientName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);
         builder.setTitle("Delete Ingredient");
         builder.setMessage("Are you sure you want to delete the ingredient?");
@@ -200,6 +200,80 @@ public class ShoppingCartList extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 removeItem(position, ingredientName);
+                Toast.makeText(ShoppingCartList.this, "Thanks!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(ShoppingCartList.this, "Sorry.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.create().show();
+    }
+
+    public void makeQuantityDialog(final int position, String ingredientName) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);
+        builder.setTitle("List of Recipes:");
+
+        ListView listView = new ListView(this);
+        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList1 = new ArrayList();
+        ArrayList arrayList2 = new ArrayList();
+
+        //Add data to the listView
+        String[] items={"Facebook","Google","amazon"};
+
+        int recipeNumber = mDatabaseHelper.getIngredientRecipieItemIDCount(ingredientName);
+
+        String recipeName;
+        int ingredientRecipeId;
+        for(int i=0; i<recipeNumber; i++) {
+
+            ingredientRecipeId = -1;
+
+            Cursor data2 = mDatabaseHelper.getIngredientRecipieItemID(ingredientName);
+            while (data2.moveToNext()) {
+                ingredientRecipeId = data2.getInt(0);
+            }
+
+            Cursor data3 = mDatabaseHelper.getRecipiesByIngredientID(ingredientRecipeId);
+
+            while (data3.moveToNext()) {
+                recipeName = data3.getString(1);
+                arrayList2.add(recipeName);
+            }
+        }
+
+/*
+        Cursor data2 = mDatabaseHelper.getIngredientItemID(ingredientName);
+        int itemID = -1;
+        while (data2.moveToNext()) {
+            itemID = data2.getInt(0);
+        }
+*/
+
+  //      Cursor data = mDatabaseHelper.getShoppingCartData();
+  //      if(data != null && data.moveToFirst() ) {
+  //          String ingredientName = data.getString(1);
+//        String quantityString = data.getString(2);
+//        String measurementType = data.getString(3);
+  //          arrayList.add(ingredientName);
+//        arrayList.add(quantityString);
+//        arrayList.add(measurementType);
+ //       }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_shopping_cart_dialog_item, R.id.recipeItem, arrayList2);
+        listView.setAdapter(adapter);
+
+        builder.setView(listView);
+
+        builder.setMessage("Here's your recipes, buddy.");
+
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+           //     removeItem(position, ingredientName);
                 Toast.makeText(ShoppingCartList.this, "Thanks!", Toast.LENGTH_SHORT).show();
             }
         });

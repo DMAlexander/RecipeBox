@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 42);
+        super(context, DATABASE_NAME, null, 43);
     }
 
     //Create Tables...
@@ -330,6 +330,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getRecipiesByIngredientID(int recipeID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_INGREDIENT_RECIPIE_ID + " = '" + recipeID + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
     public Cursor getRecipieItemID(String RecipieName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_RECIPIE_ID + " FROM " + TABLE_NAME +
@@ -356,11 +364,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    /*
+    //Get Ingredient/Recipe ID from Ingredient Table for a Given Ingredient Name (used in Shopping Cart dialog box)
     public Cursor getIngredientRecipieItemID(String IngredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COLUMN_INGREDIENT_RECIPIE_ID + " FROM " + TABLE_NAME2
-    } */
+        String query = "SELECT " + COLUMN_INGREDIENT_RECIPIE_ID + " FROM " + TABLE_NAME2 +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + IngredientName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    //Select number of Ingredients in the Recipe
+    public int getIngredientRecipieItemIDCount(String IngredientName) {
+        String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
+                + COLUMN_INGREDIENT_NAME + " = '" + IngredientName  + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
 
     public Cursor getShoppingCartItemID(String name) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -550,9 +573,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Count instances where Shopping Cart Flag is "Y".
-    public int getExportedRecipeCount() {
+
+    public int getExportedRecipeCount(String ingredientName) {
         String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
-                + COLUMN_SHOPPING_CART_FLAG + " = '" + "Y" + "'";
+                + COLUMN_SHOPPING_CART_FLAG + " = '" + "Y" + "'"
+                + " AND " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
@@ -561,12 +586,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public void updateShoppingCartRecipeCount(int quantity) {
+    public Cursor getShoppingCartDialogList(String IngredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_RECIPIE_NAME + " FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + IngredientName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public void updateShoppingCartRecipeCount(int quantity, String ingredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "UPDATE " + TABLE_NAME4 + " SET " + COLUMN_RECIPE_QUANTITY +
-                " = '" + quantity + "'";
+                " = '" + quantity + "'" + " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         Log.d(TAG, "updateName: query: " + query);
+        db.execSQL(query);
     }
 
     public int getShoppingCartCount() {

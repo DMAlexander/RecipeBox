@@ -279,8 +279,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     listData3.add(ingredientName2);
                                 }
 
-                                int exportedRecipeCount = mDatabaseHelper.getExportedRecipeCount();
-                                mDatabaseHelper.updateShoppingCartRecipeCount(exportedRecipeCount);
+                                int exportedRecipeCount = mDatabaseHelper.getExportedRecipeCount(ingredientName);
+                                mDatabaseHelper.updateShoppingCartRecipeCount(exportedRecipeCount, ingredientName);
 
                                 if (listData3.size() != 0) { //ingredient name already exists in shopping cart
                                     //we will need to put in the information for the specific row...
