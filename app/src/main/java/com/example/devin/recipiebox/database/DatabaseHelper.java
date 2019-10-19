@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -19,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME3 = "recipie_and_ingredient_table";
     private static final String TABLE_NAME4 = "shopping_cart_table";
     private static final String TABLE_NAME5 = "recipe_folder_table";
+    private static final String TABLE_NAME6 = "exported_recipes_table";
 
 
     private static final String COLUMN_RECIPIE_ID = "ID";
@@ -38,6 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SHOPPING_CART_ID = "ShoppingCartID";
     private static final String COLUMN_SHOPPING_CART_FLAG = "ShoppingCartFlag";
     private static final String COLUMN_RECIPE_QUANTITY = "RecipieQuantity";
+    private static final String COLUMN_EXPORTED_RECIPE_ID = "ExportedRecipeID";
 //    private static final String COLUMN_INGREDIENT_PRICE = "IngPrice";
 //    private static final String COLUMN_RECIPIE_PRICE = "RecipiePrice";
 //    private static final String COLUMN_SHOPPING_CART_PRICE = "ShoppingCartPrice";
@@ -52,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 43);
+        super(context, DATABASE_NAME, null, 45);
     }
 
     //Create Tables...
@@ -90,6 +93,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "(FolderID INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_RECIPIE_FOLDER_NAME +" TEXT)";
 
+    private static final String createTable6 = "CREATE TABLE " + TABLE_NAME6 + " "
+            + "(" + COLUMN_EXPORTED_RECIPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_RECIPIE_NAME + " TEXT, " +
+            COLUMN_INGREDIENT_NAME + " TEXT, " +
+            COLUMN_INGREDIENT_QUANTITY + " TEXT, " +
+            COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(createTable);
@@ -97,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTable3);
         db.execSQL(createTable4);
         db.execSQL(createTable5);
+        db.execSQL(createTable6);
     }
 
     @Override
@@ -106,6 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME3);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME4);
         db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME5);
+        db.execSQL(" DROP TABLE IF EXISTS " + TABLE_NAME6);
         onCreate(db);
     }
 
@@ -162,6 +175,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    public boolean addExportedRecipeData(String item, String ingredientName, String ingredientQuantity, String measurementType) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_RECIPIE_NAME, item);
+        contentValues.put(COLUMN_INGREDIENT_NAME, ingredientName);
+        contentValues.put(COLUMN_INGREDIENT_QUANTITY, ingredientQuantity);
+        contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
+        Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME6);
+        long result = db.insert(TABLE_NAME6, null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //getExported ShoppingCartData for a specific IngredientName
+    public Cursor getExportedShoppingCartData(String ingredientName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME6 +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
     }
 
 /*

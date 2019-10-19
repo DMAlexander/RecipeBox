@@ -240,6 +240,38 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         //            String price2 = "";
                     String quantityString3;
                     String ingredientName3 = "";
+                    String quantityString4;
+                    String ingredientQuantity = "";
+
+                    Cursor data6 = mDatabaseHelper.getRecipieItemID(recipieName);
+                    int itemID2 = -1;
+                    while (data6.moveToNext()) {
+                        itemID2 = data6.getInt(0);
+                    }
+                    if (itemID2 > -1) {
+                        Log.d(TAG, "onLongClick: The ID is: " + itemID2);
+
+                        Cursor data7 = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID2);
+                        ArrayList<String> listData4 = new ArrayList<>();
+                        while (data7.moveToNext()) {
+                            ingredientName = data7.getString(1);
+                            ingredientQuantity = data7.getString(2);
+                            //              quantity = Integer.parseInt(q);
+                            measurementType = data7.getString(3);
+                            //             price = data2.getString(4);
+                            listData4.add(ingredientName);
+                            listData4.add(ingredientQuantity);
+                            listData4.add(measurementType);
+                        }
+                    }
+                  //  String quantityString ="";
+                    boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, ingredientName, ingredientQuantity, measurementType);
+
+                    if (insertData2) {
+                        Log.d(TAG, "Data is Exported to the Shopping Cart");
+                    } else {
+                        Log.d(TAG, "Something went wrong");
+                    }
 
                     Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
                     int itemID = -1;

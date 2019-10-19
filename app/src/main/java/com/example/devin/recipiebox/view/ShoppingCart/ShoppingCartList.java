@@ -1,5 +1,6 @@
 package com.example.devin.recipiebox.view.ShoppingCart;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,9 +11,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,6 +47,7 @@ public class ShoppingCartList extends AppCompatActivity {
     private int selectedID;
     String selectedRecipieName;
     private ShoppingCartAdapter mAdapter;
+    private ShoppingCartDialogAdapter mAdapter2;
     ImageButton mImageBtn; //Shopping Cart button in toolbar...
     Toolbar mMyToolbar;
     TextView mCountTv;
@@ -195,7 +199,7 @@ public class ShoppingCartList extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);
         builder.setTitle("Delete Ingredient");
         builder.setMessage("Are you sure you want to delete the ingredient?");
-
+    //    builder.setView(R.layout.activity_folder_layout_screen);
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -214,7 +218,47 @@ public class ShoppingCartList extends AppCompatActivity {
 
     public void makeQuantityDialog(final int position, String ingredientName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);
-        builder.setTitle("List of Recipes:");
+
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.fraglayout);
+        mDatabaseHelper = new DatabaseHelper(this);
+
+   //     LayoutInflater inflater = getLayoutInflater();
+
+   //     View dialogView = (View) inflater.inflate(R.layout.activity_shopping_cart_dialog_item, null);
+
+   //     builder.setView(dialogView);
+
+   //     RecyclerView rv = (RecyclerView) dialogView.findViewById(R.id.rv);
+
+        dialog.setTitle("Your Recipies: ");
+
+        RecyclerView rv = (RecyclerView) dialog.findViewById(R.id.rv);
+
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter2 = new ShoppingCartDialogAdapter(this, getDialogItems(ingredientName));
+        rv.setAdapter(mAdapter2);
+
+   //     RecyclerView recyclerView = findViewById(R.id.recyclerView);
+   //     recyclerView.setLayoutManager(new LinearLayoutManager(this));
+     //   Intent recievedIntent = getIntent();
+     //   selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
+        //     getSupportActionBar().setTitle("Shopping Cart"); // I need to pass in the Folder Name...
+        //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
+        //      setSupportActionBar(mMyToolbar);
+        //      mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+
+ //       mAdapter2 = new
+ //       recyclerView.setAdapter(mAdapter2);
+
+        dialog.show();
+
+ //       AlertDialog dialog = builder.create();
+ //       dialog.show();
+
+
+
+   //     builder.setTitle("List of Recipes:");
 
         ListView listView = new ListView(this);
         ArrayList arrayList = new ArrayList();
@@ -231,7 +275,7 @@ public class ShoppingCartList extends AppCompatActivity {
         //      for(int i=0; i<recipeNumber; i++) {
 
         ingredientRecipeId = -1;
-
+/*
         Cursor data2 = mDatabaseHelper.getIngredientRecipieItemID(ingredientName);
         while (data2.moveToNext()) {
             ingredientRecipeId = data2.getInt(0);
@@ -242,6 +286,18 @@ public class ShoppingCartList extends AppCompatActivity {
                 arrayList2.add(recipeName);
             }
         }
+*/
+
+//        setContentView(R.layout.activity_recipie_insert);
+
+//        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//        mAdapter2 = new ShoppingCartDialogAdapter(this, getDialogItems(ingredientName));
+//        recyclerView.setAdapter(mAdapter2);
+
+
+
  //           }
 /*
             Cursor data3 = mDatabaseHelper.getRecipiesByIngredientID(ingredientRecipeId);
@@ -270,11 +326,25 @@ public class ShoppingCartList extends AppCompatActivity {
 //        arrayList.add(measurementType);
  //       }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_shopping_cart_dialog_item, R.id.recipeItem, arrayList2);
+        /*
+        Cursor data =mDatabaseHelper.getExportedShoppingCartData(ingredientName);
+        int itemID = -1;
+        while (data.moveToNext()) {
+            itemID = data.getInt(0);
+            ingredientName = data.getString(1);
+            String quantityString = data.getString(2);
+            String measurementType = data.getString(3);
+            arrayList.add(itemID);
+            arrayList.add(ingredientName);
+            arrayList.add(quantityString);
+            arrayList.add(measurementType);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_shopping_cart_dialog_item, R.id.recipeItem, arrayList);
         listView.setAdapter(adapter);
-
         builder.setView(listView);
-
+        */
+/*
         builder.setMessage("Here's your recipes, buddy.");
 
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -290,7 +360,10 @@ public class ShoppingCartList extends AppCompatActivity {
                 Toast.makeText(ShoppingCartList.this, "Sorry.", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.create().show();
+*/
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//        builder.create().show();
 
     }
 
@@ -322,6 +395,24 @@ public class ShoppingCartList extends AppCompatActivity {
     private Cursor getAllItems() {
         return mDatabaseHelper.getShoppingCartData();
 
+    }
+
+    private Cursor getDialogItems(String ingredientName) {
+//        ArrayList arrayList = new ArrayList();
+//        int ingredientRecipeId=0;
+//        String recipeName="";
+//        Cursor data2 = mDatabaseHelper.getIngredientRecipieItemID(ingredientName);
+//        while (data2.moveToNext()) {
+//            ingredientRecipeId = data2.getInt(0);
+
+//            Cursor data3 = mDatabaseHelper.getRecipiesByIngredientID(ingredientRecipeId);
+//            while (data3.moveToNext()) {
+//                recipeName = data3.getString(1);
+//                arrayList.add(recipeName);
+ //           }
+//        }
+//        return mDatabaseHelper.getRecipiesByIngredientID(ingredientRecipeId);
+        return mDatabaseHelper.getExportedShoppingCartData(ingredientName);
     }
 
   //  private void setTotalPrice() {
