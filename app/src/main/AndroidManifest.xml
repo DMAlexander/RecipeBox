@@ -40,9 +40,10 @@
         <activity android:name=".view.PublishedIngredient.IngredientInfoItem" />
         <activity android:name=".view.RecipieFolders.RecipieFolder" />
         <activity android:name=".view.RecipieFolders.RecipieFolderItem" />
+        <activity android:name=".view.RecipeMenu" />
         <activity android:name=".view.Recipie.RecipieInsert" />
         <activity android:name=".view.NewIngredient.IngredientLayoutScreen" />
-        <activity android:name=".view.RecipieFolders.FolderLayoutScreen"></activity>
+        <activity android:name=".view.RecipieFolders.FolderLayoutScreen" />
     </application>
 
 </manifest>

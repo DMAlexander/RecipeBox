@@ -33,7 +33,7 @@ import java.util.List;
 
 public class MainMenu extends AppCompatActivity {
 
-    private Button btnShoppingCart, btnRecipieFolders, btnAllRecipies;
+    private Button btnShoppingCart, btnRecipieFolders, btnAllRecipies, recipeMenu;
     ImageButton mImageBtn; //Shopping Cart button in toolbar...
     Toolbar mMyToolbar;
     TextView mCountTv;
@@ -44,37 +44,36 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-   //     btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
-        btnRecipieFolders = (Button) findViewById(R.id.btnRecipieFolders);
         btnAllRecipies = (Button) findViewById(R.id.btnAllRecipies);
+        recipeMenu = (Button) findViewById(R.id.recipeMenu);
+        btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
         mDatabaseHelper = new DatabaseHelper(this);
-
-        requestMultiplePermissions();
 
     //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
     //    setSupportActionBar(mMyToolbar);
     //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
-/*
-        btnShoppingCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, ShoppingCartList.class);
-                startActivity(intent);
-            }
-        });
-*/
+
         btnAllRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, MainActivity.class);
+                Intent intent = new Intent(MainMenu.this, RecipeMenu.class);
                 startActivity(intent);
             }
         });
 
-        btnRecipieFolders.setOnClickListener(new View.OnClickListener() {
+        recipeMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //I need to change this...
                 Intent intent = new Intent(MainMenu.this, RecipieFolder.class);
+                startActivity(intent);
+            }
+        });
+
+        btnShoppingCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, ShoppingCartList.class);
                 startActivity(intent);
             }
         });
