@@ -202,6 +202,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor getExportedShoppingCartRecipes() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + COLUMN_RECIPIE_NAME + " FROM " + TABLE_NAME6;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
 /*
     public boolean addShoppingCartData(String item) {
         SQLiteDatabase db = this.getWritableDatabase();

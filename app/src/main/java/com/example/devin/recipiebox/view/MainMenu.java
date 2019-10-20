@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
+import com.example.devin.recipiebox.view.Menu.ExportedRecipesMenu;
 import com.example.devin.recipiebox.view.NewIngredient.IngredientLayoutScreen;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 import com.example.devin.recipiebox.view.Recipie.RecipieScreen;
@@ -65,7 +66,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //I need to change this...
-                Intent intent = new Intent(MainMenu.this, RecipieFolder.class);
+                Intent intent = new Intent(MainMenu.this, ExportedRecipesMenu.class);
                 startActivity(intent);
             }
         });
