@@ -44,7 +44,8 @@
         <activity android:name=".view.Recipie.RecipieInsert" />
         <activity android:name=".view.NewIngredient.IngredientLayoutScreen" />
         <activity android:name=".view.RecipieFolders.FolderLayoutScreen" />
-        <activity android:name=".view.Menu.ExportedRecipesMenu"></activity>
+        <activity android:name=".view.Menu.ExportedRecipesMenu" />
+        <activity android:name=".view.RecipieFolders.RecipeAdd"></activity>
     </application>
 
 </manifest>

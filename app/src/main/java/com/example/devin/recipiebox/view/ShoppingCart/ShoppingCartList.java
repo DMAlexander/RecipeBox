@@ -50,7 +50,7 @@ public class ShoppingCartList extends AppCompatActivity {
     private ShoppingCartDialogAdapter mAdapter2;
     ImageButton mImageBtn; //Shopping Cart button in toolbar...
     Toolbar mMyToolbar;
-    TextView mCountTv;
+    TextView mCountTv, tv;
 //    TextView totalPrice;
     MenuItem mCartIconMenuItem;
 
@@ -65,6 +65,7 @@ public class ShoppingCartList extends AppCompatActivity {
     //    getSupportActionBar().setTitle("Shopping Cart List");
         mDatabaseHelper = new DatabaseHelper(this);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        TextView tv = findViewById(R.id.ingredientName);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Intent recievedIntent = getIntent();
         selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
@@ -234,10 +235,14 @@ public class ShoppingCartList extends AppCompatActivity {
         dialog.setTitle("Your Recipies: ");
 
         RecyclerView rv = (RecyclerView) dialog.findViewById(R.id.rv);
+        TextView tv = (TextView) dialog.findViewById(R.id.ingredientName);
+        tv.setText(ingredientName);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter2 = new ShoppingCartDialogAdapter(this, getDialogItems(ingredientName));
         rv.setAdapter(mAdapter2);
+
+
 
    //     RecyclerView recyclerView = findViewById(R.id.recyclerView);
    //     recyclerView.setLayoutManager(new LinearLayoutManager(this));

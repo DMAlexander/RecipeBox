@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.MainMenu;
+import com.example.devin.recipiebox.view.RecipeMenu;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class RecipieFolder extends AppCompatActivity {
 //        mAdapter = new RecipieFolderAdapter(this, getAllItems());
 //        recyclerView.setAdapter(mAdapter);
 
-        setButtons();
+  //      setButtons();
 
         GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
@@ -72,6 +73,14 @@ public class RecipieFolder extends AppCompatActivity {
         mAdapter = new RecipieFolderAdapter(this, getAllItems());
         recyclerView.setAdapter(mAdapter);
         final int childCount = parentRelativeLayout.getChildCount();
+
+        btnRecipieFolderAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RecipieFolder.this, RecipeAdd.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -120,7 +129,7 @@ public class RecipieFolder extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-
+/*
     public void setButtons() {
         btnRecipieFolderAdd = findViewById(R.id.btnRecipieFolderAdd);
         btnRecipieFolderAdd.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +145,7 @@ public class RecipieFolder extends AppCompatActivity {
             }
         });
     }
-
+*/
     /**
      *
      * @param v

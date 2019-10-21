@@ -56,7 +56,7 @@ public class ShoppingCartDialogAdapter extends RecyclerView.Adapter<ShoppingCart
         String RecipeName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
         holder.mTextView1.setText(RecipeName);
         String recipieQuantity = mCursor.getString(mCursor.getColumnIndex("Quantity"));
-        holder.mTextView2.setText("(" + recipieQuantity + ")");
+        holder.mTextView2.setText(recipieQuantity);
         String measurementType = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
         holder.mTextView3.setText(measurementType);
     }
