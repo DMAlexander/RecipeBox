@@ -28,7 +28,6 @@ public class RecipeAdd extends AppCompatActivity {
         setButtons();
     }
 
-
     public void setButtons() {
         btnRecipieFolderAdd = findViewById(R.id.btnRecipieFolderAdd);
         btnRecipieFolderAdd.setOnClickListener(new View.OnClickListener() {
@@ -37,6 +36,8 @@ public class RecipeAdd extends AppCompatActivity {
                 String recipieFolderName = editable_recipie_folder_item.getText().toString();
                 if (editable_recipie_folder_item.length() !=0) {
                     insertItem(recipieFolderName);
+                    Intent intent = new Intent(RecipeAdd.this, RecipieFolder.class);
+                    startActivity(intent);
                     editable_recipie_folder_item.setText("");
                 } else {
                     toastMessage("Please put something in the textbox!");
@@ -52,15 +53,8 @@ public class RecipeAdd extends AppCompatActivity {
             if (insertData) {
                 toastMessage("Data successfully inserted!");
         //        mAdapter.notifyDataSetChanged();
-                btnRecipieFolderAdd.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(RecipeAdd.this, RecipieFolder.class);
-                        startActivity(intent);
-                    }
-                });
-                finish();
-                startActivity(getIntent());
+          //      finish();
+          //      startActivity(getIntent());
             } else {
                 toastMessage("Something went wrong!");
             }

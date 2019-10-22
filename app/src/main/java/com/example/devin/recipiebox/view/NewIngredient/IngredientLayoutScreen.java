@@ -102,10 +102,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         descriptionLabel = (TextView) findViewById(R.id.descriptionLabel);
         descriptionLabel.setText("Recipe Description:");
         mDatabaseHelper = new DatabaseHelper(this);
-    //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
-    //    setSupportActionBar(mMyToolbar);
-    //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
-
+        Intent recievedIntent = getIntent();
+        selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
    //     requestMultiplePermissions();
 
         File wallpaperDirectory = new File(
@@ -190,16 +188,6 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
          //           View rv = v.getRootView()
                     Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-
-
-                    //       for(int i=0; i<sizeOfList; i++) {
-//                    View v = parentLinearLayout.getChildAt(i);
-
-       //             price_edit_text = (EditText) v.findViewById(R.id.price_edit_text);
-       //             String price = price_edit_text.getText().toString();
-       //             double convertedPrice = Double.parseDouble(price);
-
-              //      String newEntry2 = type_spinner.getSelectedItem().toString();
                     type_spinner = (Spinner) v.findViewById(R.id.type_spinner);
                     String newEntry2 = type_spinner.getSelectedItem().toString();
                     type_spinner2 = (Spinner) v.findViewById(R.id.type_spinner2);
@@ -213,13 +201,42 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                         newEntry3 = null;
                     }
 
-                    Double convertedSpinner = Double.valueOf(newEntry2);
+                    double convertedSpinner = 0;
+                    //     String newEntry2 = type_spinner.getSelectedItem().toString();
+                    //     String newEntry3 = type_spinner2.getSelectedItem().toString();
+
+                    if (newEntry2.equalsIgnoreCase("1/8")) {
+                        //      convertedSpinner = Double.parseDouble(newEntry2);
+                        convertedSpinner = 0.125;
+                        System.out.print(convertedSpinner);
+                    } else if (newEntry2.equalsIgnoreCase("1/4")) {
+                        convertedSpinner = 0.25;
+                        System.out.print(convertedSpinner);
+                    } else if (newEntry2.equalsIgnoreCase("1/2")) {
+                        convertedSpinner = 0.5;
+                        System.out.print(convertedSpinner);
+                    } else if (newEntry2.equalsIgnoreCase("1")) {
+                        convertedSpinner = 1;
+                        System.out.print(convertedSpinner);
+                    } else if (newEntry2.equalsIgnoreCase("2")) {
+                        convertedSpinner = 2;
+                        System.out.print(convertedSpinner);
+                    } else if (newEntry2.equalsIgnoreCase("3")) {
+                        convertedSpinner = 3;
+                        System.out.print(convertedSpinner);
+                    } else {
+                        //     convertedSpinner = 0;
+                        convertedSpinner = Double.valueOf(newEntry2);
+                        System.out.print(convertedSpinner);
+                    }
+
+                 //   Double convertedSpinner = Double.valueOf(newEntry2);
 
                     if (number_edit_text.length() != 0) {
                         insertItem(ingredientName, /* convertedPrice, */ newEntry2, newEntry3, selectedRecipieID);
                         //               number_edit_text.setText("");
                     } else {
-                        mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, null, "N", /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
+                        mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, "N", /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
                         toastMessage("No Ingredients Added!");
                     }
                 }
@@ -231,16 +248,6 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     toastMessage("Put something in the description text field!");
                 }
 
-/*
-                Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-                int itemID = -1;
-                while (data.moveToNext()) {
-                    itemID = data.getInt(0);
-                }
-                if(itemID > 1) {
-                    Log.d(TAG, "The RecipieID is: " + itemID);
-                }
-                */
                 //         return mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
 
          //       imageButton.buildDrawingCache();
@@ -250,15 +257,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             //    if(imageButton.getDrawable() != null) {
        //            Bitmap bm = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
                 Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
-        //       intent.putExtra("RecipieId", itemID);
-        //        intent.putExtra("myImage", bm);
                 intent.putExtra("RecipieName", selectedRecipieName);
-         //       Log.d(TAG, "The RecipieId is: " + itemID);
                 startActivity(intent);
-
-       //         Intent editScreenIntent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
-                //         editScreenIntent.putExtra("FolderID", selectedRecipieFolderID);
-      //          startActivity(editScreenIntent);
 
             }
         });
@@ -425,8 +425,6 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
     public void choosePhotoFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-
         startActivityForResult(galleryIntent, GALLERY);
     }
 
