@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 45);
+        super(context, DATABASE_NAME, null, 47);
     }
 
     //Create Tables...
@@ -90,7 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
-            + "(FolderID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            + "(" + COLUMN_RECIPIE_FOLDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_RECIPIE_FOLDER_NAME +" TEXT)";
 
     private static final String createTable6 = "CREATE TABLE " + TABLE_NAME6 + " "
@@ -310,6 +310,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  data;
     }
 
+    public Cursor getRecipeFolderDataRow(String IngredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME5;
+        Cursor data = db.rawQuery(query, null);
+        return  data;
+    }
+
     /*
     public Cursor getRecipeDataRow(String RecipeName) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -422,6 +429,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getIngredientRecipieItemIDCount(String IngredientName) {
         String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
                 + COLUMN_INGREDIENT_NAME + " = '" + IngredientName  + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    //Select number of rows in Table 5
+    public int getRecipeFolderTableCount() {
+        String countQuery = "SELECT * FROM " + TABLE_NAME5;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 

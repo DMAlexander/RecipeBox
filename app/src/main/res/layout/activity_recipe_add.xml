@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageButton
+            android:id="@+id/iv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="#FAFAFA"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_add_a_photo_black_24dp" />
+
 
     <Button
         android:id="@+id/btnRecipieFolderAdd"

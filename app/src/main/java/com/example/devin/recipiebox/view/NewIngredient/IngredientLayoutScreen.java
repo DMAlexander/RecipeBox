@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,6 +53,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -164,6 +166,27 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             View v = parentLinearLayout.getChildAt(i);
             number_edit_text.setText(ingredientName);
 
+            Resources res = getResources();
+            String[] items = res.getStringArray(R.array.measurements_array);
+            int index = 0;
+            for (int j=0; j < items.length; j++) {
+                if(items[j].equalsIgnoreCase(measurementQuantity)) {
+                    index=j;
+                }
+            }
+            type_spinner.setSelection(index); //set spinner value based on selection
+
+            String[] items2 = res.getStringArray(R.array.measurement_type_array);
+            int index2 = 0;
+            for (int k=0; k < items2.length; k++) {
+                if(items2[k].equalsIgnoreCase(measurementType)) {
+                    index2=k;
+                }
+            }
+
+            type_spinner2.setSelection(index2);
+
+
         }
 
         final int childCount = parentLinearLayout.getChildCount();
@@ -190,8 +213,29 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
                     type_spinner = (Spinner) v.findViewById(R.id.type_spinner);
                     String newEntry2 = type_spinner.getSelectedItem().toString();
+
+                    Resources res = getResources();
+                    String[] items = res.getStringArray(R.array.measurements_array);
+                    int index = 0;
+                    for (int j=0; j < items.length; j++) {
+                        if(items[j]==newEntry2) {
+                            index=j;
+                        }
+                    }
+                    System.out.print(index);
+
                     type_spinner2 = (Spinner) v.findViewById(R.id.type_spinner2);
                     String newEntry3 = type_spinner2.getSelectedItem().toString();
+
+                    String[] items2 = res.getStringArray(R.array.measurement_type_array);
+                    int index2 = 0;
+                    for (int k=0; k < items2.length; k++) {
+                        if(items2[k]==newEntry3) {
+                            index2=k;
+                        }
+                    }
+
+                    System.out.print(index2);
 
                     if(newEntry2.equalsIgnoreCase("")) {
                         newEntry2 = null;

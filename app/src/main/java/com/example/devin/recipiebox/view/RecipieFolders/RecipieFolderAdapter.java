@@ -3,17 +3,24 @@ package com.example.devin.recipiebox.view.RecipieFolders;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.devin.recipiebox.R;
+import com.example.devin.recipiebox.database.DatabaseHelper;
 import com.example.devin.recipiebox.view.Recipie.MainActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdapter.RecipieFolderViewHolder> {
@@ -21,8 +28,10 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
     private OnItemClickListener mListener;
     private Context mContext;
     private Cursor mCursor;
+    private DatabaseHelper mDatabaseHelper;
 
     private  static final String TAG = "RecipieFolderAdapter";
+    private static final String IMAGE_DIRECTORY = "/demonuts";
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -39,11 +48,13 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
     public static class RecipieFolderViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView1;
         public CardView mCardView;
+        public ImageView mImageView;
 
         public RecipieFolderViewHolder(final View itemView, final OnItemClickListener listener) {
             super(itemView);
             mTextView1 = itemView.findViewById(R.id.textView);
             mCardView = itemView.findViewById(R.id.cardView);
+            mImageView = itemView.findViewById(R.id.iv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,6 +84,8 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         }
 
         final int recipieFolderID = mCursor.getInt(mCursor.getColumnIndex("FolderID"));
+ //       final int recipieFolderPicID = recipieFolderID + 1;
+ //       int fss = mDatabaseHelper.getRecipeFolderTableCount();
         final String recipieFolderName = mCursor.getString(mCursor.getColumnIndex("RecipieFolderName"));
         holder.mTextView1.setText(recipieFolderName);
 
@@ -88,6 +101,16 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
             }
         });
 
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        String fileName = "/myImage" + recipieFolderID;
+        //    File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
+        if(imgFile.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            holder.mImageView.setImageBitmap(bitmap);
+        }
+
         /*
         holder.mTextView1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,8 +124,6 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
             }
         });
         */
-
-
 
 //        final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
 //        holder.mTextView1.setText(spinner1Value);
