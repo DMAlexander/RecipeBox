@@ -208,6 +208,9 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
 
                     String ingredientName = number_edit_text.getText().toString();
+                    if( number_edit_text.getText().toString().length() == 0 ) {
+                        number_edit_text.setError( "Ingredient Name is required!" );
+                    }
 
          //           View rv = v.getRootView()
                     Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);

@@ -172,7 +172,12 @@ public class RecipeAdd extends AppCompatActivity {
             while (data.moveToNext()) {
                 recipieFolderId = data.getString(0);
             }
-            int result = Integer.parseInt(recipieFolderId);
+            int result = 0;
+            if (recipieFolderId != null){
+                result = Integer.parseInt(recipieFolderId);
+            } else {
+                result = 0;
+            }
             result = result+1;
             recipieFolderId = String.valueOf(result);
             String fileName = "myImage" + recipieFolderId;

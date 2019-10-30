@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,9 @@ public class RecipieInsert extends AppCompatActivity {
     private int selectedRecipieFolderID;
     ImageButton mImageBtn;
 //    Toolbar mMyToolbar;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    TextView textView;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
 
@@ -43,6 +48,9 @@ public class RecipieInsert extends AppCompatActivity {
         btnRecipeAdd = (Button) findViewById(R.id.btnRecipieAdd);
         editRecipieText = (EditText) findViewById(R.id.editRecipieText);
         mDatabaseHelper = new DatabaseHelper(this);
+
+        radioGroup = findViewById(R.id.radioGroup);
+
    //     mMyToolbar = findViewById(R.id.myToolBar);
    //     setSupportActionBar(mMyToolbar);
    //     mMyToolbar.setTitleTextColor(0xFFFFFFFF);
@@ -55,23 +63,31 @@ public class RecipieInsert extends AppCompatActivity {
                 selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
                 Log.d(TAG, "recipie folder id value is: " + selectedRecipieFolderID);
 
+                int radioId = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(radioId);
+                Log.d(TAG, "Your choice: " + radioButton.getText());
                 String recipieName = editRecipieText.getText().toString();
-                if (editRecipieText.length() != 0) {
-                    insertItem(recipieName, selectedRecipieFolderID);
-                    editRecipieText.setText("");
+                if (radioButton.getText().equals("Ingredients")) {
+                    if (editRecipieText.length() != 0) {
+                        insertItem(recipieName, selectedRecipieFolderID);
+                        editRecipieText.setText("");
+                    } else {
+                        toastMessage("Please put something in the textbox!");
+                    }
                 } else {
-                    toastMessage("Please put something in the textbox!");
+                    if (editRecipieText.length() != 0) {
+                        insertRecipe(recipieName, selectedRecipieFolderID);
+                    }
                 }
             }
         });
-
     }
 
     public void insertItem(String recipieName, int selectedRecipieFolderID) {
 
         String lowerCaseRecipe = recipieName.toLowerCase();
 
-        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, /*0,*/ selectedRecipieFolderID);
+        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, "Y", /*0,*/ selectedRecipieFolderID);
 
         if (insertData) {
             toastMessage("Data successfully inserted!");
@@ -92,6 +108,34 @@ public class RecipieInsert extends AppCompatActivity {
         } else {
             toastMessage("Something went wrong!");
         }
+    }
+
+    public void insertRecipe(String recipieName, int selectedRecipieFolderID) {
+
+        String lowerCaseRecipe = recipieName.toLowerCase();
+
+        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, "N", /*0,*/ selectedRecipieFolderID);
+
+        if (insertData) {
+            toastMessage("Data successfully inserted!");
+
+            Cursor data = mDatabaseHelper.getRecipieItemID(lowerCaseRecipe);
+            int itemID = -1;
+            while (data.moveToNext()) {
+                itemID = data.getInt(0);
+            }
+            toastMessage("The recipieID is: " + itemID);
+
+//            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
+            Intent intent = new Intent(RecipieInsert.this, MainActivity.class);
+            intent.putExtra("RecipieName", lowerCaseRecipe);
+            intent.putExtra("RecipieId", itemID);
+            // receivedIntent.getIntExtra("RecipieId", -1);
+            startActivity(intent);
+        } else {
+            toastMessage("Something went wrong!");
+        }
+
     }
 
     //Need this method for shopping cart icon
@@ -119,10 +163,13 @@ public class RecipieInsert extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    public void checkButton(View v) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
+        toastMessage("Selected radio Button: " + radioButton.getText());
+    }
+
     private void toastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-
-
     }
 }

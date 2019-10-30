@@ -26,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_RECIPIE_ID = "ID";
 //    private static final String COLUMN_RECIPIE_ID = "ID";           //COL1
     private static final String COLUMN_RECIPIE_NAME = "RecipieName"; //COL2
+    private static final String COLUMN_RECIPIE_HAS_INGREDIENTS = "RecipieHasIngredients";
 
     private static final String COLUMN_INGREDIENT_ID = "IngredientID"; //unique ID to Ingredient Tabl
 //    private static final String COLUMN_INGREDIENT_ID = "ID";
@@ -55,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 47);
+        super(context, DATABASE_NAME, null, 49);
     }
 
     //Create Tables...
@@ -65,6 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_RECIPIE_NAME +" TEXT, "
             + COLUMN_RECIPIE_DESCRIPTION +" TEXT, "
   //          + COLUMN_RECIPIE_PRICE + " REAL, "
+            + COLUMN_RECIPIE_HAS_INGREDIENTS + " TEXT, "
             + COLUMN_RECIPIE_FOLDER_ID + " INTEGER)";
 
     private static final String createTable2 = "CREATE TABLE " + TABLE_NAME2 + " "
@@ -123,12 +125,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean addRecipieData(String item, String description, /* double price, */ int FolderID) {
+    public boolean addRecipieData(String item, String description, String hasIngredients, /* double price, */ int FolderID) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_RECIPIE_NAME, item);
         contentValues.put(COLUMN_RECIPIE_DESCRIPTION, description);
    //     contentValues.put(COLUMN_RECIPIE_PRICE, price);
+        contentValues.put(COLUMN_RECIPIE_HAS_INGREDIENTS, hasIngredients);
         contentValues.put(COLUMN_RECIPIE_FOLDER_ID, FolderID);
 
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME);

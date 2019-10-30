@@ -133,7 +133,4 @@ public class MainMenu extends AppCompatActivity {
         }).onSameThread().check();
     }
 
-
-
-
 }
