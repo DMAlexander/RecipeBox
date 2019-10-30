@@ -126,7 +126,7 @@ public class RecipieFolder extends AppCompatActivity {
         int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
         String shoppingCartString = String.valueOf(shoppingCartCount);
         mCountTv.setText(shoppingCartString);
-
+        mAdapter.notifyDataSetChanged();
         return super.onCreateOptionsMenu(menu);
     }
 /*

@@ -11,12 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        card_view:cardBackgroundColor="#FAFA"
-        card_view:cardCornerRadius="0dp"
-        card_view:cardElevation="10dp"
-        card_view:contentPadding="@dimen/margin_10"
-        card_view:contentPaddingLeft="5dp"
-        card_view:contentPaddingTop="10dp">
+        card_view:cardBackgroundColor="#FAFA">
         <!--
         <ImageButton
             android:layout_width="match_parent"
@@ -31,11 +26,9 @@
             -->
         <ImageButton
             android:id="@+id/iv"
-            android:layout_width="111dp"
-            android:layout_height="98dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
             android:background="#FAFAFA"
             android:scaleType="fitXY"
             android:src="@drawable/ic_add_a_photo_black_24dp" />
