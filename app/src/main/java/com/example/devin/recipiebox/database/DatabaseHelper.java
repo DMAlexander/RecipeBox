@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 49);
+        super(context, DATABASE_NAME, null, 50);
     }
 
     //Create Tables...
@@ -396,6 +396,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getRecipieItemID(String RecipieName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_RECIPIE_ID + " FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_RECIPIE_NAME + " = '" + RecipieName + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public Cursor getRecipieHasIngredients(String RecipieName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = " SELECT " + COLUMN_RECIPIE_HAS_INGREDIENTS + " FROM " + TABLE_NAME +
                 " WHERE " + COLUMN_RECIPIE_NAME + " = '" + RecipieName + "'";
         Cursor data = db.rawQuery(query, null);
         return data;

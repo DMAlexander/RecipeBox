@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 //        mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
 
-
-
 /*
         lstView = (ListView) findViewById(R.id.lstView);
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,lstSource);

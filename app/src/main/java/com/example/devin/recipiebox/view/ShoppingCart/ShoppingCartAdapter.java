@@ -152,10 +152,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 //        holder.mTextView1.setText(spinner1ValString);
 //        String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
 //        holder.mTextView2.setText(spinner2Value);
-        String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
-        holder.mTextView3.setText(ingredientName);
-        String recipieQuantity = mCursor.getString(mCursor.getColumnIndex("RecipieQuantity"));
-        holder.mTextView4.setText("(" + recipieQuantity + ")");
+
+        String hasIngredientsIndicator = mCursor.getString(mCursor.getColumnIndex("RecipieHasIngredients"));
+        if(hasIngredientsIndicator.equalsIgnoreCase("Y")) {
+
+            String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
+            holder.mTextView3.setText(ingredientName);
+            String recipieQuantity = mCursor.getString(mCursor.getColumnIndex("RecipieQuantity"));
+            holder.mTextView4.setText("(" + recipieQuantity + ")");
+
+        } else {
+            String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
+            holder.mTextView3.setText(recipieName);
+            holder.mTextView4.setText(null);
+        }
+
   //      final double price = mCursor.getDouble(mCursor.getColumnIndex("ShoppingCartPrice"));
   //      String priceString = Double.toString(price);
   //      holder.mTextView4.setText(priceString);

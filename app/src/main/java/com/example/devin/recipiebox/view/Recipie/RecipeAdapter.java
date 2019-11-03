@@ -207,6 +207,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         });
 
+        final String recipieHasIngredients = mCursor.getString(mCursor.getColumnIndex("RecipieHasIngredients"));
+        if(recipieHasIngredients.equalsIgnoreCase("N")) {
+            holder.mEditImage.setVisibility(View.GONE);
+        }
+
         holder.mEditImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -242,12 +247,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     String ingredientName3 = "";
                     String quantityString4;
                     String ingredientQuantity = "";
+                    String hasIngredients = "Y"; //Dictates if it has ingredients or not...
 
                     Cursor data6 = mDatabaseHelper.getRecipieItemID(recipieName);
+                    Cursor data9 = mDatabaseHelper.getRecipieHasIngredients(recipieName);
                     int itemID2 = -1;
                     while (data6.moveToNext()) {
                         itemID2 = data6.getInt(0);
                     }
+                    while (data9.moveToNext()) {
+                        hasIngredients = data9.getString(0);
+                    }
+
                     if (itemID2 > -1) {
                         Log.d(TAG, "onLongClick: The ID is: " + itemID2);
 
@@ -265,13 +276,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                         }
                     }
                   //  String quantityString ="";
-                    boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, ingredientName, ingredientQuantity, measurementType);
+                    if(hasIngredients.equalsIgnoreCase("Y")) {
+                        boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, ingredientName, ingredientQuantity, measurementType);
 
-                    if (insertData2) {
-                        Log.d(TAG, "Data is Exported to the Shopping Cart");
+                        if (insertData2) {
+                            Log.d(TAG, "Data is Exported to the Shopping Cart");
+                        } else {
+                            Log.d(TAG, "Something went wrong");
+                        }
                     } else {
-                        Log.d(TAG, "Something went wrong");
+                        boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, null, null, null);
+
+                        if(insertData2) {
+                            Log.d(TAG, "Data is Exported to the Shopping Cart - No Ingredients");
+                        } else {
+                            Log.d(TAG, "Something went wrong");
+                        }
                     }
+
 
                     Cursor data = mDatabaseHelper.getRecipieItemID(recipieName);
                     int itemID = -1;
