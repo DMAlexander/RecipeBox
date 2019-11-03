@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 51);
+        super(context, DATABASE_NAME, null, 53);
     }
 
     //Create Tables...
@@ -87,11 +87,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_RECIPIE_NAME +" TEXT, " +
             COLUMN_INGREDIENT_NAME +" TEXT, " +
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
-  //          COLUMN_SHOPPING_CART_PRICE + " REAL, " +
-  //          COLUMN_SHOPPING_CART_PRICE_TOTAL + " REAL, " +
             COLUMN_RECIPE_QUANTITY + " INTEGER, " +
-            COLUMN_RECIPIE_HAS_INGREDIENTS +" TEXT, " +
-            COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
+            COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT, " +
+            COLUMN_RECIPIE_HAS_INGREDIENTS +" TEXT ) ";
+
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
             + "(" + COLUMN_RECIPIE_FOLDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -235,8 +234,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_RECIPIE_NAME, recipie);
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
-        contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
         contentValues.put(COLUMN_RECIPE_QUANTITY, recipeQuantity);
+        contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
         contentValues.put(COLUMN_RECIPIE_HAS_INGREDIENTS, hasIngredients);
  //       contentValues.put(COLUMN_SHOPPING_CART_PRICE, price);
  //       contentValues.put(COLUMN_SHOPPING_CART_PRICE_TOTAL, priceTotal);
@@ -650,12 +649,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    //Count instances where Shopping Cart Flag is "Y".
-
+    //Count instances where Shopping Cart Flag is "Y" for exported recipes.
+    /*
     public int getExportedRecipeCount(String ingredientName) {
         String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
                 + COLUMN_SHOPPING_CART_FLAG + " = '" + "Y" + "'"
                 + " AND " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+    */
+    public int getExportedRecipeCount(String ingredientName) {
+        String countQuery = "SELECT * FROM " + TABLE_NAME6 + " WHERE "
+                + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 

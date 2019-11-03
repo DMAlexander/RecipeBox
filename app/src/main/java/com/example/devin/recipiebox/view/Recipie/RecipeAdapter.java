@@ -354,21 +354,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                 if (listData3.size() != 0) { //ingredient name already exists in shopping cart
                                     //we will need to put in the information for the specific row...
                                     Cursor data5 = mDatabaseHelper.getShoppingCartDataRow(ingredientName);
-                                    ArrayList<String> listData4 = new ArrayList<>();
+                                    ArrayList<String> listData7 = new ArrayList<>();
                                     while (data5.moveToNext()) {
-                                        ingredientName2 = data5.getString(1);
-                                        quantityString2 = data5.getString(2);
-                                        //                 price2 = data5.getString(3);
-                                        measurementType2 = data5.getString(4);
-                                        listData4.add(ingredientName2);
-                                        listData4.add(quantityString2);
-                                        //                    listData4.add(price2);
-                                        listData4.add(measurementType2);
+                                        ingredientName2 = data5.getString(2);
+                                        quantityString2 = data5.getString(3);
+                                        measurementType2 = data5.getString(5);
+                                        listData7.add(ingredientName2);
+                                        listData7.add(quantityString2);
+                                        listData7.add(measurementType2);
                                     }
-                                    ingredientName2 = listData4.get(0);
-                                    quantityString2 = listData4.get(1);
-                                    //                 price2 = listData4.get(2);
-                                    measurementType2 = listData4.get(2);
+                                    ingredientName2 = listData7.get(0);
+                                    quantityString2 = listData7.get(1);
+                                    measurementType2 = listData7.get(2);
 
                                     Double convertedQuantity2 = Double.parseDouble(quantityString2);
                                     //                 Double convertedPrice2 = Double.parseDouble(price2);

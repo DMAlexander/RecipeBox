@@ -533,7 +533,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
         String shoppingCartString = String.valueOf(shoppingCartCount);
         mCountTv.setText(shoppingCartString);
-
         return super.onCreateOptionsMenu(menu);
     }
 
