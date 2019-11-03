@@ -120,8 +120,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 //        holder.mTextView1.setOnClickView(new View())
 
 //        String spinner1ValString;
-        double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
-        String spinner1ValString = String.format("%.2f", spinner1Value);
+//        double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
+//        String spinner1ValString = String.format("%.2f", spinner1Value);
      //   String.format("%.2f", spinner1Value);
         /*
         if (spinner1Value == 0.125) {

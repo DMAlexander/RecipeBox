@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 50);
+        super(context, DATABASE_NAME, null, 51);
     }
 
     //Create Tables...
@@ -84,11 +84,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String createTable4 = "CREATE TABLE " + TABLE_NAME4 + " "
             + "(ShoppingCartID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_RECIPIE_NAME +" TEXT, " +
             COLUMN_INGREDIENT_NAME +" TEXT, " +
             COLUMN_INGREDIENT_QUANTITY + " REAL, " +
   //          COLUMN_SHOPPING_CART_PRICE + " REAL, " +
   //          COLUMN_SHOPPING_CART_PRICE_TOTAL + " REAL, " +
             COLUMN_RECIPE_QUANTITY + " INTEGER, " +
+            COLUMN_RECIPIE_HAS_INGREDIENTS +" TEXT, " +
             COLUMN_INGREDIENT_MEASUREMENT_TYPE + " TEXT)";
 
     private static final String createTable5 = "CREATE TABLE " + TABLE_NAME5 + " "
@@ -227,13 +229,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 */
  //TEMPORAIRLY USING THE ABOVE METHOD...
-    public boolean addShoppingCartData(String item, double quantity, String measurementType, int recipeQuantity/*, double price, double priceTotal*/) {
+    public boolean addShoppingCartData(String recipie, String item, double quantity, String measurementType, int recipeQuantity, String hasIngredients/*, double price, double priceTotal*/) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_RECIPIE_NAME, recipie);
         contentValues.put(COLUMN_INGREDIENT_NAME, item);
         contentValues.put(COLUMN_INGREDIENT_QUANTITY, quantity);
         contentValues.put(COLUMN_INGREDIENT_MEASUREMENT_TYPE, measurementType);
         contentValues.put(COLUMN_RECIPE_QUANTITY, recipeQuantity);
+        contentValues.put(COLUMN_RECIPIE_HAS_INGREDIENTS, hasIngredients);
  //       contentValues.put(COLUMN_SHOPPING_CART_PRICE, price);
  //       contentValues.put(COLUMN_SHOPPING_CART_PRICE_TOTAL, priceTotal);
         Log.d(TAG, "addData: Adding " + item + " to " + TABLE_NAME4);

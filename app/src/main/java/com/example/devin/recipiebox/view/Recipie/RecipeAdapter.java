@@ -238,11 +238,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     double quantity;
                     String quantityString;
                     String ingredientName = "";
-        //            String price = "";
+                    //            String price = "";
                     String measurementType2 = "";
                     String quantityString2;
                     String ingredientName2 = "";
-        //            String price2 = "";
+                    //            String price2 = "";
                     String quantityString3;
                     String ingredientName3 = "";
                     String quantityString4;
@@ -275,8 +275,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                             listData4.add(measurementType);
                         }
                     }
-                  //  String quantityString ="";
-                    if(hasIngredients.equalsIgnoreCase("Y")) {
+                    //  String quantityString ="";
+                    if (hasIngredients.equalsIgnoreCase("Y")) {
                         boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, ingredientName, ingredientQuantity, measurementType);
 
                         if (insertData2) {
@@ -287,7 +287,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     } else {
                         boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, null, null, null);
 
-                        if(insertData2) {
+                        if (insertData2) {
                             Log.d(TAG, "Data is Exported to the Shopping Cart - No Ingredients");
                         } else {
                             Log.d(TAG, "Something went wrong");
@@ -305,26 +305,40 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
                         Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
                         ArrayList<String> listData = new ArrayList<>();
-                        while(data2.moveToNext()) {
+                        while (data2.moveToNext()) {
                             ingredientName = data2.getString(1);
                             quantityString = data2.getString(2);
-              //              quantity = Integer.parseInt(q);
+                            //              quantity = Integer.parseInt(q);
                             measurementType = data2.getString(3);
-               //             price = data2.getString(4);
+                            //             price = data2.getString(4);
                             listData.add(ingredientName);
                             listData.add(quantityString);
                             listData.add(measurementType);
-               //             listData.add(price);
+                            //             listData.add(price);
                         }
+
+                        //If exported recipe has no ingredients, we will need to export into the shopping cart list differently
+                        if (hasIngredients.equalsIgnoreCase("N")) {
+                            String fillerQuantity = "0";
+                            int fillerQuantity2 = 0;
+                            Double fillerQuantityVal = Double.parseDouble(fillerQuantity);
+                            boolean insertData = mDatabaseHelper.addShoppingCartData(recipieName, null, fillerQuantityVal, null, 0, hasIngredients);
+
+                            if (insertData) {
+                                Log.d(TAG, "Data is added to shopping cart list");
+                            } else {
+                                Log.d(TAG, "Something went wrong");
+                            }
+                        } else {
 
                             for (int j = 0; j < listData.size() / 3; j++) {
                                 System.out.println(listData.get(j));
                                 ingredientName = listData.get(0 + (j * 3));
                                 quantityString = listData.get(1 + (j * 3));
                                 measurementType = listData.get(2 + (j * 3));
-              //                  price = listData.get(3 + (j * 3));
+                                //                  price = listData.get(3 + (j * 3));
                                 Double convertedQuantity = Double.parseDouble(quantityString);
-              //                 Double convertedPrice = Double.parseDouble(price);
+                                //                 Double convertedPrice = Double.parseDouble(price);
 
                                 Cursor data4 = mDatabaseHelper.getShoppingCartIngredient(ingredientName);
                                 ArrayList<String> listData3 = new ArrayList<>();
@@ -336,6 +350,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                 int exportedRecipeCount = mDatabaseHelper.getExportedRecipeCount(ingredientName);
                                 mDatabaseHelper.updateShoppingCartRecipeCount(exportedRecipeCount, ingredientName);
 
+
                                 if (listData3.size() != 0) { //ingredient name already exists in shopping cart
                                     //we will need to put in the information for the specific row...
                                     Cursor data5 = mDatabaseHelper.getShoppingCartDataRow(ingredientName);
@@ -343,20 +358,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     while (data5.moveToNext()) {
                                         ingredientName2 = data5.getString(1);
                                         quantityString2 = data5.getString(2);
-                      //                 price2 = data5.getString(3);
+                                        //                 price2 = data5.getString(3);
                                         measurementType2 = data5.getString(4);
                                         listData4.add(ingredientName2);
                                         listData4.add(quantityString2);
-                    //                    listData4.add(price2);
+                                        //                    listData4.add(price2);
                                         listData4.add(measurementType2);
                                     }
                                     ingredientName2 = listData4.get(0);
                                     quantityString2 = listData4.get(1);
-                   //                 price2 = listData4.get(2);
+                                    //                 price2 = listData4.get(2);
                                     measurementType2 = listData4.get(2);
 
                                     Double convertedQuantity2 = Double.parseDouble(quantityString2);
-                   //                 Double convertedPrice2 = Double.parseDouble(price2);
+                                    //                 Double convertedPrice2 = Double.parseDouble(price2);
                                     System.out.println("Ingredient Name: " + ingredientName2 + "Quantity: " + quantityString2 + " measurement type: " + measurementType2);
 
                                     //Measurement Type conversions
@@ -364,7 +379,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     Double convertedMeasurementType2 = 1.0;
 
                                     //"MeasurementType" is from the recipie Info being added
-                                    if(measurementType.equals("tsp")) {
+                                    if (measurementType.equals("tsp")) {
                                         convertedMeasurementType1 = 1.0;
                                     } else if (measurementType.equals("tbsp")) {
                                         convertedMeasurementType1 = 3.0;
@@ -379,7 +394,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     }
 
                                     //"MeasurementType2" is from the Shopping Cart row that already exists
-                                    if(measurementType2.equals("tsp")) {
+                                    if (measurementType2.equals("tsp")) {
                                         convertedMeasurementType2 = 1.0;
                                     } else if (measurementType2.equals("tbsp")) {
                                         convertedMeasurementType2 = 3.0;
@@ -394,28 +409,28 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     }
 
                                     //Make factor based on measurementType(s) on both added recipie and shoppingCart
-                                    Double measurementFactor = convertedMeasurementType1/convertedMeasurementType2;
+                                    Double measurementFactor = convertedMeasurementType1 / convertedMeasurementType2;
                                     //How many are added to the shoppingCart times the factor
                                     //Ex) 1/3 * 6 = 2.0
-                                    Double convertedAddedQuantity = measurementFactor*convertedQuantity;
+                                    Double convertedAddedQuantity = measurementFactor * convertedQuantity;
                                     //Add quantity from line above to existing ShoppingCart row
                                     Double sCartQuantity = convertedAddedQuantity + convertedQuantity2;
 
-                                    Double newQuantity=sCartQuantity;
+                                    Double newQuantity = sCartQuantity;
                                     //If sCartQuantity is above a certain threshold, we want to change the measurementType
                                     if (sCartQuantity > 3 && measurementType2.equals("tsp")) {
-                                        newQuantity = sCartQuantity/3;
+                                        newQuantity = sCartQuantity / 3;
                                         measurementType = "tbsp";
-                                    } else if(sCartQuantity > 16 && measurementType2.equals("tbsp")) {
+                                    } else if (sCartQuantity > 16 && measurementType2.equals("tbsp")) {
                                         newQuantity = sCartQuantity / 16;
                                         measurementType = "c";
-                                    } else if(sCartQuantity > 2 && measurementType2.equals("c")) {
+                                    } else if (sCartQuantity > 2 && measurementType2.equals("c")) {
                                         newQuantity = sCartQuantity / 2;
                                         measurementType = "pt";
-                                    } else if(sCartQuantity > 2 && measurementType2.equals("pt")) {
+                                    } else if (sCartQuantity > 2 && measurementType2.equals("pt")) {
                                         newQuantity = sCartQuantity / 2;
                                         measurementType = "qt";
-                                    } else if(sCartQuantity > 4 && measurementType2.equals("qt")) {
+                                    } else if (sCartQuantity > 4 && measurementType2.equals("qt")) {
                                         newQuantity = sCartQuantity / 4;
                                         measurementType = "gal";
                                     } else {
@@ -423,18 +438,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     }
 
 
-
-                             //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
-                       //             Double convertedPrice3 = convertedPrice + convertedPrice2;
+                                    //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
+                                    //             Double convertedPrice3 = convertedPrice + convertedPrice2;
                                     mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
                                     mDatabaseHelper.updateShoppingCartMeasurementType(measurementType, ingredientName);
-                       //             mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
-                              //      Double priceTotal = 0.00;
-                              //      mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
-                          //          Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
-                          //          mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
+                                    //             mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
+                                    //      Double priceTotal = 0.00;
+                                    //      mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
+                                    //          Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
+                                    //          mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
                                 } else {
-                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType, exportedRecipeCount);
+                                    boolean insertData = mDatabaseHelper.addShoppingCartData(recipieName, ingredientName, convertedQuantity, measurementType, exportedRecipeCount, hasIngredients);
 
                                     if (insertData) {
                                         Log.d(TAG, "Data is added to shopping cart list");
@@ -484,6 +498,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     }
                                 } */
                             }
+                        }
                     }
                 }
                 return true;
