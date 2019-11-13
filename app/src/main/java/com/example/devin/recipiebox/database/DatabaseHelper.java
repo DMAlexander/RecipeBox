@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 53);
+        super(context, DATABASE_NAME, null, 54);
     }
 
     //Create Tables...
@@ -206,11 +206,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public Cursor getExportedShoppingCartRecipes() {
+    public Cursor getExportedShoppingCartRowInfo() {
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT " + COLUMN_RECIPIE_NAME + " FROM " + TABLE_NAME6;
+        String query = "SELECT * FROM " + TABLE_NAME6;
         Cursor data = db.rawQuery(query, null);
         return data;
+    }
+
+    public void deleteExportedRecipieRow(String recipeId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME6 + " WHERE "
+                + COLUMN_EXPORTED_RECIPE_ID + " = '" + recipeId + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        db.execSQL(query);
     }
 
 /*
@@ -462,10 +470,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    public Cursor getShoppingCartItemID(String name) {
+    public Cursor getShoppingCartItemID(String ingredientName) {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT " + COLUMN_SHOPPING_CART_ID + " FROM " + TABLE_NAME4 +
-                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + name + "'";
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         Cursor data = db.rawQuery(query, null);
         return data;
     }
@@ -604,6 +612,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " AND " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
         Log.d(TAG, "deleteName: query: " + query);
         Log.d(TAG, "deleteName: Deleting " + ingredientName + " from shopping cart database.");
+        db.execSQL(query);
+    }
+
+    public void deleteShoppingCartRow(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME4 + " WHERE "
+                + COLUMN_SHOPPING_CART_ID + " = '" + id + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: Deleting " + id + " from shopping cart database.");
         db.execSQL(query);
     }
 

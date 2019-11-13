@@ -91,8 +91,8 @@ public class ShoppingCartList extends AppCompatActivity {
             }
 
             @Override
-            public void onDeleteClick(int position, String ingredientName) {
-                makeDeleteDialog(position, ingredientName);
+            public void onDeleteClick(int position, String ingredientName, String recipeName) {
+                makeDeleteDialog(position, ingredientName, recipeName);
             }
         });
 
@@ -175,7 +175,7 @@ public class ShoppingCartList extends AppCompatActivity {
         });
     }
 */
-    public void removeItem(int position, String ingredientName) {
+    public void removeItem(int position, String ingredientName, String recipeName) {
 
         Cursor data = mDatabaseHelper.getShoppingCartItemID(ingredientName);
         int itemID = -1;
@@ -184,7 +184,9 @@ public class ShoppingCartList extends AppCompatActivity {
         }
         Log.d(TAG, "ingredientId: " + itemID + " and ingredient name is: " + ingredientName);
 
-        mDatabaseHelper.deleteShoppingCartIngredient(itemID, ingredientName);
+//        mDatabaseHelper.deleteShoppingCartIngredient(itemID, ingredientName);
+        int id = position+1;
+        mDatabaseHelper.deleteShoppingCartRow(id);
 
         mAdapter.notifyItemRemoved(position);
         mAdapter.notifyDataSetChanged();
@@ -196,7 +198,7 @@ public class ShoppingCartList extends AppCompatActivity {
 
     }
 
-    public void makeDeleteDialog(final int position, final String ingredientName) {
+    public void makeDeleteDialog(final int position, final String ingredientName, final String recipeName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ShoppingCartList.this);
         builder.setTitle("Delete Ingredient");
         builder.setMessage("Are you sure you want to delete the ingredient?");
@@ -204,7 +206,7 @@ public class ShoppingCartList extends AppCompatActivity {
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                removeItem(position, ingredientName);
+                removeItem(position, ingredientName, recipeName);
                 Toast.makeText(ShoppingCartList.this, "Thanks!", Toast.LENGTH_SHORT).show();
             }
         });

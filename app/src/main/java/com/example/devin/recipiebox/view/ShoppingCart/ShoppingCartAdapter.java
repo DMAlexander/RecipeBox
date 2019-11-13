@@ -29,7 +29,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
         void onQuantityClick(int position, String ingredientName);
 
-        void onDeleteClick(int position, String ingredientName);
+        void onDeleteClick(int position, String ingredientName, String recipeName);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) { mListener = listener; }
@@ -88,9 +88,10 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     if (listener != null) {
                         final int position = getAdapterPosition();
                         String IngredientName = mTextView3.getText().toString();
+                        String recipeName = mTextView3.getText().toString();
                         Log.d(TAG, "ingredient name is: " + IngredientName);
                         if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position, IngredientName);
+                            listener.onDeleteClick(position, IngredientName, recipeName);
                         }
                     }
                 }
@@ -152,6 +153,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 //        holder.mTextView1.setText(spinner1ValString);
 //        String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
 //        holder.mTextView2.setText(spinner2Value);
+
 
         String hasIngredientsIndicator = mCursor.getString(mCursor.getColumnIndex("RecipieHasIngredients"));
         if(hasIngredientsIndicator.equalsIgnoreCase("Y")) {
