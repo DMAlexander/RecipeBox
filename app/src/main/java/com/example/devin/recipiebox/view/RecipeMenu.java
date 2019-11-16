@@ -30,14 +30,10 @@ public class RecipeMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_menu);
-        //     btnShoppingCart = (Button) findViewById(R.id.btnShoppingCart);
+
         btnRecipeFolders = (Button) findViewById(R.id.recipeFolders);
         btnAllRecipies = (Button) findViewById(R.id.btnAllRecipies);
         mDatabaseHelper = new DatabaseHelper(this);
-
-        //    mMyToolbar = findViewById(R.id.myToolBar); (might need to uncomment this)
-        //    setSupportActionBar(mMyToolbar);
-        //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
 
         btnAllRecipies.setOnClickListener(new View.OnClickListener() {
             @Override

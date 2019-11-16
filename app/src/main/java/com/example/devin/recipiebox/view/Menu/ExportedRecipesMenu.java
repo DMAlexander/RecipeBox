@@ -105,6 +105,6 @@ public class ExportedRecipesMenu extends AppCompatActivity {
     }
 
     private Cursor getAllItems() {
-        return mDatabaseHelper.getExportedShoppingCartRowInfo();
+        return mDatabaseHelper.getExportedShoppingCartInfo();
     }
 }

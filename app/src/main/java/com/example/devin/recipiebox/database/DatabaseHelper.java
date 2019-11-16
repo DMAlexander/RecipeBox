@@ -56,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 54);
+        super(context, DATABASE_NAME, null, 57);
     }
 
     //Create Tables...
@@ -206,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return data;
     }
 
-    public Cursor getExportedShoppingCartRowInfo() {
+    public Cursor getExportedShoppingCartInfo() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME6;
         Cursor data = db.rawQuery(query, null);
@@ -654,6 +654,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
+
+
     //Select number of Ingredients in the Recipe
     public int getIngredientCount(int id) {
         String countQuery = "SELECT * FROM " + TABLE_NAME2 + " WHERE "
@@ -680,9 +682,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
     */
+    /*
     public int getExportedRecipeCount(String ingredientName) {
         String countQuery = "SELECT * FROM " + TABLE_NAME6 + " WHERE "
                 + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+    */
+    public int getExportedRecipeCount(String recipeName) {
+        String countQuery = "SELECT * FROM " + TABLE_NAME6 + " WHERE "
+                + COLUMN_RECIPIE_NAME + " = '" + recipeName + "'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
 
@@ -717,6 +731,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return count;
     }
+
+    public int getRecipeHasIngredientCount(String ingredientName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String countQuery = "SELECT * FROM " + TABLE_NAME +
+                " WHERE " + COLUMN_INGREDIENT_NAME + " = '" + ingredientName + "'";
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
 /*
     public void updateRecipePrice(double price, String recipeName) {
         SQLiteDatabase db = this.getWritableDatabase();

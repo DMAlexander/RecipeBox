@@ -65,7 +65,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public RecipeAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;
-//        mDatabaseHelper = new DatabaseHelper(context.getApplicationContext());
         mDatabaseHelper = new DatabaseHelper(context.getApplicationContext());
     }
 
@@ -92,26 +91,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     if (listener != null) {
                         int position = getAdapterPosition();
                         System.out.println("position: " + position + "getItemViewType: " + getItemViewType());
-                        //           int position = getItemViewType();
-                        //           int position = getItemId();
-                        //           int position = itemView;
 
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
-                            //            }
-                            //          int position = getLayoutPosition();
-                            //            mCursor.moveToPosition(position);
-                            //            mContext.startActivity(new Intent(mContext, IngredientScreen.class));
-                            //The above is me attemtping to navigate to the next view using an intent...
-                            //If this works, I should also try to pass some data...
                         }
                     }
                 }
             });
 
+            /**
+             * Tells us the mDeleteImage can be deleted...
+             */
             mDeleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) { //This tells us the mDeleteImage can be deleted...
+                public void onClick(View v) {
                     if (listener != null) {
                         final int position = getAdapterPosition();
                         String recipeName = mTextView1.getText().toString();
@@ -122,31 +115,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     }
                 }
             });
-            /*
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-
-                    return true;
-                }
-            });
-            */
-            /*
-            itemView.setLongClickable(true);
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (listener2 != null) {
-                        final int position = getAdapterPosition();
-                        String recipieName = mTextView1.getText().toString();
-                        Log.d(TAG, "recipie Name is: " + recipieName);
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener2.onLongClick(position, recipieName);
-                        }
-                    }
-                    return true;
-                }
-            }); */
         }
     }
 
@@ -155,10 +123,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.activity_recipe_item, parent, false);
         return new RecipeViewHolder(view, mListener, mListener2);
- //       View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_recipe_item, parent, false);
- //       RecipeViewHolder rvh = new RecipeViewHolder(v, mListener);
- //       return rvh;
-
     }
 
     @Override
@@ -168,22 +132,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
 
         final String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
-   //     final double price = mCursor.getDouble(mCursor.getColumnIndex("RecipiePrice"));
-   //     final int recipieId = mCursor.getInt(mCursor.getColumnIndex("RecipieId"));
-   //     Log.d(TAG, "Recipie ID value is: " + recipieId);
-    //    RecipeItem currentItem = mRecipeList.get(position);
- //       holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView1.setText(recipieName);
-  //      String priceString = Double.toString(price);
-  //      holder.mTextView2.setText(priceString);
 
         File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
         String fileName = "/myImage" + recipieName;
-        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
-        if(imgFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.mRecipeImage.setImageBitmap(bitmap);
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg" );
+        if( imgFile.exists() ) {
+            Bitmap bitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );
+            holder.mRecipeImage.setImageBitmap( bitmap );
         }
 
  //       holder.mTextView1.setText(mCursor.getPosition());
@@ -198,7 +155,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
      //           Intent intent = new Intent(mContext, IngredientScreen.class);
       //          Intent intent = new Intent(mContext, IngredientScreen.class);
                 Intent intent = new Intent(mContext, IngredientInfo.class); //we're re-routing to IngredientInfo instead...
-                intent.putExtra("RecipieName", recipieName);
+                intent.putExtra( "RecipieName", recipieName );
                 mContext.startActivity(intent);
 
 
@@ -235,17 +192,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 if(mListener != null) {
                     Log.d(TAG, "recipie Name is: " + recipieName);
                     String measurementType = "";
-                    double quantity;
                     String quantityString;
                     String ingredientName = "";
-                    //            String price = "";
                     String measurementType2 = "";
                     String quantityString2;
                     String ingredientName2 = "";
-                    //            String price2 = "";
-                    String quantityString3;
-                    String ingredientName3 = "";
-                    String quantityString4;
                     String ingredientQuantity = "";
                     String hasIngredients = "Y"; //Dictates if it has ingredients or not...
 
@@ -267,15 +218,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                         while (data7.moveToNext()) {
                             ingredientName = data7.getString(1);
                             ingredientQuantity = data7.getString(2);
-                            //              quantity = Integer.parseInt(q);
                             measurementType = data7.getString(3);
-                            //             price = data2.getString(4);
                             listData4.add(ingredientName);
                             listData4.add(ingredientQuantity);
                             listData4.add(measurementType);
                         }
                     }
-                    //  String quantityString ="";
+
+                    /**
+                     * Decides if exported recipie has ingredients or not
+                     */
                     if (hasIngredients.equalsIgnoreCase("Y")) {
                         boolean insertData2 = mDatabaseHelper.addExportedRecipeData(recipieName, ingredientName, ingredientQuantity, measurementType);
 
@@ -308,19 +260,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                         while (data2.moveToNext()) {
                             ingredientName = data2.getString(1);
                             quantityString = data2.getString(2);
-                            //              quantity = Integer.parseInt(q);
                             measurementType = data2.getString(3);
-                            //             price = data2.getString(4);
                             listData.add(ingredientName);
                             listData.add(quantityString);
                             listData.add(measurementType);
-                            //             listData.add(price);
                         }
 
                         //If exported recipe has no ingredients, we will need to export into the shopping cart list differently
                         if (hasIngredients.equalsIgnoreCase("N")) {
                             String fillerQuantity = "0";
-                            int fillerQuantity2 = 0;
                             Double fillerQuantityVal = Double.parseDouble(fillerQuantity);
                             boolean insertData = mDatabaseHelper.addShoppingCartData(recipieName, null, fillerQuantityVal, null, 0, hasIngredients);
 
@@ -336,9 +284,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                 ingredientName = listData.get(0 + (j * 3));
                                 quantityString = listData.get(1 + (j * 3));
                                 measurementType = listData.get(2 + (j * 3));
-                                //                  price = listData.get(3 + (j * 3));
                                 Double convertedQuantity = Double.parseDouble(quantityString);
-                                //                 Double convertedPrice = Double.parseDouble(price);
 
                                 Cursor data4 = mDatabaseHelper.getShoppingCartIngredient(ingredientName);
                                 ArrayList<String> listData3 = new ArrayList<>();
@@ -347,7 +293,33 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                     listData3.add(ingredientName2);
                                 }
 
-                                int exportedRecipeCount = mDatabaseHelper.getExportedRecipeCount(ingredientName);
+                                /**
+                                 * Get all exported shopping cart data
+                                 */
+                                Cursor data10 = mDatabaseHelper.getExportedShoppingCartInfo();
+                                int exportedRecipeCount = 0;
+                                String ingredientName11 = "";
+                                while (data10.moveToNext()) { //goes through every exported recipe
+                                    String recipeName10 = data10.getString(1); //gets recipeName
+                                    //get recipeId from recipeName
+                                    Cursor data11 = mDatabaseHelper.getRecipieItemID(recipeName10);
+                                    while(data11.moveToNext()) {
+                                        int recipeID = data11.getInt(0);
+                                        Cursor data12 = mDatabaseHelper.getIngredientsBasedOnRecipieData(recipeID);
+                                        while(data12.moveToNext()) {
+                                            ingredientName11 = data12.getString(1);
+                                            if(ingredientName11.equalsIgnoreCase(ingredientName)) {
+                                                exportedRecipeCount++;
+                                        }
+                                    }
+                         //           mDatabaseHelper.getIngredientsBasedOnRecipieData(recipeId);
+                         //           int aCount = mDatabaseHelper.getRecipeHasIngredientCount(ingredientName11);//          if(aCount>0) {
+                                        // if ingredientName10 is in recipeName10
+                                    //    exportedRecipeCount++;
+                                    }
+                                }
+
+                            //    exportedRecipeCount = mDatabaseHelper.getExportedRecipeCount(recipieName);
                                 mDatabaseHelper.updateShoppingCartRecipeCount(exportedRecipeCount, ingredientName);
 
 
@@ -434,16 +406,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         measurementType = measurementType2;
                                     }
 
-
-                                    //       Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
-                                    //             Double convertedPrice3 = convertedPrice + convertedPrice2;
                                     mDatabaseHelper.updateShoppingCartQuantity(newQuantity, ingredientName);
                                     mDatabaseHelper.updateShoppingCartMeasurementType(measurementType, ingredientName);
-                                    //             mDatabaseHelper.updateShoppingCartPrice(convertedPrice3, ingredientName);
-                                    //      Double priceTotal = 0.00;
-                                    //      mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
-                                    //          Double priceTotal = mDatabaseHelper.getShoppingCartPriceSum();
-                                    //          mDatabaseHelper.updateShoppingCartPriceTotal(priceTotal);
                                 } else {
                                     boolean insertData = mDatabaseHelper.addShoppingCartData(recipieName, ingredientName, convertedQuantity, measurementType, exportedRecipeCount, hasIngredients);
 
@@ -453,47 +417,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                                         Log.d(TAG, "Something went wrong");
                                     }
                                 }
-/*
-                                Cursor data3 = mDatabaseHelper.getShoppingCartData();
-                                ArrayList<String> listData2 = new ArrayList<>();
-                                while (data3.moveToNext()) {
-                                    ingredientName2 = data3.getString(1);
-                                    quantityString2 = data3.getString(2);
-                                    measurementType2 = data3.getString(3);
-                                    listData2.add(ingredientName2);
-                                    listData2.add(quantityString2);
-                                    listData2.add(measurementType2);
-                                }
-
-                                if (listData2.size() != 0) {
-                                    for (int k = 0; k<listData2.size()/3; k++) {
-                                        ingredientName2 = listData2.get(0 + (k * 3));
-                                        quantityString2 = listData2.get(1 + (k * 3));
-                                        measurementType2 = listData2.get(2+ (k * 3));
-                                        Double convertedQuantity2 = Double.parseDouble(quantityString2);
-                                        if (ingredientName.equalsIgnoreCase(ingredientName2)) {
-                                            System.out.println("Quantity: " + quantityString2 + " measurement type: " + measurementType2);
-                                            Double convertedQuantity3 = convertedQuantity + convertedQuantity2;
-                                            mDatabaseHelper.updateShoppingCartQuantity(convertedQuantity3, ingredientName);
-                                        } else {
-                                            boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
-
-                                            if (insertData) {
-                                                Log.d(TAG, "Data is added to shopping cart list");
-                                            } else {
-                                                Log.d(TAG, "Something went wrong");
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    boolean insertData = mDatabaseHelper.addShoppingCartData(ingredientName, convertedQuantity, measurementType);
-
-                                    if (insertData) {
-                                        Log.d(TAG, "Data is added to shopping cart list");
-                                    } else {
-                                        Log.d(TAG, "Something went wrong");
-                                    }
-                                } */
                             }
                         }
                     }
