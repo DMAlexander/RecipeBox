@@ -34,13 +34,13 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
     private static final String IMAGE_DIRECTORY = "/demonuts";
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick( int position );
 
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) { mListener = listener; }
+    public void setOnItemClickListener( OnItemClickListener listener ) { mListener = listener; }
 
-    public RecipieFolderAdapter(Context context, Cursor cursor) {
+    public RecipieFolderAdapter( Context context, Cursor cursor ) {
         mContext = context;
         mCursor = cursor;
     }
@@ -50,20 +50,20 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         public CardView mCardView;
         public ImageView mImageView;
 
-        public RecipieFolderViewHolder(final View itemView, final OnItemClickListener listener) {
-            super(itemView);
-            mTextView1 = itemView.findViewById(R.id.textView);
-            mCardView = itemView.findViewById(R.id.cardView);
-            mImageView = itemView.findViewById(R.id.iv);
+        public RecipieFolderViewHolder( final View itemView, final OnItemClickListener listener ) {
+            super( itemView );
+            mTextView1 = itemView.findViewById( R.id.textView );
+            mCardView = itemView.findViewById( R.id.cardView );
+            mImageView = itemView.findViewById( R.id.iv );
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    if (listener != null) {
+                public void onClick( View view ) {
+                    if ( listener != null ) {
                         int position = getAdapterPosition();
-                        System.out.println("position: " + position);
-                        if(position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                        System.out.println( "position: " + position );
+                        if( position != RecyclerView.NO_POSITION ) {
+                            listener.onItemClick( position );
                         }
                     }
                 }
@@ -71,62 +71,43 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         }
     }
 
-    public RecipieFolderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.activity_recipe_folder_item, parent, false);
-        return new RecipieFolderViewHolder(view, mListener);
+    public RecipieFolderViewHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
+        LayoutInflater inflater = LayoutInflater.from( mContext );
+        View view = inflater.inflate( R.layout.activity_recipe_folder_item, parent, false );
+        return new RecipieFolderViewHolder( view, mListener );
     }
 
     @Override
-    public void onBindViewHolder(RecipieFolderViewHolder holder, int position) {
-        if (!mCursor.moveToPosition(position)) {
+    public void onBindViewHolder( RecipieFolderViewHolder holder, int position ) {
+        if ( !mCursor.moveToPosition( position ) ) {
             return;
         }
 
-        final int recipieFolderID = mCursor.getInt(mCursor.getColumnIndex("FolderID"));
- //       final int recipieFolderPicID = recipieFolderID + 1;
- //       int fss = mDatabaseHelper.getRecipeFolderTableCount();
-        final String recipieFolderName = mCursor.getString(mCursor.getColumnIndex("RecipieFolderName"));
+        final int recipieFolderID = mCursor.getInt( mCursor.getColumnIndex("FolderID" ) );
+        final String recipieFolderName = mCursor.getString( mCursor.getColumnIndex("RecipieFolderName" ) );
         holder.mTextView1.setText(recipieFolderName);
 
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
-                Log.d(TAG, "onClick: recipieFolderID is: " + recipieFolderID);
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("FolderID", recipieFolderID);
-                intent.putExtra("RecipieFolderName", recipieFolderName);
-                mContext.startActivity(intent);
+                Log.d( TAG, "onClick: clicked on: " + mCursor.getPosition() );
+                Log.d( TAG, "onClick: recipieFolderID is: " + recipieFolderID );
+                Intent intent = new Intent(mContext, MainActivity.class );
+                intent.putExtra("FolderID", recipieFolderID );
+                intent.putExtra("RecipieFolderName", recipieFolderName );
+                mContext.startActivity( intent );
             }
         });
 
         File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
         String fileName = "/myImage" + recipieFolderID;
         //    File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
-        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg" );
         if(imgFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            holder.mImageView.setImageBitmap(bitmap);
+            Bitmap bitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );
+            holder.mImageView.setImageBitmap( bitmap );
         }
-
-        /*
-        holder.mTextView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: clicked on: " + mCursor.getPosition());
-                Log.d(TAG, "onClick: recipieFolderID is: " + recipieFolderID);
-                Intent intent = new Intent(mContext, MainActivity.class);
-                intent.putExtra("FolderID", recipieFolderID);
-                intent.putExtra("RecipieFolderName", recipieFolderName);
-                mContext.startActivity(intent);
-            }
-        });
-        */
-
-//        final String spinner1Value = mCursor.getString(mCursor.getColumnIndex("Quantity"));
-//        holder.mTextView1.setText(spinner1Value);
     }
 
     @Override

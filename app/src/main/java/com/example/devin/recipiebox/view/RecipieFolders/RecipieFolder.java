@@ -41,47 +41,35 @@ public class RecipieFolder extends AppCompatActivity {
     int sizeOfList = 1;
     ImageView mImageBtn;
     MenuItem mCartIconMenuItem;
-    Toolbar mMyToolbar;
     TextView mCountTv;
-    private ArrayList<RecipieFolderItem> arrayList;
     private RelativeLayout parentRelativeLayout;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipie_folder);
-        parentRelativeLayout = (RelativeLayout) findViewById(R.id.parentRelativeLayout);
-        btnRecipieFolderAdd = (Button) findViewById(R.id.btnRecipieFolderAdd);
-        editable_recipie_folder_item = (EditText) findViewById(R.id.editable_recipie_folder_item);
-        mDatabaseHelper = new DatabaseHelper(this);
-    //    mMyToolbar = findViewById(R.id.myToolBar);
-    //    setSupportActionBar(mMyToolbar);
-    //    mMyToolbar.setTitleTextColor(0xFFFFFFFF);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_recipie_folder );
+        parentRelativeLayout = (RelativeLayout) findViewById( R.id.parentRelativeLayout );
+        btnRecipieFolderAdd = (Button) findViewById( R.id.btnRecipieFolderAdd );
+        editable_recipie_folder_item = (EditText) findViewById( R.id.editable_recipie_folder_item );
+        mDatabaseHelper = new DatabaseHelper(this );
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
 
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mAdapter = new RecipieFolderAdapter(this, getAllItems());
-//        recyclerView.setAdapter(mAdapter);
+        GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false );
+        recyclerView.setLayoutManager( manager );
 
-  //      setButtons();
-
-        GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(manager);
-
-        mAdapter = new RecipieFolderAdapter(this, getAllItems());
-        recyclerView.setAdapter(mAdapter);
+        mAdapter = new RecipieFolderAdapter(this, getAllItems() );
+        recyclerView.setAdapter( mAdapter );
         final int childCount = parentRelativeLayout.getChildCount();
 
         btnRecipieFolderAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecipieFolder.this, RecipeAdd.class);
-                startActivity(intent);
+                Intent intent = new Intent(RecipieFolder.this, RecipeAdd.class );
+                startActivity( intent );
             }
         });
-
     }
 
     private Cursor getAllItems() {
@@ -90,44 +78,48 @@ public class RecipieFolder extends AppCompatActivity {
 
     public void insertItem(String recipieFolderName) {
         String newEntry = editable_recipie_folder_item.getText().toString();
-        if(editable_recipie_folder_item != null) {
-            boolean insertData = mDatabaseHelper.addRecipieFolderData(newEntry);
-            if (insertData) {
-                toastMessage("Data successfully inserted!");
+        if( editable_recipie_folder_item != null ) {
+            boolean insertData = mDatabaseHelper.addRecipieFolderData( newEntry );
+            if ( insertData ) {
+                toastMessage( "Data successfully inserted!" );
                 mAdapter.notifyDataSetChanged();
                 finish();
-                startActivity(getIntent());
+                startActivity( getIntent() );
             } else {
-                toastMessage("Something went wrong!");
+                toastMessage( "Something went wrong!" );
             }
         } else {
-            toastMessage("Put something in the text field!");
+            toastMessage( "Put something in the text field!" );
         }
     }
 
     //Need this method for shopping cart icon
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate( R.menu.menu, menu );
+        mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
         View actionView = mCartIconMenuItem.getActionView();
 
-        if(actionView != null) {
-            mCountTv = actionView.findViewById(R.id.count_tv_layout);
-            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        if( actionView != null ) {
+
+            mCountTv = actionView.findViewById( R.id.count_tv_layout );
+            mImageBtn = actionView.findViewById( R.id.image_btn_layout );
+
         }
+
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RecipieFolder.this, ShoppingCartList.class);
-                startActivity(intent);
+            public void onClick( View view ) {
+                Intent intent = new Intent(RecipieFolder.this, ShoppingCartList.class );
+                startActivity( intent );
             }
         });
+
         int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
-        String shoppingCartString = String.valueOf(shoppingCartCount);
-        mCountTv.setText(shoppingCartString);
+        String shoppingCartString = String.valueOf( shoppingCartCount );
+        mCountTv.setText( shoppingCartString );
         mAdapter.notifyDataSetChanged();
-        return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu( menu );
     }
 /*
     public void setButtons() {
@@ -151,18 +143,18 @@ public class RecipieFolder extends AppCompatActivity {
      * @param v
      * Add the new row before the add field button
      */
-    public void onAddField(View v) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
+    public void onAddField( View v ) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        final View rowView = inflater.inflate( R.layout.activity_ingredient_layout_field, null );
         sizeOfList++;
-        parentRelativeLayout.addView(rowView, parentRelativeLayout.getChildCount() -1 );
+        parentRelativeLayout.addView( rowView, parentRelativeLayout.getChildCount() -1 );
     }
-    public void onDelete(View v) {
-        parentRelativeLayout.removeView((View) v.getParent());
+    public void onDelete( View v ) {
+        parentRelativeLayout.removeView( (View) v.getParent() );
         sizeOfList--;
     }
 
-    private void toastMessage(String message) {
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+    private void toastMessage( String message ) {
+        Toast.makeText(this,message, Toast.LENGTH_SHORT ).show();
     }
 }

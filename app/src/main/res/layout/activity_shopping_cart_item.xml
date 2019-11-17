@@ -11,27 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp">
-<!--
-        <TextView
-            android:id="@+id/spinner1Value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="9"
-            android:layout_margin="2dp"
-            />
--->
-        <!--
-        <TextView
-            android:id="@+id/spinner2Value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:text="gallon"
-            android:layout_toEndOf="@+id/spinner1Value"
-            android:layout_margin="2dp"
-            />
--->
+
         <TextView
             android:id="@+id/ingredientTextView"
             android:layout_width="wrap_content"
@@ -53,16 +33,7 @@
             android:textSize="30dp"
             android:layout_marginLeft="30dp"
             />
-<!--
-        <TextView
-            android:id="@+id/price_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/ingredientTextView"
-            android:layout_weight="3"
-            android:layout_margin="2dp"
-            />
--->
+
         <ImageView
             android:id="@+id/image_delete"
             android:layout_width="135dp"

@@ -30,9 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.Recipie.RecipieScreen" />
         <activity android:name=".view.ShoppingCart.ShoppingCartList" />
-        <activity android:name=".view.Ingredient.IngredientScreen" />
         <activity android:name=".view.PublishedIngredient.IngredientInfo" />
         <activity android:name=".view.Recipie.MainActivity" />
         <!-- <activity android:name=".view.MainMenu"></activity> -->

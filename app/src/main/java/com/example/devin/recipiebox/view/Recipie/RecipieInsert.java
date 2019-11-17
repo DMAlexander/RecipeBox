@@ -3,7 +3,6 @@ package com.example.devin.recipiebox.view.Recipie;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
-import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
-import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.NewIngredient.IngredientLayoutScreen;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
@@ -33,143 +30,138 @@ public class RecipieInsert extends AppCompatActivity {
     private EditText editRecipieText;
     private int selectedRecipieFolderID;
     ImageButton mImageBtn;
-//    Toolbar mMyToolbar;
     RadioGroup radioGroup;
     RadioButton radioButton;
     TextView textView;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipie_insert);
-        btnRecipeAdd = (Button) findViewById(R.id.btnRecipieAdd);
-        editRecipieText = (EditText) findViewById(R.id.editRecipieText);
-        mDatabaseHelper = new DatabaseHelper(this);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_recipie_insert );
+        btnRecipeAdd = (Button) findViewById( R.id.btnRecipieAdd );
+        editRecipieText = (EditText) findViewById( R.id.editRecipieText );
+        mDatabaseHelper = new DatabaseHelper(this );
 
-        radioGroup = findViewById(R.id.radioGroup);
-
-   //     mMyToolbar = findViewById(R.id.myToolBar);
-   //     setSupportActionBar(mMyToolbar);
-   //     mMyToolbar.setTitleTextColor(0xFFFFFFFF);
-  //      getSupportActionBar().setTitle("Recipe Insert Screen");
+        radioGroup = findViewById( R.id.radioGroup );
 
         btnRecipeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent recievedIntent = getIntent();
-                selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1);
-                Log.d(TAG, "recipie folder id value is: " + selectedRecipieFolderID);
+                selectedRecipieFolderID = recievedIntent.getIntExtra("FolderID", -1 );
+                Log.d( TAG, "recipie folder id value is: " + selectedRecipieFolderID );
 
                 int radioId = radioGroup.getCheckedRadioButtonId();
-                radioButton = findViewById(radioId);
-                Log.d(TAG, "Your choice: " + radioButton.getText());
+                radioButton = findViewById( radioId );
+                Log.d( TAG, "Your choice: " + radioButton.getText() );
                 String recipieName = editRecipieText.getText().toString();
-                if (radioButton.getText().equals("Ingredients")) {
-                    if (editRecipieText.length() != 0) {
-                        insertItem(recipieName, selectedRecipieFolderID);
-                        editRecipieText.setText("");
+                if ( radioButton.getText().equals( "Ingredients" ) ) {
+                    if ( editRecipieText.length() != 0 ) {
+                        insertItem( recipieName, selectedRecipieFolderID );
+                        editRecipieText.setText( "" );
                     } else {
-                        toastMessage("Please put something in the textbox!");
+                        toastMessage( "Please put something in the textbox!" );
                     }
                 } else {
-                    if (editRecipieText.length() != 0) {
-                        insertRecipe(recipieName, selectedRecipieFolderID);
+                    if ( editRecipieText.length() != 0 ) {
+                        insertRecipe( recipieName, selectedRecipieFolderID );
                     }
                 }
             }
         });
     }
 
-    public void insertItem(String recipieName, int selectedRecipieFolderID) {
+    public void insertItem( String recipieName, int selectedRecipieFolderID ) {
 
         String lowerCaseRecipe = recipieName.toLowerCase();
 
-        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, "Y", /*0,*/ selectedRecipieFolderID);
+        boolean insertData = mDatabaseHelper.addRecipieData( lowerCaseRecipe, null, "Y", selectedRecipieFolderID );
 
-        if (insertData) {
-            toastMessage("Data successfully inserted!");
+        if ( insertData ) {
+            toastMessage( "Data successfully inserted!" );
 
-            Cursor data = mDatabaseHelper.getRecipieItemID(lowerCaseRecipe);
+            Cursor data = mDatabaseHelper.getRecipieItemID( lowerCaseRecipe );
             int itemID = -1;
-            while (data.moveToNext()) {
+            while ( data.moveToNext() ) {
                 itemID = data.getInt(0);
             }
-            toastMessage("The recipieID is: " + itemID);
+            toastMessage( "The recipieID is: " + itemID );
 
-//            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
-            Intent intent = new Intent(RecipieInsert.this, IngredientLayoutScreen.class);
-            intent.putExtra("RecipieName", lowerCaseRecipe);
-            intent.putExtra("RecipieId", itemID);
-                     // receivedIntent.getIntExtra("RecipieId", -1);
-            startActivity(intent);
+            Intent intent = new Intent(RecipieInsert.this, IngredientLayoutScreen.class );
+            intent.putExtra("RecipieName", lowerCaseRecipe );
+            intent.putExtra("RecipieId", itemID );
+
+            startActivity( intent );
         } else {
-            toastMessage("Something went wrong!");
+            toastMessage( "Something went wrong!" );
         }
     }
 
-    public void insertRecipe(String recipieName, int selectedRecipieFolderID) {
+    public void insertRecipe( String recipieName, int selectedRecipieFolderID ) {
 
         String lowerCaseRecipe = recipieName.toLowerCase();
 
-        boolean insertData = mDatabaseHelper.addRecipieData(lowerCaseRecipe, null, "N", /*0,*/ selectedRecipieFolderID);
+        boolean insertData = mDatabaseHelper.addRecipieData( lowerCaseRecipe, null, "N", selectedRecipieFolderID );
 
-        if (insertData) {
-            toastMessage("Data successfully inserted!");
+        if ( insertData ) {
+            toastMessage( "Data successfully inserted!" );
 
-            Cursor data = mDatabaseHelper.getRecipieItemID(lowerCaseRecipe);
+            Cursor data = mDatabaseHelper.getRecipieItemID( lowerCaseRecipe );
             int itemID = -1;
-            while (data.moveToNext()) {
+            while ( data.moveToNext() ) {
                 itemID = data.getInt(0);
             }
-            toastMessage("The recipieID is: " + itemID);
+            toastMessage( "The recipieID is: " + itemID );
 
-//            Intent intent = new Intent(RecipieInsert.this, IngredientScreen.class);
-            Intent intent = new Intent(RecipieInsert.this, MainActivity.class);
-            intent.putExtra("RecipieName", lowerCaseRecipe);
-            intent.putExtra("RecipieId", itemID);
-            // receivedIntent.getIntExtra("RecipieId", -1);
-            startActivity(intent);
+            Intent intent = new Intent(RecipieInsert.this, MainActivity.class );
+            intent.putExtra("RecipieName", lowerCaseRecipe );
+            intent.putExtra("RecipieId", itemID );
+            startActivity( intent );
+
         } else {
-            toastMessage("Something went wrong!");
+
+            toastMessage( "Something went wrong!" );
         }
 
     }
 
-    //Need this method for shopping cart icon
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate( R.menu.menu, menu );
+        mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
         View actionView = mCartIconMenuItem.getActionView();
 
-        if(actionView != null) {
-            mCountTv = actionView.findViewById(R.id.count_tv_layout);
-            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        if( actionView != null ) {
+
+            mCountTv = actionView.findViewById( R.id.count_tv_layout );
+            mImageBtn = actionView.findViewById( R.id.image_btn_layout );
+
         }
+
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecipieInsert.this, ShoppingCartList.class);
-                startActivity(intent);
+                Intent intent = new Intent(RecipieInsert.this, ShoppingCartList.class );
+                startActivity( intent );
             }
         });
+
         int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
-        String shoppingCartString = String.valueOf(shoppingCartCount);
-        mCountTv.setText(shoppingCartString);
+        String shoppingCartString = String.valueOf( shoppingCartCount );
+        mCountTv.setText( shoppingCartString );
 
-        return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu( menu );
     }
 
-    public void checkButton(View v) {
+    public void checkButton( View v ) {
         int radioId = radioGroup.getCheckedRadioButtonId();
-        radioButton = findViewById(radioId);
-        toastMessage("Selected radio Button: " + radioButton.getText());
+        radioButton = findViewById( radioId );
+        toastMessage( "Selected radio Button: " + radioButton.getText() );
     }
 
-    private void toastMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    private void toastMessage( String message ) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT ).show();
     }
 }

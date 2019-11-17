@@ -1,6 +1,5 @@
 package com.example.devin.recipiebox.view.NewIngredient;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,8 +7,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -34,217 +31,184 @@ import android.widget.Toast;
 
 import com.example.devin.recipiebox.R;
 import com.example.devin.recipiebox.database.DatabaseHelper;
-import com.example.devin.recipiebox.view.Ingredient.IngredientEditAdapter;
-import com.example.devin.recipiebox.view.Ingredient.IngredientScreen;
-import com.example.devin.recipiebox.view.MainMenu;
 import com.example.devin.recipiebox.view.PublishedIngredient.IngredientInfo;
-import com.example.devin.recipiebox.view.Recipie.MainActivity;
-import com.example.devin.recipiebox.view.Recipie.RecipieInsert;
 import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.DexterError;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.PermissionRequestErrorListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class IngredientLayoutScreen extends AppCompatActivity {
 
     private static final String TAG = "IngredientLayoutScreen";
     private LinearLayout parentLinearLayout;
-    int sizeOfList = 1; //tracks how large the list is...
-    private Button btnIngredientAdd, btnIngredientInfo, btnSave;
-    //    private EditText editable_recipie_item, editable_ingredient_item;
-//    private ListView mListView;
-    //   private ImageView imageView;
+    int sizeOfList = 1;
+    private Button btnSave;
 
     DatabaseHelper mDatabaseHelper;
-    private IngredientEditAdapter mAdapter;
     private EditText number_edit_text;
- //   private EditText price_edit_text;
     private EditText recipieDescription;
     private String selectedRecipieName;
     private int selectedRecipieID;
-    private int selectedIngredientID;
-    private static final int PICK_IMAGE = 100;
     private Spinner type_spinner, type_spinner2;
-    Uri imageUri;
-    RecyclerView recyclerView;
     ImageButton mImageBtn;
-    Toolbar mMyToolbar;
     TextView mCountTv;
     TextView descriptionLabel;
     MenuItem mCartIconMenuItem;
     private ImageButton imageButton;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
-  //  String path = "";
-
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingredient_layout_screen);
-        parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
-        number_edit_text = (EditText) findViewById(R.id.number_edit_text);
- //       price_edit_text = (EditText) findViewById(R.id.price_edit_text);
-        recipieDescription = (EditText) findViewById(R.id.recipieDescription);
-        type_spinner = (Spinner) findViewById(R.id.type_spinner);
-        type_spinner2 = (Spinner) findViewById(R.id.type_spinner2);
-        descriptionLabel = (TextView) findViewById(R.id.descriptionLabel);
-        descriptionLabel.setText("Recipe Description:");
-        mDatabaseHelper = new DatabaseHelper(this);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_ingredient_layout_screen );
+        parentLinearLayout = (LinearLayout) findViewById( R.id.parent_linear_layout );
+        number_edit_text = (EditText) findViewById( R.id.number_edit_text );
+        recipieDescription = (EditText) findViewById( R.id.recipieDescription );
+        type_spinner = (Spinner) findViewById( R.id.type_spinner );
+        type_spinner2 = (Spinner) findViewById( R.id.type_spinner2 );
+        descriptionLabel = (TextView) findViewById( R.id.descriptionLabel );
+        descriptionLabel.setText( "Recipe Description:" );
+        mDatabaseHelper = new DatabaseHelper(this );
         Intent recievedIntent = getIntent();
-        selectedRecipieName = recievedIntent.getStringExtra("RecipieName");
-   //     requestMultiplePermissions();
+        selectedRecipieName = recievedIntent.getStringExtra("RecipieName" );
 
         File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
         String fileName = "/myImage" + selectedRecipieName;
-        //    File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
-        File imgFile = new File(wallpaperDirectory + fileName + ".jpg");
-        if(imgFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            mImageBtn = (ImageButton) findViewById(R.id.iv);
-            mImageBtn.setImageBitmap(bitmap);
+        File imgFile = new File(wallpaperDirectory + fileName + ".jpg" );
+        if( imgFile.exists() ) {
+            Bitmap bitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );
+            mImageBtn = (ImageButton) findViewById( R.id.iv );
+            mImageBtn.setImageBitmap( bitmap );
         }
 
-        imageButton = (ImageButton) findViewById(R.id.iv);
+        imageButton = (ImageButton) findViewById( R.id.iv );
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick( View view ) {
                 showPictureDialog();
             }
         });
 
         Intent receivedIntent = getIntent();
-        selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-        selectedRecipieName = receivedIntent.getStringExtra("RecipieName");
-  //      getSupportActionBar().setTitle(selectedRecipieName + selectedRecipieID);
+        selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1 );
+        selectedRecipieName = receivedIntent.getStringExtra("RecipieName" );
 
-        Cursor data = mDatabaseHelper.getRecipieDescription(selectedRecipieName);
+        Cursor data = mDatabaseHelper.getRecipieDescription( selectedRecipieName );
         String recipeDescription = "";
-        while (data.moveToNext()) {
+        while ( data.moveToNext() ) {
             recipeDescription = data.getString(0);
         }
-        Log.d(TAG, "Description is: " + recipeDescription);
+        Log.d( TAG, "Description is: " + recipeDescription );
 
-        recipieDescription.setText(recipeDescription);
+        recipieDescription.setText( recipeDescription );
 
-        int count = mDatabaseHelper.getIngredientCount(selectedRecipieID);
-        for(int i=0; i<count; i++) {
+        int count = mDatabaseHelper.getIngredientCount( selectedRecipieID );
+
+        for( int i=0; i<count; i++ ) {
             String ingredientName = "";
             String measurementQuantity = "";
             String measurementType = "";
 
-            Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData(selectedRecipieID);
+            Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipieData( selectedRecipieID );
             ArrayList<String> listData = new ArrayList<>();
-            while (data2.moveToNext()) {
+            while ( data2.moveToNext() ) {
 
                 ingredientName = data2.getString(1);
                 measurementQuantity = data2.getString(2);
                 measurementType = data2.getString(3);
-                listData.add(ingredientName);
-                listData.add(measurementQuantity);
-                listData.add(measurementType);
+                listData.add( ingredientName );
+                listData.add( measurementQuantity );
+                listData.add( measurementType );
             }
             ingredientName = listData.get(0);
             measurementQuantity = listData.get(1);
             measurementType = listData.get(2);
 
             View v = parentLinearLayout.getChildAt(i);
-            number_edit_text.setText(ingredientName);
+            number_edit_text.setText( ingredientName );
 
             Resources res = getResources();
-            String[] items = res.getStringArray(R.array.measurements_array);
+            String[] items = res.getStringArray( R.array.measurements_array );
             int index = 0;
             for (int j=0; j < items.length; j++) {
-                if(items[j].equalsIgnoreCase(measurementQuantity)) {
+                if(items[j].equalsIgnoreCase( measurementQuantity ) ) {
                     index=j;
                 }
             }
-            type_spinner.setSelection(index); //set spinner value based on selection
 
-            String[] items2 = res.getStringArray(R.array.measurement_type_array);
+            type_spinner.setSelection(index);
+
+            String[] items2 = res.getStringArray( R.array.measurement_type_array );
             int index2 = 0;
             for (int k=0; k < items2.length; k++) {
-                if(items2[k].equalsIgnoreCase(measurementType)) {
+                if(items2[k].equalsIgnoreCase( measurementType ) ) {
                     index2=k;
                 }
             }
-
-            type_spinner2.setSelection(index2);
-
-
+            type_spinner2.setSelection( index2 );
         }
 
         final int childCount = parentLinearLayout.getChildCount();
-        btnSave = (Button) findViewById(R.id.btnSave);
+        btnSave = (Button) findViewById( R.id.btnSave );
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if ingredients already exist, then lets delete them...
+
                 Intent recievedIntent = getIntent();
-                selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1);
-                mDatabaseHelper.deleteRecipeIngredients(selectedRecipieID);
+                selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1 );
+                mDatabaseHelper.deleteRecipeIngredients( selectedRecipieID );
 
                 final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
-                selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1);
-                for(int i=1; i<childCount-4; i++) {
+                selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1 );
+                for( int i=1; i<childCount-4; i++ ) {
                     View v = parentLinearLayout.getChildAt(i);
-                    number_edit_text = (EditText) v.findViewById(R.id.number_edit_text);
+                    number_edit_text = (EditText) v.findViewById( R.id.number_edit_text );
 
                     String ingredientName = number_edit_text.getText().toString();
                     if( number_edit_text.getText().toString().length() == 0 ) {
                         number_edit_text.setError( "Ingredient Name is required!" );
                     }
 
-         //           View rv = v.getRootView()
-                    Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-                    type_spinner = (Spinner) v.findViewById(R.id.type_spinner);
+                    Cursor data = mDatabaseHelper.getRecipieItemID( selectedRecipieName );
+                    type_spinner = (Spinner) v.findViewById( R.id.type_spinner );
                     String newEntry2 = type_spinner.getSelectedItem().toString();
 
                     Resources res = getResources();
-                    String[] items = res.getStringArray(R.array.measurements_array);
+                    String[] items = res.getStringArray( R.array.measurements_array );
                     int index = 0;
-                    for (int j=0; j < items.length; j++) {
-                        if(items[j]==newEntry2) {
+                    for ( int j=0; j < items.length; j++ ) {
+                        if( items[j]==newEntry2 ) {
                             index=j;
                         }
                     }
-                    System.out.print(index);
+                    System.out.print( index );
 
-                    type_spinner2 = (Spinner) v.findViewById(R.id.type_spinner2);
+                    type_spinner2 = (Spinner) v.findViewById( R.id.type_spinner2 );
                     String newEntry3 = type_spinner2.getSelectedItem().toString();
 
-                    String[] items2 = res.getStringArray(R.array.measurement_type_array);
+                    String[] items2 = res.getStringArray( R.array.measurement_type_array );
                     int index2 = 0;
-                    for (int k=0; k < items2.length; k++) {
-                        if(items2[k]==newEntry3) {
+                    for ( int k=0; k < items2.length; k++ ) {
+                        if( items2[k]==newEntry3 ) {
                             index2=k;
                         }
                     }
 
-                    System.out.print(index2);
+                    System.out.print( index2 );
 
-                    if(newEntry2.equalsIgnoreCase("")) {
+                    if(newEntry2.equalsIgnoreCase("" ) ) {
                         newEntry2 = null;
                     }
 
-                    if(newEntry3.equalsIgnoreCase("")) {
+                    if(newEntry3.equalsIgnoreCase("" ) ) {
                         newEntry3 = null;
                     }
 
@@ -252,204 +216,171 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     //     String newEntry2 = type_spinner.getSelectedItem().toString();
                     //     String newEntry3 = type_spinner2.getSelectedItem().toString();
 
-                    if (newEntry2.equalsIgnoreCase("1/8")) {
+                    if (newEntry2.equalsIgnoreCase("1/8" ) ) {
                         //      convertedSpinner = Double.parseDouble(newEntry2);
                         convertedSpinner = 0.125;
-                        System.out.print(convertedSpinner);
-                    } else if (newEntry2.equalsIgnoreCase("1/4")) {
+                        System.out.print( convertedSpinner );
+                    } else if (newEntry2.equalsIgnoreCase("1/4" ) ) {
                         convertedSpinner = 0.25;
-                        System.out.print(convertedSpinner);
-                    } else if (newEntry2.equalsIgnoreCase("1/2")) {
+                        System.out.print( convertedSpinner );
+                    } else if (newEntry2.equalsIgnoreCase("1/2" ) ) {
                         convertedSpinner = 0.5;
-                        System.out.print(convertedSpinner);
-                    } else if (newEntry2.equalsIgnoreCase("1")) {
+                        System.out.print( convertedSpinner );
+                    } else if (newEntry2.equalsIgnoreCase("1" ) ) {
                         convertedSpinner = 1;
-                        System.out.print(convertedSpinner);
-                    } else if (newEntry2.equalsIgnoreCase("2")) {
+                        System.out.print( convertedSpinner );
+                    } else if (newEntry2.equalsIgnoreCase("2" ) ) {
                         convertedSpinner = 2;
-                        System.out.print(convertedSpinner);
-                    } else if (newEntry2.equalsIgnoreCase("3")) {
+                        System.out.print( convertedSpinner );
+                    } else if (newEntry2.equalsIgnoreCase("3" ) ) {
                         convertedSpinner = 3;
-                        System.out.print(convertedSpinner);
+                        System.out.print( convertedSpinner );
                     } else {
                         //     convertedSpinner = 0;
-                        convertedSpinner = Double.valueOf(newEntry2);
-                        System.out.print(convertedSpinner);
+                        convertedSpinner = Double.valueOf( newEntry2 );
+                        System.out.print( convertedSpinner );
                     }
 
                  //   Double convertedSpinner = Double.valueOf(newEntry2);
 
-                    if (number_edit_text.length() != 0) {
-                        insertItem(ingredientName, /* convertedPrice, */ newEntry2, newEntry3, selectedRecipieID);
-                        //               number_edit_text.setText("");
+                    if ( number_edit_text.length() != 0 ) {
+                        insertItem( ingredientName, newEntry2, newEntry3, selectedRecipieID );
                     } else {
-                        mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, "N", /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
-                        toastMessage("No Ingredients Added!");
+                        mDatabaseHelper.addIngredientData( ingredientName, convertedSpinner, newEntry3, "N", selectedRecipieID );
+                        toastMessage( "No Ingredients Added!" );
                     }
                 }
 
-                if (recipieDescription.length() != 0) {
+                if ( recipieDescription.length() != 0 ) {
                     String recipeDescription = recipieDescription.getText().toString();
-                    mDatabaseHelper.updateRecipieDescription(recipeDescription, selectedRecipieID);
+                    mDatabaseHelper.updateRecipieDescription( recipeDescription, selectedRecipieID );
                 } else {
                     toastMessage("Put something in the description text field!");
                 }
 
-                //         return mDatabaseHelper.getIngredientsBasedOnRecipieData(itemID);
-
-         //       imageButton.buildDrawingCache();
-         //       Bitmap bitmap = imageButton.getDrawingCache();
-
-                // myImage
-            //    if(imageButton.getDrawable() != null) {
-       //            Bitmap bm = ((BitmapDrawable) imageButton.getDrawable()).getBitmap();
-                Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class);
-                intent.putExtra("RecipieName", selectedRecipieName);
-                startActivity(intent);
-
+                Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class );
+                intent.putExtra("RecipieName", selectedRecipieName );
+                startActivity( intent );
             }
         });
-
-
     }
-    public void onAddField(View v) {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.activity_ingredient_layout_field, null);
-        //Add the new row before the add field button
+
+    /**
+     * Add the new row before the add field button
+     * @param v
+     */
+    public void onAddField( View v ) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        final View rowView = inflater.inflate( R.layout.activity_ingredient_layout_field, null );
         sizeOfList++;
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 4);
+        parentLinearLayout.addView( rowView, parentLinearLayout.getChildCount() - 4 );
     }
-    public void onDelete(View v) {
-        parentLinearLayout.removeView((View) v.getParent());
+
+    public void onDelete( View v ) {
+        parentLinearLayout.removeView( (View) v.getParent() );
         sizeOfList--;
     }
 
-    public void insertItem(String ingredientName, /* double convertedPrice, */ String newEntry2, String newEntry3, int selectedRecipieID) {
-    /*
-        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
-        int itemID = -1;
-        while (data.moveToNext()) {
-            itemID = data.getInt(0);
-        } */
+    public void insertItem( String ingredientName, String newEntry2, String newEntry3, int selectedRecipieID ) {
+
         double convertedSpinner = 0;
    //     String newEntry2 = type_spinner.getSelectedItem().toString();
    //     String newEntry3 = type_spinner2.getSelectedItem().toString();
 
-        if (newEntry2.equalsIgnoreCase("1/8")) {
+        if ( newEntry2.equalsIgnoreCase("1/8" ) ) {
       //      convertedSpinner = Double.parseDouble(newEntry2);
             convertedSpinner = 0.125;
-            System.out.print(convertedSpinner);
-        } else if (newEntry2.equalsIgnoreCase("1/4")) {
+            System.out.print( convertedSpinner );
+        } else if ( newEntry2.equalsIgnoreCase("1/4" ) ) {
             convertedSpinner = 0.25;
-            System.out.print(convertedSpinner);
-        } else if (newEntry2.equalsIgnoreCase("1/2")) {
+            System.out.print( convertedSpinner );
+        } else if ( newEntry2.equalsIgnoreCase("1/2" ) ) {
             convertedSpinner = 0.5;
-            System.out.print(convertedSpinner);
-        } else if (newEntry2.equalsIgnoreCase("1")) {
+            System.out.print( convertedSpinner );
+        } else if ( newEntry2.equalsIgnoreCase("1" ) ) {
             convertedSpinner = 1;
-            System.out.print(convertedSpinner);
-        } else if (newEntry2.equalsIgnoreCase("2")) {
+            System.out.print( convertedSpinner );
+        } else if ( newEntry2.equalsIgnoreCase("2" ) ) {
             convertedSpinner = 2;
-            System.out.print(convertedSpinner);
-        } else if (newEntry2.equalsIgnoreCase("3")) {
+            System.out.print( convertedSpinner );
+        } else if ( newEntry2.equalsIgnoreCase("3" ) ) {
             convertedSpinner = 3;
-            System.out.print(convertedSpinner);
+            System.out.print( convertedSpinner );
         } else {
        //     convertedSpinner = 0;
-            convertedSpinner = Double.valueOf(newEntry2);
-            System.out.print(convertedSpinner);
+            convertedSpinner = Double.valueOf( newEntry2 );
+            System.out.print( convertedSpinner );
         }
 
-        /*
-        View v = parentLinearLayout.getChildAt(i);
-        price_edit_text = (EditText) v.findViewById(R.id.price_edit_text);
-        String price = price_edit_text.getText().toString();
-        double convertedPrice = Double.parseDouble(price);
-        */
-
-        //      String newEntry = editable_ingredient_item.getText().toString();
-        if (number_edit_text.length() != 0) {
-            Log.d(TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID);
-            boolean insertData = mDatabaseHelper.addIngredientData(ingredientName, convertedSpinner, newEntry3, "Y", /* convertedPrice, */ selectedRecipieID); //we need all 4 parameters here...
-            if (insertData) {
-                toastMessage("Data successfully inserted!");
+        if ( number_edit_text.length() != 0 ) {
+            Log.d( TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID );
+            boolean insertData = mDatabaseHelper.addIngredientData( ingredientName, convertedSpinner, newEntry3, "Y", /* convertedPrice, */ selectedRecipieID ); //we need all 4 parameters here...
+            if ( insertData ) {
+                toastMessage( "Data successfully inserted!" );
             } else {
-                toastMessage("Something went wrong!");
+                toastMessage( "Something went wrong!" );
             }
         } else {
-            toastMessage("Put something in the text field!");
+            toastMessage( "Put something in the text field!" );
         }
-
-   //     String currentPrice2 = "";
-
-   //     Cursor data = mDatabaseHelper.getRecipePrice(selectedRecipieName);
-   //     ArrayList<String> listData = new ArrayList<>();
-   //     while (data.moveToNext()) {
- //           currentPrice2 = data.getString(0);
- //           listData.add(currentPrice2);
-  //      }
- //       currentPrice2 = listData.get(0);
- //       Double convertedPrice2 = Double.parseDouble(currentPrice2);
-  //      Double convertedPrice3 = convertedPrice + convertedPrice2;
-
-   //     mDatabaseHelper.updateRecipePrice(convertedPrice3, selectedRecipieName);
     }
 
     //Need this method for shopping cart icon
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        mCartIconMenuItem = menu.findItem(R.id.cart_count_menu_item);
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate( R.menu.menu, menu );
+        mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
         View actionView = mCartIconMenuItem.getActionView();
 
-        if(actionView != null) {
-            mCountTv = actionView.findViewById(R.id.count_tv_layout);
-            mImageBtn = actionView.findViewById(R.id.image_btn_layout);
+        if( actionView != null ) {
+            mCountTv = actionView.findViewById( R.id.count_tv_layout );
+            mImageBtn = actionView.findViewById( R.id.image_btn_layout );
         }
         mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(IngredientLayoutScreen.this, ShoppingCartList.class);
-                startActivity(intent);
+                Intent intent = new Intent(IngredientLayoutScreen.this, ShoppingCartList.class );
+                startActivity( intent );
             }
         });
         int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
-        String shoppingCartString = String.valueOf(shoppingCartCount);
-        mCountTv.setText(shoppingCartString);
+        String shoppingCartString = String.valueOf( shoppingCartCount );
+        mCountTv.setText( shoppingCartString );
 
-        return super.onCreateOptionsMenu(menu);
+        return super.onCreateOptionsMenu( menu );
     }
 
-    public void removeItem(int position, String ingredientName) {
+    public void removeItem( int position, String ingredientName ) {
 
-        Cursor data = mDatabaseHelper.getRecipieItemID(selectedRecipieName);
+        Cursor data = mDatabaseHelper.getRecipieItemID( selectedRecipieName );
         int recipieID = -1;
-        while (data.moveToNext()) {
+        while ( data.moveToNext() ) {
             recipieID = data.getInt(0);
         }
-        data = mDatabaseHelper.getIngredientItemID(ingredientName, recipieID);
+        data = mDatabaseHelper.getIngredientItemID( ingredientName, recipieID );
         int itemID = -1;
-        while (data.moveToNext()) {
+        while ( data.moveToNext() ) {
             itemID = data.getInt(0);
         }
-        Log.d(TAG, "ingredientId: " + itemID + " and ingredient name is: " + ingredientName);
-        mDatabaseHelper.deleteIngredientName(itemID, ingredientName);
+        Log.d( TAG, "ingredientId: " + itemID + " and ingredient name is: " + ingredientName );
+        mDatabaseHelper.deleteIngredientName( itemID, ingredientName );
 
-        mAdapter.notifyItemRemoved(position);
-        mAdapter.notifyDataSetChanged();
+     //   mAdapter.notifyItemRemoved(position);
+     //   mAdapter.notifyDataSetChanged();
         finish();
         overridePendingTransition(0, 0);
-        startActivity(getIntent());
+        startActivity( getIntent() );
         overridePendingTransition(0, 0);
-        toastMessage("Removed from database");
+        toastMessage( "Removed from database" );
     }
-    private void toastMessage(String message) {
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show();
+
+    private void toastMessage( String message ) {
+        Toast.makeText(this,message, Toast.LENGTH_SHORT ).show();
     }
 
     private void showPictureDialog() {
-        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
-        pictureDialog.setTitle("Select Action");
+        AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this );
+        pictureDialog.setTitle( "Select Action" );
         String[] pictureDialogItems = {
                 "Select photo from gallery",
                 "Capture photo from camera" };
@@ -457,7 +388,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        switch (which) {
+                        switch ( which ) {
                             case 0:
                                 choosePhotoFromGallery();
                                 break;
@@ -471,68 +402,70 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     }
 
     public void choosePhotoFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, GALLERY);
+        Intent galleryIntent = new Intent( Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+        startActivityForResult( galleryIntent, GALLERY );
     }
 
     private void takePhotoFromCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA);
+        Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+        startActivityForResult( intent, CAMERA );
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
+    public void onActivityResult( int requestCode, int resultCode, Intent data ) {
+        super.onActivityResult( requestCode, resultCode, data );
+        if ( resultCode == this.RESULT_CANCELED ) {
             return;
         }
-        if(requestCode == GALLERY) {
-            if (data != null) {
+        if( requestCode == GALLERY ) {
+            if ( data != null ) {
                 Uri contentURI = data.getData();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
-                    String path = saveImage(bitmap);
-                    Toast.makeText(IngredientLayoutScreen.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap( this.getContentResolver(), contentURI );
+                    String path = saveImage( bitmap );
+                    Toast.makeText(IngredientLayoutScreen.this, "Image Saved!", Toast.LENGTH_SHORT ).show();
                     //   imageView.setImageBitmap(bitmap);
-                    imageButton.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();;
-                    Toast.makeText(IngredientLayoutScreen.this, "Failed!", Toast.LENGTH_SHORT).show();
+                    imageButton.setImageBitmap( bitmap );
+                } catch ( IOException e ) {
+                    e.printStackTrace();
+                    Toast.makeText(IngredientLayoutScreen.this, "Failed!", Toast.LENGTH_SHORT ).show();
                 }
             }
-        } else if (requestCode == CAMERA) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        } else if ( requestCode == CAMERA ) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get( "data" );
             //   imageView.setImageBitmap(thumbnail);
-            imageButton.setImageBitmap(thumbnail);
-            saveImage(thumbnail);
-            Toast.makeText(IngredientLayoutScreen.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            imageButton.setImageBitmap( thumbnail );
+            saveImage( thumbnail );
+            Toast.makeText(IngredientLayoutScreen.this, "Image Saved!", Toast.LENGTH_SHORT ).show();
         }
     }
 
-    public String saveImage(Bitmap myBitmap) {
+    public String saveImage( Bitmap myBitmap ) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        myBitmap.compress( Bitmap.CompressFormat.JPEG, 90, bytes );
         File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
         // have the object build the directory structure if needed
-        if (!wallpaperDirectory.exists()) {
+        if ( !wallpaperDirectory.exists() ) {
             wallpaperDirectory.mkdir();
         }
 
         try {
          //   File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
             String fileName = "myImage" + selectedRecipieName;
-            File f = new File(wallpaperDirectory, fileName + ".jpg");
+            File f = new File( wallpaperDirectory, fileName + ".jpg" );
             f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this, new String[]{f.getPath()},new String[]{"image/jpeg"},null);
+            FileOutputStream fo = new FileOutputStream( f );
+            fo.write( bytes.toByteArray() );
+            MediaScannerConnection.scanFile(this, new String[]{f.getPath()},new String[]{"image/jpeg"},null );
             fo.close();
-            Log.d("TAG", "File Saved::-->" + f.getAbsolutePath()); //ex) should be 'myImagePizza.jpg'
-
+            Log.d( TAG, "File Saved::-->" + f.getAbsolutePath() ); //ex) should be 'myImagePizza.jpg'
             return f.getAbsolutePath();
-        } catch (IOException el) {
+
+        } catch ( IOException el ) {
+
             el.printStackTrace();
+
         }
         return "";
     }

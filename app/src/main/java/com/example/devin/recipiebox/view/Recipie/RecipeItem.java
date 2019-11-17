@@ -8,13 +8,10 @@ import com.example.devin.recipiebox.R;
 
 public class RecipeItem {
 
-//    private int mImageResource;
     private String mText1;
     private String mText2;
-    private ImageView mRecipeImage;
 
-    public RecipeItem(/*int imageResource,*/ String text1, String text2) {
-   //     mImageResource = imageResource;
+    public RecipeItem( String text1, String text2 ) {
         mText1 = text1;
         mText2 = text2;
     }
@@ -22,11 +19,6 @@ public class RecipeItem {
     public void changeText1(String text) {
         mText1 = text;
     }
- /*
-    public int getImageResource() {
-        return mImageResource;
-    }
-*/
     public String getText1() {
         return mText1;
     }

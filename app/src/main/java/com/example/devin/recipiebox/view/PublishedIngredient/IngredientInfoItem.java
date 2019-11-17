@@ -9,13 +9,11 @@ public class IngredientInfoItem {
     private String mText1;
     private String mText2;
     private String mText3;
- //   private String mText4;
 
-    public IngredientInfoItem(String text1, String text2, String text3) {
+    public IngredientInfoItem( String text1, String text2, String text3 ) {
         mText1 = text1;
         mText2 = text2;
         mText3 = text3;
- //       mText4 = text4;
     }
 
     public String getmText1() {
@@ -27,5 +25,4 @@ public class IngredientInfoItem {
     public String getmText3() {
         return mText3;
     }
- //   public String getmText4() { return mText4; }
 }

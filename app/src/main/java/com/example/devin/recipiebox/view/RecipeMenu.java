@@ -19,35 +19,31 @@ import com.example.devin.recipiebox.view.ShoppingCart.ShoppingCartList;
 
 public class RecipeMenu extends AppCompatActivity {
 
-    private Button btnShoppingCart, btnAllRecipies, btnRecipeFolders;
-    ImageButton mImageBtn; //Shopping Cart button in toolbar...
-    Toolbar mMyToolbar;
-    TextView mCountTv;
-    MenuItem mCartIconMenuItem;
+    private Button btnAllRecipies, btnRecipeFolders;
     DatabaseHelper mDatabaseHelper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_menu);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_recipe_menu );
 
-        btnRecipeFolders = (Button) findViewById(R.id.recipeFolders);
-        btnAllRecipies = (Button) findViewById(R.id.btnAllRecipies);
-        mDatabaseHelper = new DatabaseHelper(this);
+        btnRecipeFolders = (Button) findViewById( R.id.recipeFolders );
+        btnAllRecipies = (Button) findViewById( R.id.btnAllRecipies );
+        mDatabaseHelper = new DatabaseHelper(this );
 
         btnAllRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecipeMenu.this, MainActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(RecipeMenu.this, MainActivity.class );
+                startActivity( intent );
             }
         });
 
         btnRecipeFolders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RecipeMenu.this, RecipieFolder.class);
-                startActivity(intent);
+                Intent intent = new Intent(RecipeMenu.this, RecipieFolder.class );
+                startActivity( intent );
             }
         });
     }

@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <ImageButton
             android:id="@+id/image_btn_layout"
             android:layout_width="40dp"
@@ -16,6 +18,7 @@
             android:foreground="?attr/selectableItemBackgroundBorderless"
             tools:layout_editor_absoluteX="7dp"
             tools:layout_editor_absoluteY="16dp" />
+
         <TextView
             android:id="@+id/count_tv_layout"
             android:layout_width="wrap_content"
@@ -28,5 +31,7 @@
             android:text="0"
             android:textColor="@android:color/background_light"
             android:textSize="12sp" />
+
     </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

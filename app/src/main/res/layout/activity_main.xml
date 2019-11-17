@@ -7,49 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--
-    <ListView
-        android:id="@+id/lstView"
-        android:layout_width="0dp"
-        android:layout_height="348dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnNavigate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_conversion_absoluteHeight="334dp"
-        tools:layout_conversion_absoluteWidth="384dp" />
-        -->
-<!--
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/myToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-        -->
-<!--
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:searchBackground="@color/colorPrimary"
-        app:searchSuggestionBackground="@color/colorPrimary"
-        app:searchCloseIcon="@drawable/ic_action_navigation_close_inverted"
-        app:searchBackIcon="@drawable/ic_action_navigation_arrow_back_inverted"
-        app:searchSuggestionIcon="@drawable/ic_suggestion"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF" />
--->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -58,26 +15,7 @@
         android:background="@android:color/darker_gray"
         android:padding="4dp"
         android:scrollbars="vertical" />
-<!--
-    <EditText
-        android:id="@+id/edittext_insert"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="25dp"
-        android:inputType="text"
-        />
 
-    <Button
-        android:id="@+id/button_insert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/edittext_insert"
-        android:layout_toEndOf="@id/edittext_insert"
-        android:text="insert" />
--->
     <Button
         android:id="@+id/newRecipie"
         android:layout_width="wrap_content"
@@ -88,87 +26,5 @@
         android:layout_marginRight="-156dp"
         android:layout_marginBottom="-85dp"
         android:text="Insert Recipie" />
-<!--
-    <EditText
-        android:id="@+id/edittext_remove"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/button_insert"
-        android:layout_marginStart="65dp"
-        android:layout_toEndOf="@id/button_insert"
-        android:inputType="number" />
-
-    <Button
-        android:id="@+id/button_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/edittext_remove"
-        android:layout_toEndOf="@+id/edittext_remove"
-        android:text="Remove"
-        />
--->
-    <!--
-    <Button
-        android:id="@+id/btnShoppingCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="46dp"
-        android:layout_marginRight="46dp"
-        android:layout_marginBottom="8dp"
-        android:text="Shopping Cart"
-        app:layout_constraintBottom_toTopOf="@+id/btnClearShoppingCart"
-        app:layout_constraintEnd_toStartOf="@+id/editable_recipie_counter_item"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_conversion_absoluteHeight="48dp"
-        tools:layout_conversion_absoluteWidth="133dp" />
--->
-    <!--
-    <EditText
-        android:id="@+id/editable_recipie_counter_item"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="61dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnShoppingCart"
-        app:layout_constraintTop_toBottomOf="@+id/listView" />
--->
-    <!--
-    <Button
-        android:id="@+id/btnClearShoppingCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="205dp"
-        android:layout_marginRight="205dp"
-        android:text="Clear Shopping Cart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnShoppingCart"
-        tools:layout_conversion_absoluteHeight="48dp"
-        tools:layout_conversion_absoluteWidth="179dp" />
-        -->
-<!--
-    <Button
-        android:id="@+id/btnShoppingCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/recyclerView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="232dp"
-        android:layout_marginRight="-156dp"
-        android:layout_marginBottom="-84dp"
-        android:text="Shopping Cart" />
--->
 
 </RelativeLayout>

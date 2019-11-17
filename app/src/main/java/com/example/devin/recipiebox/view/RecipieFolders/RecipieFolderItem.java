@@ -16,18 +16,6 @@ public class RecipieFolderItem {
         mColor = color;
 
     }
-/*
-    public String getmText1() {
-        return mText;
-    }
-
-    public String getmText2() {
-        return mText2;
-    }
-
-    public String getmText3() {
-        return mText3;
-    } */
 }
 
 

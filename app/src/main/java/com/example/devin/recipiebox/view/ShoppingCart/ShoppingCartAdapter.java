@@ -25,45 +25,39 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     private static final String TAG = "ShoppingCartAdapter";
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick( int position );
 
-        void onQuantityClick(int position, String ingredientName);
+        void onQuantityClick( int position, String ingredientName );
 
-        void onDeleteClick(int position, String ingredientName, String recipeName);
+        void onDeleteClick( int position, String ingredientName, String recipeName );
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) { mListener = listener; }
+    public void setOnItemClickListener( OnItemClickListener listener ) { mListener = listener; }
 
-    public ShoppingCartAdapter(Context context, Cursor cursor) {
+    public ShoppingCartAdapter( Context context, Cursor cursor ) {
         mContext = context;
         mCursor = cursor;
     }
 
     public static class ShoppingCartViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView1;
-//        public TextView mTextView2;
         public TextView mTextView3;
         public TextView mTextView4;
-     //   public final TextView mTextView4;
         public ImageView mDeleteImage;
         public RelativeLayout relativeLayout;
 
-        public ShoppingCartViewHolder(final View itemView, final OnItemClickListener listener) {
+        public ShoppingCartViewHolder( final View itemView, final OnItemClickListener listener ) {
             super(itemView);
-//            mTextView1 = itemView.findViewById(R.id.spinner1Value);
-//            mTextView2 = itemView.findViewById(R.id.spinner2Value);
-            mTextView3 = itemView.findViewById(R.id.ingredientTextView);
-            mTextView4 = itemView.findViewById(R.id.ingredientQuantity);
-      //      mTextView4 = itemView.findViewById(R.id.price_edit_text);
-            mDeleteImage = itemView.findViewById(R.id.image_delete);
+            mTextView3 = itemView.findViewById( R.id.ingredientTextView );
+            mTextView4 = itemView.findViewById( R.id.ingredientQuantity );
+            mDeleteImage = itemView.findViewById( R.id.image_delete );
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listener != null) {
+                    if ( listener != null ) {
                         int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
+                        if ( position != RecyclerView.NO_POSITION ) {
+                            listener.onItemClick( position );
                         }
                     }
                 }
@@ -72,11 +66,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             mTextView4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) { //This tells us the mDeleteImage can be deleted...
-                    if (listener != null) {
+                    if ( listener != null ) {
                         final int position = getAdapterPosition();
                         String ingredientName = mTextView3.getText().toString();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onQuantityClick(position, ingredientName);
+                        if ( position != RecyclerView.NO_POSITION ) {
+                            listener.onQuantityClick( position, ingredientName );
                         }
                     }
                 }
@@ -89,9 +83,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                         final int position = getAdapterPosition();
                         String IngredientName = mTextView3.getText().toString();
                         String recipeName = mTextView3.getText().toString();
-                        Log.d(TAG, "ingredient name is: " + IngredientName);
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onDeleteClick(position, IngredientName, recipeName);
+                        Log.d( TAG, "ingredient name is: " + IngredientName );
+                        if ( position != RecyclerView.NO_POSITION ) {
+                            listener.onDeleteClick( position, IngredientName, recipeName );
                         }
                     }
                 }
@@ -101,16 +95,16 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     }
 
     @Override
-    public ShoppingCartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.activity_shopping_cart_item, parent, false);
-        return new ShoppingCartViewHolder(view, mListener);
+    public ShoppingCartViewHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
+        LayoutInflater inflater = LayoutInflater.from( mContext );
+        View view = inflater.inflate( R.layout.activity_shopping_cart_item, parent, false );
+        return new ShoppingCartViewHolder( view, mListener );
 
     }
 
     @Override
-    public void onBindViewHolder(ShoppingCartViewHolder holder, final int position) {
-        if (!mCursor.moveToPosition(position)) {
+    public void onBindViewHolder( ShoppingCartViewHolder holder, final int position ) {
+        if ( !mCursor.moveToPosition( position ) ) {
             return;
         }
     /*
@@ -155,23 +149,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 //        holder.mTextView2.setText(spinner2Value);
 
 
-        String hasIngredientsIndicator = mCursor.getString(mCursor.getColumnIndex("RecipieHasIngredients"));
-        if(hasIngredientsIndicator.equalsIgnoreCase("Y")) {
+        String hasIngredientsIndicator = mCursor.getString( mCursor.getColumnIndex("RecipieHasIngredients" ) );
+        if( hasIngredientsIndicator.equalsIgnoreCase("Y" ) ) {
 
-            String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
-            holder.mTextView3.setText(ingredientName);
-            String recipieQuantity = mCursor.getString(mCursor.getColumnIndex("RecipieQuantity"));
-            holder.mTextView4.setText("(" + recipieQuantity + ")");
+            String ingredientName = mCursor.getString( mCursor.getColumnIndex("IngredientName" ) );
+            holder.mTextView3.setText(ingredientName );
+            String recipieQuantity = mCursor.getString( mCursor.getColumnIndex("RecipieQuantity" ) );
+            holder.mTextView4.setText( "(" + recipieQuantity + ")" );
 
         } else {
-            String recipieName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
-            holder.mTextView3.setText(recipieName);
-            holder.mTextView4.setText(null);
-        }
 
-  //      final double price = mCursor.getDouble(mCursor.getColumnIndex("ShoppingCartPrice"));
-  //      String priceString = Double.toString(price);
-  //      holder.mTextView4.setText(priceString);
+            String recipieName = mCursor.getString( mCursor.getColumnIndex("RecipieName" ) );
+            holder.mTextView3.setText( recipieName );
+            holder.mTextView4.setText( null );
+
+        }
     }
 
     @Override

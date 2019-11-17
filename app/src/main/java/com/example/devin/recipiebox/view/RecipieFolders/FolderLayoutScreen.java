@@ -12,14 +12,11 @@ public class FolderLayoutScreen extends AppCompatActivity {
     LinearLayout linearLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_folder_layout_screen);
-        LinearLayout linearLayout = findViewById(R.id.parent_linear_layout);
+    protected void onCreate( Bundle savedInstanceState ) {
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_folder_layout_screen );
+        LinearLayout linearLayout = findViewById( R.id.parent_linear_layout );
 
-        GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-    //    linearLayout.setL
-
-
+        GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false );
     }
 }

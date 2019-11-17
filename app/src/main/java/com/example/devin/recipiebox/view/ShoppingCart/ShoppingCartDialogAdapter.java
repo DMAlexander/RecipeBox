@@ -21,7 +21,7 @@ public class ShoppingCartDialogAdapter extends RecyclerView.Adapter<ShoppingCart
 
     private static final String TAG = "ShoppingCartAdapter";
 
-    public ShoppingCartDialogAdapter(Context context, Cursor cursor) {
+    public ShoppingCartDialogAdapter( Context context, Cursor cursor ) {
         mContext = context;
         mCursor = cursor;
     }
@@ -32,33 +32,35 @@ public class ShoppingCartDialogAdapter extends RecyclerView.Adapter<ShoppingCart
         public TextView mTextView3;
         public RelativeLayout relativeLayout;
 
-        public ShoppingCartViewHolder(final View itemView) {
+        public ShoppingCartViewHolder( final View itemView ) {
             super(itemView);
-            mTextView1 = itemView.findViewById(R.id.recipeItem);
-            mTextView2 = itemView.findViewById(R.id.recipeQuantityItem);
-            mTextView3 = itemView.findViewById(R.id.measurementType);
+            mTextView1 = itemView.findViewById( R.id.recipeItem );
+            mTextView2 = itemView.findViewById( R.id.recipeQuantityItem );
+            mTextView3 = itemView.findViewById( R.id.measurementType );
         }
     }
 
     @Override
-    public ShoppingCartDialogAdapter.ShoppingCartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.activity_shopping_cart_dialog_item, parent, false);
-        return new ShoppingCartDialogAdapter.ShoppingCartViewHolder(view);
+    public ShoppingCartDialogAdapter.ShoppingCartViewHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
+        LayoutInflater inflater = LayoutInflater.from( mContext );
+        View view = inflater.inflate( R.layout.activity_shopping_cart_dialog_item, parent, false );
+        return new ShoppingCartDialogAdapter.ShoppingCartViewHolder( view );
 
     }
 
     @Override
-    public void onBindViewHolder(ShoppingCartDialogAdapter.ShoppingCartViewHolder holder, final int position) {
-        if (!mCursor.moveToPosition(position)) {
+    public void onBindViewHolder( ShoppingCartDialogAdapter.ShoppingCartViewHolder holder, final int position ) {
+        if (!mCursor.moveToPosition( position ) ) {
             return;
         }
-        String RecipeName = mCursor.getString(mCursor.getColumnIndex("RecipieName"));
-        holder.mTextView1.setText(RecipeName);
-        String recipieQuantity = mCursor.getString(mCursor.getColumnIndex("Quantity"));
-        holder.mTextView2.setText(recipieQuantity);
-        String measurementType = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
-        holder.mTextView3.setText(measurementType);
+
+        String RecipeName = mCursor.getString( mCursor.getColumnIndex("RecipieName" ) );
+        holder.mTextView1.setText( RecipeName );
+        String recipieQuantity = mCursor.getString(mCursor.getColumnIndex("Quantity" ) );
+        holder.mTextView2.setText( recipieQuantity );
+        String measurementType = mCursor.getString(mCursor.getColumnIndex("MeasurementType" ) );
+        holder.mTextView3.setText( measurementType );
+
     }
 
     @Override

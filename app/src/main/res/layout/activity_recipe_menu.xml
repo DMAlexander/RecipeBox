@@ -5,24 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainMenu">
-    <!--
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/myToolBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-    -->
+
     <Button
         android:id="@+id/btnAllRecipies"
         android:layout_width="261dp"
@@ -48,22 +31,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAllRecipies" />
-<!--
-    <Button
-        android:id="@+id/btnShoppingCart"
-        android:layout_width="267dp"
-        android:layout_height="129dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Favorites"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/recipeMenu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeMenu"
-        app:layout_constraintVertical_bias="0.0" />
-        -->
+
 </android.support.constraint.ConstraintLayout>
