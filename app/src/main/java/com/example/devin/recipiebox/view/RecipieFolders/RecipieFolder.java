@@ -56,11 +56,17 @@ public class RecipieFolder extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
+        mAdapter = new RecipieFolderAdapter(this, getAllItems());
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(mAdapter);
+
+        /*
         GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false );
         recyclerView.setLayoutManager( manager );
-
         mAdapter = new RecipieFolderAdapter(this, getAllItems() );
         recyclerView.setAdapter( mAdapter );
+        */
+
         final int childCount = parentRelativeLayout.getChildCount();
 
         btnRecipieFolderAdd.setOnClickListener(new View.OnClickListener() {

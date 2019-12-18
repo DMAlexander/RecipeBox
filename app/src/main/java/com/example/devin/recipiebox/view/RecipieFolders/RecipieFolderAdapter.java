@@ -53,7 +53,7 @@ public class RecipieFolderAdapter extends RecyclerView.Adapter<RecipieFolderAdap
         public RecipieFolderViewHolder( final View itemView, final OnItemClickListener listener ) {
             super( itemView );
             mTextView1 = itemView.findViewById( R.id.textView );
-            mCardView = itemView.findViewById( R.id.cardView );
+            mCardView = itemView.findViewById( R.id.cardview_id );
             mImageView = itemView.findViewById( R.id.iv );
 
             itemView.setOnClickListener(new View.OnClickListener() {
