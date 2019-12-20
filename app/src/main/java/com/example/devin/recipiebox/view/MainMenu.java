@@ -4,11 +4,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +32,10 @@ import java.util.List;
 public class MainMenu extends AppCompatActivity {
 
     private Button btnShoppingCart, btnRecipieFolders, btnAllRecipies, recipeMenu;
+    private TextView textView, tView1, tView2, tView3, tView4;
+    private ImageView iView1, iView2, iView3, iView4;
+    private CardView cView1, cView2, cView3, cView4;
+    private
     ImageButton mImageBtn;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
@@ -38,11 +45,52 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_main_menu );
-        btnAllRecipies = (Button) findViewById( R.id.btnAllRecipies );
-        recipeMenu = (Button) findViewById( R.id.recipeMenu );
-        btnShoppingCart = (Button) findViewById( R.id.btnShoppingCart );
+        textView = (TextView) findViewById(R.id.textView);
+        tView1 = (TextView) findViewById(R.id.tView1);
+        tView2 = (TextView) findViewById(R.id.tView2);
+        tView3 = (TextView) findViewById(R.id.tView3);
+        tView4 = (TextView) findViewById(R.id.tView4);
+        iView1 = (ImageView) findViewById(R.id.iView1);
+        iView2 = (ImageView) findViewById(R.id.iView2);
+        iView3 = (ImageView) findViewById(R.id.iView3);
+        iView4 = (ImageView) findViewById(R.id.iView4);
+        cView1 = (CardView) findViewById(R.id.cView1);
+        cView2 = (CardView) findViewById(R.id.cView2);
+        cView3 = (CardView) findViewById(R.id.cView3);
+        cView4 = (CardView) findViewById(R.id.cView4);
+
+//        btnAllRecipies = (Button) findViewById( R.id.btnAllRecipies );
+//        recipeMenu = (Button) findViewById( R.id.recipeMenu );
+//        btnShoppingCart = (Button) findViewById( R.id.btnShoppingCart );
         mDatabaseHelper = new DatabaseHelper(this );
 
+        GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false );
+
+        cView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, RecipeMenu.class );
+                startActivity( intent );
+            }
+        });
+
+        cView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, ExportedRecipesMenu.class );
+                startActivity( intent );
+            }
+        });
+
+        cView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, ShoppingCartList.class );
+                startActivity( intent );
+            }
+        });
+
+        /*
         btnAllRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +114,7 @@ public class MainMenu extends AppCompatActivity {
                 startActivity( intent );
             }
         });
+        */
     }
 
     @Override
@@ -86,7 +135,8 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
-        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        int shoppingCartCount = 0;
+        shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
         String shoppingCartString = String.valueOf( shoppingCartCount );
         mCountTv.setText( shoppingCartString );
 
