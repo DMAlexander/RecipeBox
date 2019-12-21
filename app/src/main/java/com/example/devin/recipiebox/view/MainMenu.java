@@ -35,8 +35,7 @@ public class MainMenu extends AppCompatActivity {
     private TextView textView, tView1, tView2, tView3, tView4;
     private ImageView iView1, iView2, iView3, iView4;
     private CardView cView1, cView2, cView3, cView4;
-    private
-    ImageButton mImageBtn;
+    private ImageButton mImageBtn;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
     DatabaseHelper mDatabaseHelper;
