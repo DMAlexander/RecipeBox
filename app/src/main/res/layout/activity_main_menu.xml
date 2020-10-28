@@ -28,7 +28,7 @@
 
     <!--
     <Button
-        android:id="@+id/btnAllRecipies"
+        android:id="@+id/btnAllRecipes"
         android:layout_width="261dp"
         android:layout_height="120dp"
         android:layout_marginStart="8dp"

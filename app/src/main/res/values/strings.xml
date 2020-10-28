@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RecipieBox</string>
+    <string name="app_name">RecipeBox</string>
     <string-array name="measurements_array">
         <item></item>
         <item>1/8</item>

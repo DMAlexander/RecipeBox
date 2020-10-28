@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.devin.recipiebox">
+    package="com.example.devin.recipebox">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
 
         <!--
-        <activity android:name=".view.Recipie.MainActivity">
+        <activity android:name=".view.Recipe.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,27 +23,26 @@
             </intent-filter>
         </activity>
         -->
-        <activity android:name=".view.MainMenu">
+        <activity android:name="com.example.devin.recipebox.view.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ShoppingCart.ShoppingCartList" />
-        <activity android:name=".view.PublishedIngredient.IngredientInfo" />
-        <activity android:name=".view.Recipie.MainActivity" />
-        <!-- <activity android:name=".view.MainMenu"></activity> -->
-        <activity android:name=".view.Recipie.RecipeItem" />
-        <activity android:name=".view.PublishedIngredient.IngredientInfoItem" />
-        <activity android:name=".view.RecipieFolders.RecipieFolder" />
-        <activity android:name=".view.RecipieFolders.RecipieFolderItem" />
-        <activity android:name=".view.RecipeMenu" />
-        <activity android:name=".view.Recipie.RecipieInsert" />
-        <activity android:name=".view.NewIngredient.IngredientLayoutScreen" />
-        <activity android:name=".view.RecipieFolders.FolderLayoutScreen" />
-        <activity android:name=".view.Menu.ExportedRecipesMenu" />
-        <activity android:name=".view.RecipieFolders.RecipeAdd"></activity>
+        <activity android:name="com.example.devin.recipebox.view.ShoppingCart.ShoppingCartList" />
+        <activity android:name="com.example.devin.recipebox.view.PublishedIngredient.IngredientInfo" />
+        <activity android:name="com.example.devin.recipebox.view.Recipe.MainActivity" />
+        <activity android:name="com.example.devin.recipebox.view.Recipe.RecipeItem" />
+        <activity android:name="com.example.devin.recipebox.view.PublishedIngredient.IngredientInfoItem" />
+        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.RecipeFolder" />
+        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.RecipeFolderItem" />
+        <activity android:name="com.example.devin.recipebox.view.RecipeMenu" />
+        <activity android:name="com.example.devin.recipebox.view.Recipe.RecipeInsert" />
+        <activity android:name="com.example.devin.recipebox.view.NewIngredient.IngredientLayoutScreen" />
+        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.FolderLayoutScreen" />
+        <activity android:name="com.example.devin.recipebox.view.Menu.ExportedRecipesMenu" />
+        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.RecipeAdd"></activity>
     </application>
 
 </manifest>

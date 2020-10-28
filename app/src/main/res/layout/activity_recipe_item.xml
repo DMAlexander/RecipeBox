@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
-    tools:context=".view.Recipie.RecipeItem">
+    tools:context=".view.Recipe.RecipeItem">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="Recipie Name"
+            android:text="Recipe Name"
             android:textColor="@android:color/black"
             android:textSize="30sp"
             android:textStyle="bold" />

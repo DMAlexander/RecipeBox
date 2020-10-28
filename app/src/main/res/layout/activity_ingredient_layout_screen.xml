@@ -104,7 +104,7 @@
         android:layout_height="165dp">
 
         <EditText
-            android:id="@+id/recipieDescription"
+            android:id="@+id/recipeDescription"
             android:layout_width="288dp"
             android:layout_height="160dp"
             android:gravity="top|left"
