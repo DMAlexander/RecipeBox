@@ -46,4 +46,5 @@
     <string name="pizza">Pizza</string>
     <string name="ingredient">Ingredient</string>
     <string name="back_to_main_menu">Back to Main Menu</string>
+    <string name="insert_recipe">Insert Recipe</string>
 </resources>
