@@ -22,4 +22,28 @@
         <item>pinch</item>
     </string-array>
     <string name="title_activity_recipe_menu">RecipeMenu</string>
+    <string name="recipeId">1</string>
+    <string name="recipeNameText">Recipe</string>
+    <string name="InstructionsTextView">Instructions</string>
+    <string name="IngredientsTextView">Ingredients:</string>
+    <string name="RecipeNameTextView">Recipe Name</string>
+    <string name="InstructionsAreHereTextView">Instructions are here!</string>
+    <string name="Spinner1Value">9</string>
+    <string name="gallonTextView">gallon</string>
+    <string name="IngredientTextView">Ingredient</string>
+    <string name="_0">0</string>
+    <string name="description">Description:</string>
+    <string name="save">Save</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="add_folder">Add Folder</string>
+    <string name="book_title">Book Title</string>
+    <string name="add_recipe">Add Recipe</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="no_ingredients">No Ingredients</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="_1">1</string>
+    <string name="cup">Cup</string>
+    <string name="pizza">Pizza</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="back_to_main_menu">Back to Main Menu</string>
 </resources>

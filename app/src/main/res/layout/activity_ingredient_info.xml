@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -25,10 +23,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="509dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Recipe Name"
+        android:text="@string/RecipeNameTextView"
         android:textAlignment="center"
-        android:textSize="30dp" />
+        android:textSize="30sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -49,8 +46,8 @@
         android:layout_above="@+id/recyclerView"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="-120dp"
-        android:textSize="30dp"
-        android:text="Ingredients:" />
+        android:textSize="30sp"
+        android:text="@string/IngredientsTextView" />
 
     <TextView
         android:id="@+id/instructions"
@@ -59,8 +56,8 @@
         android:layout_below="@+id/recyclerView"
         android:layout_alignParentStart="true"
         android:layout_marginTop="-100dp"
-        android:text="Instructions"
-        android:textSize="30dp" />
+        android:text="@string/InstructionsTextView"
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/instructionsEdit"
@@ -68,8 +65,8 @@
         android:layout_height="113dp"
         android:layout_below="@+id/instructions"
         android:layout_alignParentStart="true"
-        android:gravity="top|left"
-        android:text="Instructions are here!"
-        android:textSize="30dp" />
+        android:gravity="top|start"
+        android:text="@string/InstructionsAreHereTextView"
+        android:textSize="30sp" />
 
 </RelativeLayout>

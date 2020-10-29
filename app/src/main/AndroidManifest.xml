@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <!--
         <activity android:name=".view.Recipe.MainActivity">
             <intent-filter>
@@ -23,26 +22,26 @@
             </intent-filter>
         </activity>
         -->
-        <activity android:name="com.example.devin.recipebox.view.MainMenu">
+        <activity android:name=".view.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.devin.recipebox.view.ShoppingCart.ShoppingCartList" />
-        <activity android:name="com.example.devin.recipebox.view.PublishedIngredient.IngredientInfo" />
-        <activity android:name="com.example.devin.recipebox.view.Recipe.MainActivity" />
-        <activity android:name="com.example.devin.recipebox.view.Recipe.RecipeItem" />
-        <activity android:name="com.example.devin.recipebox.view.PublishedIngredient.IngredientInfoItem" />
-        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.RecipeFolder" />
-        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.RecipeFolderItem" />
-        <activity android:name="com.example.devin.recipebox.view.RecipeMenu" />
-        <activity android:name="com.example.devin.recipebox.view.Recipe.RecipeInsert" />
-        <activity android:name="com.example.devin.recipebox.view.NewIngredient.IngredientLayoutScreen" />
-        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.FolderLayoutScreen" />
-        <activity android:name="com.example.devin.recipebox.view.Menu.ExportedRecipesMenu" />
-        <activity android:name="com.example.devin.recipebox.view.RecipeFolders.RecipeAdd"></activity>
+        <activity android:name=".view.ShoppingCart.ShoppingCartList" />
+        <activity android:name=".view.PublishedIngredient.IngredientInfo" />
+        <activity android:name=".view.Recipe.MainActivity" />
+        <activity android:name=".view.Recipe.RecipeItem" />
+        <activity android:name=".view.PublishedIngredient.IngredientInfoItem" />
+        <activity android:name=".view.RecipeFolders.RecipeFolder" />
+        <activity android:name=".view.RecipeFolders.RecipeFolderItem" />
+        <activity android:name=".view.RecipeMenu" />
+        <activity android:name=".view.Recipe.RecipeInsert" />
+        <activity android:name=".view.NewIngredient.IngredientLayoutScreen" />
+        <activity android:name=".view.RecipeFolders.FolderLayoutScreen" />
+        <activity android:name=".view.Menu.ExportedRecipesMenu" />
+        <activity android:name=".view.RecipeFolders.RecipeAdd" />
     </application>
 
 </manifest>
