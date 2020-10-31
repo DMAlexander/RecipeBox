@@ -177,7 +177,7 @@
 
                 <TextView
                     android:id="@+id/tView3"
-                    android:text="Cart"
+                    android:text="Folders"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18dp"

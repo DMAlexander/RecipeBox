@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.devin.recipebox.R;
 import com.example.devin.recipebox.database.DatabaseHelper;
 import com.example.devin.recipebox.view.Menu.ExportedRecipesMenu;
+import com.example.devin.recipebox.view.Recipe.MainActivity;
 import com.example.devin.recipebox.view.RecipeFolders.RecipeFolder;
 import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartList;
 import com.karumi.dexter.Dexter;
@@ -69,7 +70,7 @@ public class MainMenu extends AppCompatActivity {
         cView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, RecipeMenu.class );
+                Intent intent = new Intent(MainMenu.this, MainActivity.class );
                 startActivity( intent );
             }
         });
@@ -85,10 +86,20 @@ public class MainMenu extends AppCompatActivity {
         cView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, ShoppingCartList.class );
+                Intent intent = new Intent(MainMenu.this, RecipeFolder.class );
                 startActivity( intent );
             }
         });
+
+        /*
+        cView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenu.this, MainActivity.class );
+                startActivity( intent );
+            }
+        });
+        */
         
         /*
         btnAllRecipes.setOnClickListener(new View.OnClickListener() {
