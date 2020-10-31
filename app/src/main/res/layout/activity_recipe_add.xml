@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.RecipeFolders.RecipeAdd">
 
     <RelativeLayout
         android:id="@+id/parentRelativeLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".view.RecipeFolders.RecipeAdd">
 
         <ImageButton
             android:id="@+id/iv"
@@ -19,7 +16,20 @@
             android:layout_marginTop="20dp"
             android:background="#FAFAFA"
             android:scaleType="fitXY"
+            android:contentDescription="@string/desc"
             android:src="@drawable/ic_add_a_photo_black_24dp" />
+
+    <EditText
+        android:id="@+id/editable_recipe_folder_item"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="120dp"
+        android:inputType="text"
+        android:gravity="center" />
 
     <Button
         android:id="@+id/btnRecipeFolderAdd"
@@ -28,20 +38,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="245dp"
-        android:layout_marginTop="456dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginTop="600dp"
         android:text="@string/add_folder" />
 
-    <EditText
-        android:id="@+id/editable_recipe_folder_item"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/btnRecipeFolderAdd"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
-        android:gravity="center" />
 
-    </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
