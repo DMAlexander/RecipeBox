@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/cart_count_menu_item"
-        android:title="Cart"
+        android:title="@string/cart"
         app:actionLayout="@layout/cart_layout"
         app:showAsAction="always">
     </item>
