@@ -2,6 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menuRoute"
+        android:title="@string/main_menu"
+        app:actionLayout="@layout/main_menu_btn_layout"
+        app:showAsAction="always">
+    </item>
+
+    <!--
+    <ImageButton
+        android:id="@+id/image_btn_layout"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_shopping_cart_black_24dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        />
+    -->
+    <item
         android:id="@+id/cart_count_menu_item"
         android:title="@string/cart"
         app:actionLayout="@layout/cart_layout"

@@ -38,8 +38,9 @@ public class MainMenu extends AppCompatActivity {
     private ImageView iView1, iView2, iView3, iView4;
     private CardView cView1, cView2, cView3, cView4;
     private ImageButton mImageBtn;
+    private Button mImageBtn2;
     TextView mCountTv;
-    MenuItem mCartIconMenuItem;
+    MenuItem mCartIconMenuItem, mMenuRoute;
     DatabaseHelper mDatabaseHelper;
 
     @Override
@@ -131,8 +132,11 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
         getMenuInflater().inflate( R.menu.menu, menu );
+
         mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
+        mMenuRoute = menu.findItem( R.id.menuRoute );
         View actionView = mCartIconMenuItem.getActionView();
+        View actionView2 = mMenuRoute.getActionView();
 
         if( actionView != null ) {
             mCountTv = actionView.findViewById( R.id.count_tv_layout );
@@ -142,6 +146,16 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick( View view ) {
                 Intent intent = new Intent(MainMenu.this, ShoppingCartList.class );
+                startActivity( intent );
+            }
+        });
+        if (actionView2 != null ) {
+            mImageBtn2 = actionView2.findViewById( R.id.ButtonTest );
+        }
+        mImageBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                Intent intent = new Intent(MainMenu.this, RecipeFolder.class );
                 startActivity( intent );
             }
         });

@@ -49,4 +49,5 @@
     <string name="insert_recipe">Insert Recipe</string>
     <string name="cart">Cart</string>
     <string name="desc">Add Folder Image</string>
+    <string name="main_menu">Main Menu</string>
 </resources>
