@@ -11,15 +11,23 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.devin.recipebox.R;
 import com.example.devin.recipebox.database.DatabaseHelper;
+import com.example.devin.recipebox.view.Recipe.MainActivity;
+import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartAdapter;
+import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartDialogAdapter;
+import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,6 +45,8 @@ public class RecipeAdd extends AppCompatActivity {
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
     ImageButton mImageBtn;
+    TextView mCountTv, tv;
+    MenuItem mCartIconMenuItem;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -127,6 +137,33 @@ public class RecipeAdd extends AppCompatActivity {
     private void takePhotoFromCamera() {
         Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
         startActivityForResult( intent, CAMERA );
+    }
+
+    //Need this method for shopping cart icon
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate( R.menu.menu, menu );
+        mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
+        View actionView = mCartIconMenuItem.getActionView();
+
+        if( actionView != null ) {
+            mCountTv = actionView.findViewById( R.id.count_tv_layout );
+            mImageBtn = actionView.findViewById( R.id.image_btn_layout );
+        }
+
+        mImageBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                Intent intent = new Intent(RecipeAdd.this, ShoppingCartList.class );
+                startActivity( intent );
+            }
+        });
+
+        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        String shoppingCartString = String.valueOf( shoppingCartCount );
+        mCountTv.setText( shoppingCartString );
+
+        return super.onCreateOptionsMenu( menu );
     }
 
     @Override

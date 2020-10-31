@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import com.example.devin.recipebox.R;
 import com.example.devin.recipebox.database.DatabaseHelper;
 import com.example.devin.recipebox.view.Recipe.MainActivity;
 import com.example.devin.recipebox.view.RecipeFolders.RecipeFolder;
+import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartList;
 
 public class RecipeMenu extends AppCompatActivity {
 
@@ -21,6 +25,9 @@ public class RecipeMenu extends AppCompatActivity {
     private TextView textView, tView1, tView2;
     private ImageView iView1, iView2;
     private CardView cView1, cView2;
+    private ImageButton mImageBtn;
+    TextView mCountTv;
+    MenuItem mCartIconMenuItem;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -53,5 +60,32 @@ public class RecipeMenu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        getMenuInflater().inflate( R.menu.menu, menu );
+        mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
+        View actionView = mCartIconMenuItem.getActionView();
+
+        if( actionView != null ) {
+            mCountTv = actionView.findViewById( R.id.count_tv_layout );
+            mImageBtn = actionView.findViewById( R.id.image_btn_layout );
+        }
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                Intent intent = new Intent(RecipeMenu.this, ShoppingCartList.class );
+                startActivity( intent );
+            }
+        });
+
+        int shoppingCartCount = 0;
+        shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        String shoppingCartString = String.valueOf( shoppingCartCount );
+        mCountTv.setText( shoppingCartString );
+
+        return super.onCreateOptionsMenu( menu );
+
     }
 }
