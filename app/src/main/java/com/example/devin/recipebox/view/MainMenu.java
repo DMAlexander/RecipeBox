@@ -155,7 +155,7 @@ public class MainMenu extends AppCompatActivity {
         mImageBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                Intent intent = new Intent(MainMenu.this, RecipeFolder.class );
+                Intent intent = new Intent(MainMenu.this, MainMenu.class );
                 startActivity( intent );
             }
         });
@@ -166,7 +166,6 @@ public class MainMenu extends AppCompatActivity {
         mCountTv.setText( shoppingCartString );
 
         return super.onCreateOptionsMenu( menu );
-
     }
 
     private void requestMultiplePermissions(){

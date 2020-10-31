@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 import com.example.devin.recipebox.R;
 import com.example.devin.recipebox.database.DatabaseHelper;
+import com.example.devin.recipebox.view.MainMenu;
+import com.example.devin.recipebox.view.Menu.ExportedRecipesAdapter;
 import com.example.devin.recipebox.view.Recipe.MainActivity;
 import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartAdapter;
 import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartDialogAdapter;
@@ -47,6 +50,8 @@ public class RecipeAdd extends AppCompatActivity {
     ImageButton mImageBtn;
     TextView mCountTv, tv;
     MenuItem mCartIconMenuItem;
+    private Button mImageBtn2;
+    MenuItem mMenuRoute;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -143,23 +148,36 @@ public class RecipeAdd extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu( Menu menu ) {
         getMenuInflater().inflate( R.menu.menu, menu );
+
         mCartIconMenuItem = menu.findItem( R.id.cart_count_menu_item );
+        mMenuRoute = menu.findItem( R.id.menuRoute );
         View actionView = mCartIconMenuItem.getActionView();
+        View actionView2 = mMenuRoute.getActionView();
 
         if( actionView != null ) {
             mCountTv = actionView.findViewById( R.id.count_tv_layout );
             mImageBtn = actionView.findViewById( R.id.image_btn_layout );
         }
-
-        mImageBtn.setOnClickListener( new View.OnClickListener() {
+        mImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
                 Intent intent = new Intent(RecipeAdd.this, ShoppingCartList.class );
                 startActivity( intent );
             }
         });
+        if (actionView2 != null ) {
+            mImageBtn2 = actionView2.findViewById( R.id.ButtonTest );
+        }
+        mImageBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                Intent intent = new Intent(RecipeAdd.this, MainMenu.class );
+                startActivity( intent );
+            }
+        });
 
-        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        int shoppingCartCount = 0;
+        shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
         String shoppingCartString = String.valueOf( shoppingCartCount );
         mCountTv.setText( shoppingCartString );
 
