@@ -52,9 +52,9 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
     DatabaseHelper mDatabaseHelper;
     private EditText number_edit_text;
-    private EditText recipieDescription;
-    private String selectedRecipieName;
-    private int selectedRecipieID;
+    private EditText recipeDescription;
+    private String selectedRecipeName;
+    private int selectedRecipeID;
     private Spinner type_spinner, type_spinner2;
     ImageButton mImageBtn;
     TextView mCountTv;
@@ -65,6 +65,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     MenuItem mMenuRoute;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
+    String recipeDescrip = "";
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -72,18 +73,18 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         setContentView( R.layout.activity_ingredient_layout_screen );
         parentLinearLayout = (LinearLayout) findViewById( R.id.parent_linear_layout );
         number_edit_text = (EditText) findViewById( R.id.number_edit_text );
-        recipieDescription = (EditText) findViewById( R.id.recipeDescription );
+        recipeDescription = (EditText) findViewById( R.id.recipeDescription );
         type_spinner = (Spinner) findViewById( R.id.type_spinner );
         type_spinner2 = (Spinner) findViewById( R.id.type_spinner2 );
         descriptionLabel = (TextView) findViewById( R.id.descriptionLabel );
         descriptionLabel.setText( "Recipe Description:" );
         mDatabaseHelper = new DatabaseHelper(this );
         Intent recievedIntent = getIntent();
-        selectedRecipieName = recievedIntent.getStringExtra("RecipieName" );
+        selectedRecipeName = recievedIntent.getStringExtra("RecipeName" );
 
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
-        String fileName = "/myImage" + selectedRecipieName;
+        String fileName = "/myImage" + selectedRecipeName;
         File imgFile = new File(wallpaperDirectory + fileName + ".jpg" );
         if( imgFile.exists() ) {
             Bitmap bitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );
@@ -101,26 +102,25 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         });
 
         Intent receivedIntent = getIntent();
-        selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1 );
-        selectedRecipieName = receivedIntent.getStringExtra("RecipieName" );
+        selectedRecipeID = receivedIntent.getIntExtra("RecipeId", -1 );
+        selectedRecipeName = receivedIntent.getStringExtra("RecipeName" );
 
-        Cursor data = mDatabaseHelper.getRecipeDescription( selectedRecipieName );
-        String recipeDescription = "";
+        Cursor data = mDatabaseHelper.getRecipeDescription( selectedRecipeName );
         while ( data.moveToNext() ) {
-            recipeDescription = data.getString(0);
+            recipeDescrip = data.getString(0);
         }
-        Log.d( TAG, "Description is: " + recipeDescription );
+        Log.d( TAG, "Description is: " + recipeDescrip );
 
-        recipieDescription.setText( recipeDescription );
+        recipeDescription.setText( recipeDescrip );
 
-        int count = mDatabaseHelper.getIngredientCount( selectedRecipieID );
+        int count = mDatabaseHelper.getIngredientCount( selectedRecipeID );
 
         for( int i=0; i<count; i++ ) {
             String ingredientName = "";
             String measurementQuantity = "";
             String measurementType = "";
 
-            Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipeData( selectedRecipieID );
+            Cursor data2 = mDatabaseHelper.getIngredientsBasedOnRecipeData( selectedRecipeID );
             ArrayList<String> listData = new ArrayList<>();
             while ( data2.moveToNext() ) {
 
@@ -167,12 +167,12 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent recievedIntent = getIntent();
-                selectedRecipieID = recievedIntent.getIntExtra("RecipieId", -1 );
-                mDatabaseHelper.deleteRecipeIngredients( selectedRecipieID );
+                selectedRecipeID = recievedIntent.getIntExtra("RecipeId", -1 );
+                mDatabaseHelper.deleteRecipeIngredients( selectedRecipeID );
 
                 final int childCount = parentLinearLayout.getChildCount();
                 Intent receivedIntent = getIntent();
-                selectedRecipieID = receivedIntent.getIntExtra("RecipieId", -1 );
+                selectedRecipeID = receivedIntent.getIntExtra("RecipeId", -1 );
                 for( int i=1; i<childCount-4; i++ ) {
                     View v = parentLinearLayout.getChildAt(i);
                     number_edit_text = (EditText) v.findViewById( R.id.number_edit_text );
@@ -182,7 +182,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                         number_edit_text.setError( "Ingredient Name is required!" );
                     }
 
-                    Cursor data = mDatabaseHelper.getRecipeItemID( selectedRecipieName );
+                    Cursor data = mDatabaseHelper.getRecipeItemID( selectedRecipeName );
                     type_spinner = (Spinner) v.findViewById( R.id.type_spinner );
                     String newEntry2 = type_spinner.getSelectedItem().toString();
 
@@ -249,22 +249,22 @@ public class IngredientLayoutScreen extends AppCompatActivity {
                     //   Double convertedSpinner = Double.valueOf(newEntry2);
 
                     if ( number_edit_text.length() != 0 ) {
-                        insertItem( ingredientName, newEntry2, newEntry3, selectedRecipieID );
+                        insertItem( ingredientName, newEntry2, newEntry3, selectedRecipeID );
                     } else {
-                        mDatabaseHelper.addIngredientData( ingredientName, convertedSpinner, newEntry3, "N", selectedRecipieID );
+                        mDatabaseHelper.addIngredientData( ingredientName, convertedSpinner, newEntry3, "N", selectedRecipeID );
                         toastMessage( "No Ingredients Added!" );
                     }
                 }
 
-                if ( recipieDescription.length() != 0 ) {
-                    String recipeDescription = recipieDescription.getText().toString();
-                    mDatabaseHelper.updateRecipeDescription( recipeDescription, selectedRecipieID );
+                if ( recipeDescription.length() != 0 ) {
+                    String descript = recipeDescription.getText().toString();
+                    mDatabaseHelper.updateRecipeDescription( descript, selectedRecipeID );
                 } else {
                     toastMessage("Put something in the description text field!");
                 }
 
                 Intent intent = new Intent(IngredientLayoutScreen.this, IngredientInfo.class );
-                intent.putExtra("RecipieName", selectedRecipieName );
+                intent.putExtra("RecipeName", selectedRecipeName );
                 startActivity( intent );
             }
         });
@@ -286,7 +286,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         sizeOfList--;
     }
 
-    public void insertItem( String ingredientName, String newEntry2, String newEntry3, int selectedRecipieID ) {
+    public void insertItem( String ingredientName, String newEntry2, String newEntry3, int selectedRecipeID ) {
 
         double convertedSpinner = 0;
         //     String newEntry2 = type_spinner.getSelectedItem().toString();
@@ -318,8 +318,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         }
 
         if ( number_edit_text.length() != 0 ) {
-            Log.d( TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipieId :" + selectedRecipieID );
-            boolean insertData = mDatabaseHelper.addIngredientData( ingredientName, convertedSpinner, newEntry3, "Y", /* convertedPrice, */ selectedRecipieID ); //we need all 4 parameters here...
+            Log.d( TAG, "ingredientName: " + ingredientName + " num: " + convertedSpinner + " newEntry3: " + newEntry3 + "recipeId :" + selectedRecipeID );
+            boolean insertData = mDatabaseHelper.addIngredientData( ingredientName, convertedSpinner, newEntry3, "Y", /* convertedPrice, */ selectedRecipeID ); //we need all 4 parameters here...
             if ( insertData ) {
                 toastMessage( "Data successfully inserted!" );
             } else {
@@ -372,12 +372,12 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
     public void removeItem( int position, String ingredientName ) {
 
-        Cursor data = mDatabaseHelper.getRecipeItemID( selectedRecipieName );
-        int recipieID = -1;
+        Cursor data = mDatabaseHelper.getRecipeItemID( selectedRecipeName );
+        int recipeID = -1;
         while ( data.moveToNext() ) {
-            recipieID = data.getInt(0);
+            recipeID = data.getInt(0);
         }
-        data = mDatabaseHelper.getIngredientItemID( ingredientName, recipieID );
+        data = mDatabaseHelper.getIngredientItemID( ingredientName, recipeID );
         int itemID = -1;
         while ( data.moveToNext() ) {
             itemID = data.getInt(0);
@@ -472,7 +472,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
         try {
             //   File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
-            String fileName = "myImage" + selectedRecipieName;
+            String fileName = "myImage" + selectedRecipeName;
             File f = new File( wallpaperDirectory, fileName + ".jpg" );
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream( f );
