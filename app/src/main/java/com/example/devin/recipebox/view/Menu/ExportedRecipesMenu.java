@@ -35,9 +35,8 @@ public class ExportedRecipesMenu extends AppCompatActivity {
     RecyclerView recyclerView;
     private ImageButton mImageBtn;
     TextView mCountTv;
-    MenuItem mCartIconMenuItem;
+    MenuItem mCartIconMenuItem, mMenuRoute;
     private Button mImageBtn2;
-    MenuItem mMenuRoute;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {

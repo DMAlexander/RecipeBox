@@ -48,21 +48,16 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     private static final String TAG = "IngredientLayoutScreen";
     private LinearLayout parentLinearLayout;
     int sizeOfList = 1;
-    private Button btnSave;
 
     DatabaseHelper mDatabaseHelper;
-    private EditText number_edit_text;
-    private EditText recipeDescription;
+    private EditText number_edit_text, recipeDescription;
     private String selectedRecipeName;
     private int selectedRecipeID;
     private Spinner type_spinner, type_spinner2;
-    ImageButton mImageBtn;
-    TextView mCountTv;
-    TextView descriptionLabel;
-    MenuItem mCartIconMenuItem;
-    private ImageButton imageButton;
-    private Button mImageBtn2;
-    MenuItem mMenuRoute;
+    TextView mCountTv, descriptionLabel;
+    MenuItem mCartIconMenuItem, mMenuRoute;
+    private ImageButton imageButton, mImageBtn;
+    private Button mImageBtn2, btnSave;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
     String recipeDescrip = "";

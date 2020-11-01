@@ -36,7 +36,6 @@ public class RecipeInsert extends AppCompatActivity {
     ImageButton mImageBtn;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    TextView textView;
     TextView mCountTv;
     MenuItem mCartIconMenuItem;
     private Button mImageBtn2;

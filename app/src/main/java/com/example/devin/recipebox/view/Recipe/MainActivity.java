@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private RecipeAdapter mAdapter;
     private Button newRecipe;
     private int selectedRecipeFolderID;
-    private String selectedRecipeFolderName;
 
     ArrayList<String> selectedItems = new ArrayList<>();
     ImageButton mImageBtn;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Intent recievedIntent = getIntent();
         selectedRecipeFolderID = recievedIntent.getIntExtra("FolderID", -1 );
         Log.d( TAG, "recipe folder Id value is: " + selectedRecipeFolderID );
-        selectedRecipeFolderName = recievedIntent.getStringExtra("RecipeFolderName" );
+        String selectedRecipeFolderName = recievedIntent.getStringExtra("RecipeFolderName");
 
         recyclerView = findViewById( R.id.recyclerView );
         recyclerView.setLayoutManager( new LinearLayoutManager(this ) );

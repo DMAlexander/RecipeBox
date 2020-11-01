@@ -33,7 +33,6 @@ import java.util.List;
 
 public class MainMenu extends AppCompatActivity {
 
-    private Button btnShoppingCart, btnRecipeFolders, btnAllRecipes, recipeMenu;
     private TextView textView, tView1, tView2, tView3, tView4;
     private ImageView iView1, iView2, iView3, iView4;
     private CardView cView1, cView2, cView3, cView4;
@@ -61,9 +60,6 @@ public class MainMenu extends AppCompatActivity {
         cView3 = (CardView) findViewById(R.id.cView3);
         cView4 = (CardView) findViewById(R.id.cView4);
 
-//        btnAllRecipes = (Button) findViewById( R.id.btnAllRecipes );
-//        recipeMenu = (Button) findViewById( R.id.recipeMenu );
-//        btnShoppingCart = (Button) findViewById( R.id.btnShoppingCart );
         mDatabaseHelper = new DatabaseHelper(this );
 
         GridLayoutManager manager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false );
@@ -97,32 +93,6 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenu.this, MainActivity.class );
-                startActivity( intent );
-            }
-        });
-        */
-        
-        /*
-        btnAllRecipes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, RecipeMenu.class );
-                startActivity( intent );
-            }
-        });
-
-        recipeMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, ExportedRecipesMenu.class );
-                startActivity( intent );
-            }
-        });
-
-        btnShoppingCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenu.this, ShoppingCartList.class );
                 startActivity( intent );
             }
         });

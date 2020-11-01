@@ -49,9 +49,8 @@ public class RecipeAdd extends AppCompatActivity {
     private int GALLERY = 1, CAMERA = 2;
     ImageButton mImageBtn;
     TextView mCountTv, tv;
-    MenuItem mCartIconMenuItem;
+    MenuItem mCartIconMenuItem, mMenuRoute;
     private Button mImageBtn2;
-    MenuItem mMenuRoute;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {

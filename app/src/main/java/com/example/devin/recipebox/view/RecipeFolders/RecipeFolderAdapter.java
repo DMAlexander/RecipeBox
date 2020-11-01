@@ -23,11 +23,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class RecipeFolderAdapter extends RecyclerView.Adapter<RecipeFolderAdapter.RecipeFolderViewHolder> {
-    private ArrayList<RecipeFolderItem> mRecipeFolderList;
     private OnItemClickListener mListener;
     private Context mContext;
     private Cursor mCursor;
-    private DatabaseHelper mDatabaseHelper;
 
     private  static final String TAG = "RecipeFolderAdapter";
     private static final String IMAGE_DIRECTORY = "/demonuts";
@@ -36,8 +34,6 @@ public class RecipeFolderAdapter extends RecyclerView.Adapter<RecipeFolderAdapte
         void onItemClick( int position );
 
     }
-
-    public void setOnItemClickListener( OnItemClickListener listener ) { mListener = listener; }
 
     public RecipeFolderAdapter(Context context, Cursor cursor ) {
         mContext = context;
@@ -101,7 +97,6 @@ public class RecipeFolderAdapter extends RecyclerView.Adapter<RecipeFolderAdapte
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
         String fileName = "/myImage" + recipeFolderID;
-        //    File imgFile = new File("/storage/emulated/0/demonuts/" + fileName + ".jpg");
         File imgFile = new File(wallpaperDirectory + fileName + ".jpg" );
         if(imgFile.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );

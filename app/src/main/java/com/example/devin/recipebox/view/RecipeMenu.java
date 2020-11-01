@@ -25,29 +25,19 @@ public class RecipeMenu extends AppCompatActivity {
 
     private Button btnAllRecipes, btnRecipeFolders;
     DatabaseHelper mDatabaseHelper;
-    private TextView textView, tView1, tView2;
-    private ImageView iView1, iView2;
+
     private CardView cView1, cView2;
     private ImageButton mImageBtn;
     TextView mCountTv;
-    MenuItem mCartIconMenuItem;
+    MenuItem mCartIconMenuItem, mMenuRoute;
     private Button mImageBtn2;
-    MenuItem mMenuRoute;
-
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_recipe_menu );
 
- //       btnRecipeFolders = (Button) findViewById( R.id.recipeFolders );
- //       btnAllRecipes = (Button) findViewById( R.id.btnAllRecipes );
         mDatabaseHelper = new DatabaseHelper(this );
-        textView = (TextView) findViewById(R.id.textView);
-        tView1 = (TextView) findViewById(R.id.tView1);
-        tView2 = (TextView) findViewById(R.id.tView2);
-        iView1 = (ImageView) findViewById(R.id.iView1);
-        iView2 = (ImageView) findViewById(R.id.iView2);
         cView1 = (CardView) findViewById(R.id.cView1);
         cView2 = (CardView) findViewById(R.id.cView2);
 

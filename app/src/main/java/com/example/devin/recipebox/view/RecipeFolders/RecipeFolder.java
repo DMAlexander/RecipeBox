@@ -32,13 +32,11 @@ public class RecipeFolder extends AppCompatActivity {
     private EditText editable_recipe_folder_item;
     private DatabaseHelper mDatabaseHelper;
     private RecipeFolderAdapter mAdapter;
-    private Button btnRecipeFolderAdd;
     int sizeOfList = 1;
     ImageView mImageBtn;
-    MenuItem mCartIconMenuItem;
+    MenuItem mCartIconMenuItem, mMenuRoute;
     TextView mCountTv;
-    private Button mImageBtn2;
-    MenuItem mMenuRoute;
+    private Button mImageBtn2, btnRecipeFolderAdd;
     private RelativeLayout parentRelativeLayout;
 
 

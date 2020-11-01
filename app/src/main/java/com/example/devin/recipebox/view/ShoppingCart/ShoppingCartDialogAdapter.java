@@ -26,7 +26,6 @@ public class ShoppingCartDialogAdapter extends RecyclerView.Adapter<ShoppingCart
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
-        public RelativeLayout relativeLayout;
 
         public ShoppingCartViewHolder( final View itemView ) {
             super(itemView);

@@ -16,7 +16,6 @@ import com.example.devin.recipebox.R;
 import java.util.ArrayList;
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapter.ShoppingCartViewHolder> {
-    private ArrayList<ShoppingCartItem> mShoppingCartList;
     private OnItemClickListener mListener;
     private Context mContext;
     private Cursor mCursor;
@@ -106,47 +105,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         if ( !mCursor.moveToPosition( position ) ) {
             return;
         }
-    /*
-        final String ingredientName = mCursor.getString(mCursor.getColumnIndex("IngredientName"));
-        holder.mTextView1.setText(ingredientName);
-        Log.d(TAG, "Ingredient name value is: " + ingredientName);
-    */
-//        holder.mTextView1.setOnClickView(new View())
-
-//        String spinner1ValString;
-//        double spinner1Value = mCursor.getDouble(mCursor.getColumnIndex("Quantity"));
-//        String spinner1ValString = String.format("%.2f", spinner1Value);
-     //   String.format("%.2f", spinner1Value);
-        /*
-        if (spinner1Value == 0.125) {
-            spinner1ValString = "1/8";
-            System.out.print(spinner1ValString);
-        } else if (spinner1Value == 0.25) {
-            spinner1ValString = "1/4";
-            System.out.print(spinner1ValString);
-        } else if (spinner1Value == 0.50) {
-            spinner1ValString = "1/2";
-            System.out.print(spinner1ValString);
-        } else if (spinner1Value == 1.0) {
-            spinner1ValString = "1";
-            System.out.print(spinner1ValString);
-        } else if (spinner1Value == 2.0) {
-            spinner1ValString = "2";
-            System.out.print(spinner1ValString);
-        } else if (spinner1Value == 3.0) {
-            spinner1ValString = "3";
-            System.out.print(spinner1ValString);
-        } else {
-        //    spinner1ValString = "0";
-            spinner1ValString = String.valueOf(spinner1Value);
-            System.out.print(spinner1ValString);
-        }
-*/
-//        spinner1ValString = String.format("%.2f", spinner1ValString); //erroring out somehow...
-//        holder.mTextView1.setText(spinner1ValString);
-//        String spinner2Value = mCursor.getString(mCursor.getColumnIndex("MeasurementType"));
-//        holder.mTextView2.setText(spinner2Value);
-
 
         String hasIngredientsIndicator = mCursor.getString( mCursor.getColumnIndex("RecipeHasIngredients" ) );
         if( hasIngredientsIndicator.equalsIgnoreCase("Y" ) ) {

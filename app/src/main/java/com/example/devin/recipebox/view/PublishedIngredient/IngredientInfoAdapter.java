@@ -15,7 +15,6 @@ import com.example.devin.recipebox.R;
 import java.util.ArrayList;
 
 public class IngredientInfoAdapter extends RecyclerView.Adapter<IngredientInfoAdapter.IngredientInfoViewHolder> {
-    private ArrayList<IngredientInfoItem> mIngredientList;
     private OnItemClickListener mListener;
     private Context mContext;
     private Cursor mCursor;

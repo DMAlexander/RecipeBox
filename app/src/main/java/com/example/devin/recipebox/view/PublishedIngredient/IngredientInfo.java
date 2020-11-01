@@ -35,40 +35,32 @@ public class IngredientInfo extends AppCompatActivity {
     private static final String TAG = "IngredientInfo";
 
     DatabaseHelper mDatabaseHelper;
-    private TextView editable_item;
     private IngredientInfoAdapter mAdapter;
-    private String selectedIngredientName;
     private String selectedRecipeName;
-    private int selectedIngredientID;
-    private int selectedRecipeID;
-    private TextView ingredients;
-    private TextView instructions;
-    private TextView instructionsEdit;
     private ImageButton mImageBtn;
     TextView mCountTv;
-    MenuItem mCartIconMenuItem;
+    MenuItem mCartIconMenuItem, mMenuRoute;
     private Button mImageBtn2;
-    MenuItem mMenuRoute;
     private static final String IMAGE_DIRECTORY = "/demonuts/";
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_ingredient_info );
-        editable_item = (TextView) findViewById( R.id.editable_item );
-        ingredients = (TextView) findViewById( R.id.ingredients );
-        instructions = (TextView) findViewById( R.id.instructions );
-        instructionsEdit = (TextView) findViewById( R.id.instructionsEdit );
+        TextView editable_item = (TextView) findViewById(R.id.editable_item);
+        TextView ingredients = (TextView) findViewById(R.id.ingredients);
+        TextView instructions = (TextView) findViewById(R.id.instructions);
+        TextView instructionsEdit = (TextView) findViewById(R.id.instructionsEdit);
 
         mDatabaseHelper = new DatabaseHelper(this );
         Intent recievedIntent = getIntent();
-        selectedIngredientID = recievedIntent.getIntExtra("IngredientId", -1 );
-        selectedIngredientName = recievedIntent.getStringExtra("IngredientName" );
+        int selectedIngredientID = recievedIntent.getIntExtra("IngredientId", -1);
+        String selectedIngredientName = recievedIntent.getStringExtra("IngredientName");
         selectedRecipeName = recievedIntent.getStringExtra("RecipeName" );
 
         mImageBtn = (ImageButton) findViewById( R.id.iv );
 
-        selectedRecipeID = recievedIntent.getIntExtra("RecipeId", -1 );
+        int selectedRecipeID = recievedIntent.getIntExtra("RecipeId", -1);
         editable_item.setText( selectedRecipeName );
         ingredients.setText( "Ingredients:" );
         instructions.setText( "Instructions:" );
