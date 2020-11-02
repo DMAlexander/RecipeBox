@@ -57,7 +57,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     TextView mCountTv, descriptionLabel;
     MenuItem mCartIconMenuItem, mMenuRoute;
     private ImageButton imageButton, mImageBtn;
-    private Button mImageBtn2, btnSave;
+    private Button mImageBtn2;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
     String recipeDescrip = "";
@@ -155,7 +155,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         }
 
         final int childCount = parentLinearLayout.getChildCount();
-        btnSave = (Button) findViewById( R.id.btnSave );
+        Button btnSave = (Button) findViewById(R.id.btnSave);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,32 +284,21 @@ public class IngredientLayoutScreen extends AppCompatActivity {
     public void insertItem( String ingredientName, String newEntry2, String newEntry3, int selectedRecipeID ) {
 
         double convertedSpinner = 0;
-        //     String newEntry2 = type_spinner.getSelectedItem().toString();
-        //     String newEntry3 = type_spinner2.getSelectedItem().toString();
 
         if ( newEntry2.equalsIgnoreCase("1/8" ) ) {
-            //      convertedSpinner = Double.parseDouble(newEntry2);
             convertedSpinner = 0.125;
-            System.out.print( convertedSpinner );
         } else if ( newEntry2.equalsIgnoreCase("1/4" ) ) {
             convertedSpinner = 0.25;
-            System.out.print( convertedSpinner );
         } else if ( newEntry2.equalsIgnoreCase("1/2" ) ) {
             convertedSpinner = 0.5;
-            System.out.print( convertedSpinner );
         } else if ( newEntry2.equalsIgnoreCase("1" ) ) {
             convertedSpinner = 1;
-            System.out.print( convertedSpinner );
         } else if ( newEntry2.equalsIgnoreCase("2" ) ) {
             convertedSpinner = 2;
-            System.out.print( convertedSpinner );
         } else if ( newEntry2.equalsIgnoreCase("3" ) ) {
             convertedSpinner = 3;
-            System.out.print( convertedSpinner );
         } else {
-            //     convertedSpinner = 0;
             convertedSpinner = Double.valueOf( newEntry2 );
-            System.out.print( convertedSpinner );
         }
 
         if ( number_edit_text.length() != 0 ) {
@@ -466,7 +455,6 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         }
 
         try {
-            //   File f = new File(wallpaperDirectory, Calendar.getInstance().getTimeInMillis() + ".jpg");
             String fileName = "myImage" + selectedRecipeName;
             File f = new File( wallpaperDirectory, fileName + ".jpg" );
             f.createNewFile();
@@ -484,31 +472,4 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         }
         return "";
     }
-        /*
-    private void requestMultiplePermissions(){
-        Dexter.withActivity(this).withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
-            @Override
-            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                if (report.areAllPermissionsGranted()) {
-                    Toast.makeText(getApplicationContext(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
-                }
-                //check for permanent denial of any permission
-                if (report.isAnyPermissionPermanentlyDenied()) {
-                    //show alert dialog navigating to Settings
-                    //openSettingsDialog();
-                }
-            }
-            @Override
-            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                token.continuePermissionRequest();
-            }
-        }).withErrorListener(new PermissionRequestErrorListener() {
-            @Override
-            public void onError(DexterError error) {
-                Toast.makeText(getApplicationContext(), "Some Error! ", Toast.LENGTH_SHORT).show();
-            }
-        }).onSameThread().check();
-    }
-    */
 }
