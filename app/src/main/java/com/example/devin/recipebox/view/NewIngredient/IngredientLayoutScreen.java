@@ -283,7 +283,7 @@ public class IngredientLayoutScreen extends AppCompatActivity {
 
     public void insertItem( String ingredientName, String newEntry2, String newEntry3, int selectedRecipeID ) {
 
-        double convertedSpinner = 0;
+        double convertedSpinner;
 
         if ( newEntry2.equalsIgnoreCase("1/8" ) ) {
             convertedSpinner = 0.125;

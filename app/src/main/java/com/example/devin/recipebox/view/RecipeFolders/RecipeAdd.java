@@ -39,18 +39,15 @@ import java.io.IOException;
 
 public class RecipeAdd extends AppCompatActivity {
 
-    private Button btnRecipeFolderAdd;
+    private Button btnRecipeFolderAdd, mImageBtn2;
     private EditText editable_recipe_folder_item;
     private DatabaseHelper mDatabaseHelper;
-    private ImageButton imageButton;
-    private String recipeFolderName;
-    private String recipeFolderId;
+    private ImageButton imageButton, mImageBtn;
+    private String recipeFolderName, recipeFolderId;
     private static final String IMAGE_DIRECTORY = "/demonuts";
     private int GALLERY = 1, CAMERA = 2;
-    ImageButton mImageBtn;
     TextView mCountTv, tv;
     MenuItem mCartIconMenuItem, mMenuRoute;
-    private Button mImageBtn2;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {

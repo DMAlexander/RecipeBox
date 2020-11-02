@@ -23,7 +23,6 @@ import com.example.devin.recipebox.view.ShoppingCart.ShoppingCartList;
 
 public class RecipeMenu extends AppCompatActivity {
 
-    private Button btnAllRecipes, btnRecipeFolders;
     DatabaseHelper mDatabaseHelper;
 
     private CardView cView1, cView2;

@@ -25,15 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private ArrayList<RecipeItem> mRecipeList;
     private OnItemClickListener mListener;
     private OnLongClickListener mListener2;
     private Context mContext;
     private Cursor mCursor;
     public DatabaseHelper mDatabaseHelper;
     private static final String IMAGE_DIRECTORY = "/demonuts";
-
-    private List<String> recipes;
 
     private static final String TAG = "RecipeAdapter";
 
@@ -66,7 +63,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public ImageView mEditImage;
         public ImageView mDeleteImage;
         public ImageView mRecipeImage;
-        public RelativeLayout relativeLayout;
 
 
         public RecipeViewHolder( final View itemView, final OnItemClickListener listener, final OnLongClickListener listener2 ) {

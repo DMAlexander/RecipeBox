@@ -33,16 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "ListDataActivity";
     private DatabaseHelper mDatabaseHelper;
     private RecipeAdapter mAdapter;
-    private Button newRecipe;
     private int selectedRecipeFolderID;
-
-    ArrayList<String> selectedItems = new ArrayList<>();
     ImageButton mImageBtn;
     TextView mCountTv;
-    MenuItem mCartIconMenuItem;
     RecyclerView recyclerView;
-    private Button mImageBtn2;
-    MenuItem mMenuRoute;
+    private Button mImageBtn2, newRecipe;
+    MenuItem mMenuRoute, mCartIconMenuItem;
     private ArrayList<String> recipes = new ArrayList<>();
 
     @Override

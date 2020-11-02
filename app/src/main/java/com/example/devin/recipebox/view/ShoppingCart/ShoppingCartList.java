@@ -30,19 +30,13 @@ public class ShoppingCartList extends AppCompatActivity {
     private static final String TAG = "ShoppingCartList";
 
     DatabaseHelper mDatabaseHelper;
-  //  private ListView mListView;
-    private Button btnNavigate;
-    private String selectedName;
-    private int selectedID;
+    private Button btnNavigate, mImageBtn2;
     String selectedRecipeName;
     private ShoppingCartAdapter mAdapter;
     private ShoppingCartDialogAdapter mAdapter2;
     ImageButton mImageBtn;
-    Toolbar mMyToolbar;
     TextView mCountTv, tv;
-    MenuItem mCartIconMenuItem;
-    private Button mImageBtn2;
-    MenuItem mMenuRoute;
+    MenuItem mCartIconMenuItem, mMenuRoute;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {

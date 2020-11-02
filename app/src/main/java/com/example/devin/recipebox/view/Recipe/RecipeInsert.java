@@ -30,16 +30,14 @@ public class RecipeInsert extends AppCompatActivity {
     private static final String TAG = "RecipeInsert";
 
     DatabaseHelper mDatabaseHelper;
-    private Button btnRecipeAdd;
+    private Button btnRecipeAdd, mImageBtn2;
     private EditText editRecipeText;
     private int selectedRecipeFolderID;
     ImageButton mImageBtn;
     RadioGroup radioGroup;
     RadioButton radioButton;
     TextView mCountTv;
-    MenuItem mCartIconMenuItem;
-    private Button mImageBtn2;
-    MenuItem mMenuRoute;
+    MenuItem mCartIconMenuItem, mMenuRoute;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -163,8 +161,7 @@ public class RecipeInsert extends AppCompatActivity {
             }
         });
 
-        int shoppingCartCount = 0;
-        shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
+        int shoppingCartCount = mDatabaseHelper.getShoppingCartCount();
         String shoppingCartString = String.valueOf( shoppingCartCount );
         mCountTv.setText( shoppingCartString );
 
