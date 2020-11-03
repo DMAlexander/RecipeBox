@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         mDatabaseHelper = new DatabaseHelper(this );
 
-        Intent recievedIntent = getIntent();
-        selectedRecipeFolderID = recievedIntent.getIntExtra("FolderID", -1 );
+        Intent receivedIntent = getIntent();
+        selectedRecipeFolderID = receivedIntent.getIntExtra("FolderID", -1 );
         Log.d( TAG, "recipe folder Id value is: " + selectedRecipeFolderID );
-        String selectedRecipeFolderName = recievedIntent.getStringExtra("RecipeFolderName");
+        String selectedRecipeFolderName = receivedIntent.getStringExtra("RecipeFolderName");
 
         recyclerView = findViewById( R.id.recyclerView );
         recyclerView.setLayoutManager( new LinearLayoutManager(this ) );

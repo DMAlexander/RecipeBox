@@ -48,8 +48,8 @@ public class ShoppingCartList extends AppCompatActivity {
         RecyclerView recyclerView = findViewById( R.id.recyclerView );
         TextView tv = findViewById( R.id.ingredientName );
         recyclerView.setLayoutManager( new LinearLayoutManager(this ) );
-        Intent recievedIntent = getIntent();
-        selectedRecipeName = recievedIntent.getStringExtra("RecipeName" );
+        Intent receivedIntent = getIntent();
+        selectedRecipeName = receivedIntent.getStringExtra("RecipeName" );
 
         mAdapter = new ShoppingCartAdapter(this, getAllItems() );
         recyclerView.setAdapter( mAdapter );

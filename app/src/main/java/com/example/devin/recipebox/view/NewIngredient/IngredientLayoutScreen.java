@@ -74,8 +74,8 @@ public class IngredientLayoutScreen extends AppCompatActivity {
         descriptionLabel = (TextView) findViewById( R.id.descriptionLabel );
         descriptionLabel.setText( "Recipe Description:" );
         mDatabaseHelper = new DatabaseHelper(this );
-        Intent recievedIntent = getIntent();
-        selectedRecipeName = recievedIntent.getStringExtra("RecipeName" );
+        Intent receivedIntent = getIntent();
+        selectedRecipeName = receivedIntent.getStringExtra("RecipeName" );
 
         File wallpaperDirectory = new File(
                 Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY );
@@ -96,7 +96,6 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             }
         });
 
-        Intent receivedIntent = getIntent();
         selectedRecipeID = receivedIntent.getIntExtra("RecipeId", -1 );
         selectedRecipeName = receivedIntent.getStringExtra("RecipeName" );
 
@@ -161,12 +160,11 @@ public class IngredientLayoutScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent recievedIntent = getIntent();
-                selectedRecipeID = recievedIntent.getIntExtra("RecipeId", -1 );
+                Intent receivedIntent = getIntent();
+                selectedRecipeID = receivedIntent.getIntExtra("RecipeId", -1 );
                 mDatabaseHelper.deleteRecipeIngredients( selectedRecipeID );
 
                 final int childCount = parentLinearLayout.getChildCount();
-                Intent receivedIntent = getIntent();
                 selectedRecipeID = receivedIntent.getIntExtra("RecipeId", -1 );
                 for( int i=1; i<childCount-4; i++ ) {
                     View v = parentLinearLayout.getChildAt(i);

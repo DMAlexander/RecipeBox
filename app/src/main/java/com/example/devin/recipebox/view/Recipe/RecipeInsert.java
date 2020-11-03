@@ -52,8 +52,8 @@ public class RecipeInsert extends AppCompatActivity {
         btnRecipeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent recievedIntent = getIntent();
-                selectedRecipeFolderID = recievedIntent.getIntExtra("FolderID", -1 );
+                Intent receivedIntent = getIntent();
+                selectedRecipeFolderID = receivedIntent.getIntExtra("FolderID", -1 );
                 Log.d( TAG, "recipe folder id value is: " + selectedRecipeFolderID );
 
                 int radioId = radioGroup.getCheckedRadioButtonId();

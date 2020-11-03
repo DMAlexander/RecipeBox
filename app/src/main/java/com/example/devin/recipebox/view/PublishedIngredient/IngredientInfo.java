@@ -53,14 +53,14 @@ public class IngredientInfo extends AppCompatActivity {
         TextView instructionsEdit = (TextView) findViewById(R.id.instructionsEdit);
 
         mDatabaseHelper = new DatabaseHelper(this );
-        Intent recievedIntent = getIntent();
-        int selectedIngredientID = recievedIntent.getIntExtra("IngredientId", -1);
-        String selectedIngredientName = recievedIntent.getStringExtra("IngredientName");
-        selectedRecipeName = recievedIntent.getStringExtra("RecipeName" );
+        Intent receivedIntent = getIntent();
+        int selectedIngredientID = receivedIntent.getIntExtra("IngredientId", -1);
+        String selectedIngredientName = receivedIntent.getStringExtra("IngredientName");
+        selectedRecipeName = receivedIntent.getStringExtra("RecipeName" );
 
         mImageBtn = (ImageButton) findViewById( R.id.iv );
 
-        int selectedRecipeID = recievedIntent.getIntExtra("RecipeId", -1);
+        int selectedRecipeID = receivedIntent.getIntExtra("RecipeId", -1);
         editable_item.setText( selectedRecipeName );
         ingredients.setText( "Ingredients:" );
         instructions.setText( "Instructions:" );
